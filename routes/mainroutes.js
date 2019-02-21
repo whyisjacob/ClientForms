@@ -1,13 +1,17 @@
 var express = require("express");
-
 var app = express.Router();
+var clientUrl = "https://dev.primegov.com"
+var client = "Dev"
 
 
 
 module.exports = function (app) {
 
   app.get("/", function (req, res) {
-    res.render("index");
+    res.render("index", {
+      clientUrl: clientUrl,
+      client: client,
+    });
   });
 
   app.get('/web_solutions', function (req, res) {

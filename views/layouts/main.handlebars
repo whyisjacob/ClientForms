@@ -5,61 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta name="author" content="TheHashbrown Creative services">
-    <meta name="description" content="Having a professional website is no longer expensive! Check out our affordable solutions">
-    <meta property="og:site_name" content="TheHashbrown Creative services">
-    <meta property="og:title" content="TheHashbrown Creative services">
-    <meta property="og:description" content="Having a professional website is no longer expensive! Check out our affordable solutions">
-    <meta property="og:url" content="//www.thehashbrown.com/">
-    <meta property="og:image" content="//www.thehashbrown.com/assets/img/theHashbrown_horizontal.png">
-    <meta property="og:image:secure_url" content="//www.thehashbrown.com/assets/img/theHashbrown_horizontal.png">
-    <meta property="og:image:type" content="image/png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="//www.thehashbrown.com/">
-    <meta name="twitter:title" content="TheHashbrown Creative services">
-    <meta name="twitter:description" content="Having a professional website is no longer expensive! Check out our affordable solutions!">
-    <meta name="twitter:image" content="//www.thehashbrown.com/assets/img/theHashbrown_horizontal.png">
-    <meta itemprop="name" content="TheHashbrown Creative services">
-    <meta itemprop="description" content="Having a professional website is no longer expensive! Check out our affordable solutions!">
-    <meta itemprop="image" content="//www.thehashbrown.com/assets/img/theHashbrown_horizontal.png">
-    <meta name="keywords" content="TheHashbrown,The Hashbrown, The Hashbrown Website,TheHashbrown Website, Affordable Web Developer, Utah Web Developer, Web Developer in Utah, Utah Web Services, Utah Web design, Affordable Web Design, Web Services company, Affordable Creative services, Web Design and Development company in Utah, Local Web Development Company, Local web design company, Better than Wix, Better than Weebly, Alternatives to Wix, Alternatives to Weebly">
+    {{#if form}}
+    <title>Form: {{form}} for {{client}}</title>
+    {{else}}
+    <title>Welcome to PrimeGov Forms Testing Ground</title>
+    {{/if}}
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href="{{clientUrl}}/Content/css/vendor/bootstrap.css" rel="stylesheet">
+    <link href="{{clientUrl}}/Content/css/vendor/bootstrap-editable.css" rel="stylesheet">
+    <link href="{{clientUrl}}/Content/css/vendor/bootstrap-datepicker.css" rel="stylesheet">
+    <link href="{{clientUrl}}/Content/css/vendor/bootstrap-multiselect.css" rel="stylesheet">
+    <link href="{{clientUrl}}/Content/css/vendor/font-awesome.css" rel="stylesheet">
+    <link href="{{clientUrl}}/Content/css/vendor/toastr.css" rel="stylesheet">
+    <link href="{{clientUrl}}/Content/css/vendor/fullcalendar.css" rel="stylesheet">
+    <link href="{{clientUrl}}/Content/css/vendor/bootstrap-dialog.css" rel="stylesheet">
+    <link href="{{clientUrl}}/Content/css/Site.css" rel="stylesheet">
+    <link href="{{clientUrl}}/Content/css/Style.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{clientUrl}}/Content/plugins/accusoftViewer/css/normalize.min.css">
+    <link rel="stylesheet" href="{{clientUrl}}/Content/plugins/accusoftViewer/css/viewercontrol.css">
+    <link rel="stylesheet" href="{{clientUrl}}/Content/plugins/accusoftViewer/css/viewer.css">
+    <link href="{{clientUrl}}/Content/plugins/datatables/datatables.min.css" rel="stylesheet">
 
-    <link rel="shortcut icon" href="/assets/img/favicon/bug-transparent-128x128.png" type="image/x-icon">
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon/favicon-16x16.png">
-    <link rel="icon" href="favicon.ico">
-    <meta name="msapplication-TileColor" content="#F7941E">
-    <meta name="msapplication-TileImage" content="/assets/img/favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#F7941E">
-
-    <script>
-        (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date(); a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-        ga('create', 'UA-102165835-1', 'auto');
-        ga('send', 'pageview');
-
-    </script>
-
-
-    <title>Welcome to TheHashbrown</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="{{clientUrl}}/Content/kendo/2016.1.226/kendo.common.min.css" rel="stylesheet" type="text/css">
+    <link href="{{clientUrl}}/Content/kendo/2016.1.226/kendo.mobile.all.min.css" rel="stylesheet" type="text/css">
+    <link href="{{clientUrl}}/Content/kendo/2016.1.226/kendo.dataviz.min.css" rel="stylesheet" type="text/css">
+    <link href="{{clientUrl}}/Content/kendo/2016.1.226/kendo.bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="{{clientUrl}}/Content/kendo/2016.1.226/kendo.dataviz.default.min.css" rel="stylesheet" type="text/css">
+    <link href="{{clientUrl}}/Content/css/vendor/fixedsticky.css" rel="stylesheet" type="text/css">
+    <link href="{{clientUrl}}/Content/css/frontend/frontend.css?v=1.1" rel="stylesheet" type="text/css">
 
 
     <script src="https://code.jquery.com/jquery.js"></script>
@@ -70,8 +44,12 @@
 </head>
 
 <body>
-    <a href="/">Return</a>
-    {{{ body }}}
+    <div class="container-fluid">
+        <div>
+            <a href="/">Return</a>
+        </div>
+        {{{ body }}}
+    </div>
     <footer class="container-fluid text-center footer">
         © 2019 PrimeGov, LLC. All Rights Reserved
     </footer>
