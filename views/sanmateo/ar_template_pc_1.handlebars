@@ -116,6 +116,11 @@ In accordance with Government Code section 65090, notice of this meeting was pub
 		<label for="SummaryandNextSteps">SUMMARY AND NEXT STEPS:</label>
 		<textarea class="form-control" id="Entitlements">At this time, staff is seeking Planning Commission comments and input on the following issues:</textarea>
 	</div>
+	<!--SUMMARY AND NEXT STEPS -->
+	<div class="col-sm-12 form-group">
+		<label for="Attachments">Attachments:</label>
+		<textarea class="form-control" id="Attachments" onKeydown="addLineNumber(this.id)">1.</textarea>
+	</div>
 	<!--instructional text -->
 	<div class="col-sm-12 form-group">
 		<p>
@@ -170,4 +175,31 @@ function actionLanguageCh(){
 			break;
 	}
 }
+
+/*
+*ADDS KEYDOWN TO div 
+*SO WHEN THE ENTER BUTTON IS PRESSED 
+*IT ADDS ANOTHER NUMBER TO THE NUMBERED LIST AUTOMATICALLY
+*
+*required (divId)
+*/
+function addLineNumber(divId){
+	divId = '#' + divId
+	if (event.which == 13) {
+		event.preventDefault();
+
+		var text = $(divId).val();
+		var lines = text.split(/\r|\r\n|\n/);
+		var count = lines.length
+		count = count + 1;		
+		var press = jQuery.Event("keydown");
+
+		press.ctrlKey = true;
+		press.which = 13;
+		text = text + String.fromCharCode(press.which) + count + ". ";
+		
+		$(divId).val(text);
+	}
+}
+
 </script>
