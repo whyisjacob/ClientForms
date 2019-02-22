@@ -4,18 +4,25 @@
 *IT ADDS ANOTHER NUMBER TO THE NUMBERED LIST AUTOMATICALLY
 *
 *Required (divId)
-*Use add onKeyDown(this.id) attribute to text area you want to count
+*Use add onKeydown="addLineNumber(this.id)" attribute to text area you want to count
 *
 */
-function addLineNumber(divId){
+function addLineNumber(divId, countNum){
 	divId = '#' + divId
+	if(countNum == 'undefined'){
+		countnum = 1
+	} else if (countNum == 0){
+		countnum = 0
+	} else {
+		countnum = 1
+	}
 	if (event.which == 13) {
 		event.preventDefault();
 
 		var text = $(divId).val();
 		var lines = text.split(/\r|\r\n|\n/);
 		var count = lines.length
-		count = count + 1;		
+		count = count + countnum;		
 		var press = jQuery.Event("keydown");
 
 		press.ctrlKey = true;

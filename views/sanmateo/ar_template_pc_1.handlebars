@@ -1,7 +1,6 @@
 <input type="hidden" name="DocumentTitle" id="DocumentTitle" value="AR Template PC 1" />
 <input type="hidden" name="FormTitle" id="FormTitle" value="AR Template PC 1" />
 <input type="hidden" name="GroupId" id="GroupId" />
-<input type="hidden" name="Author" id="Author" />
 <input type="hidden" name="DivisionHeadId" id="DivisionHeadId" />
 <input type="hidden" name="DeptHeadId" id="DeptHeadId" />
 <input type="hidden" name="DeptIdHolder" id="DeptIdHolder" />
@@ -64,7 +63,10 @@
 	<!--Recommendation-->
 	<div class="col-sm-12">
 		<label for="Recommendations">Recommendation:</label>
-		<textarea class="form-control" id="Recommendations" placeholder="Recommendation"></textarea>
+		<textarea class="form-control" id="Recommendations" placeholder="•	Recommendation should begin with the action “Approve” (if final with the Planning Commission) or “Recommend the City Council approve” (if making a recommendation to the City Council) 
+•	This wording is used in the agenda preparation, will be read aloud as the actual motion by the Planning Commission and becomes the action used for the automated minutes.
+•	Motions should be separated with the CEQA action first, then the remainder of the Planning entitlements
+Click here to enter text."></textarea>
 	</div>
 
 	<div class="col-sm-12 ">
@@ -90,15 +92,20 @@
 		<label for="OtherIssues">Other Issues:</label>
 		<textarea class="form-control" id="OtherIssues" placeholder="If there are other issues to be discussed, mention them here."></textarea>
 	</div>
-	<!--ENTITLEMENTS -->
-	<div class="col-sm-12 form-group">
-		<label for="Entitlements">ENTITLEMENTS:</label>
-		<textarea class="form-control" id="Entitlements" placeholder="The proposed project would require the following entitlements (See mandatory findings for these entitlements in Attachment 4).  Also indicate that environmental review in conformance with the California Environmental Quality Act will be completed. If you know of the particular studies to be completed (traffic, noise, design review, etc, mention them here."></textarea>
-	</div>
 	<!--PUBLIC COMMENTS -->
 	<div class="col-sm-12 form-group">
 		<label for="PublicComments">PUBLIC COMMENTS:</label>
-		<textarea class="form-control" id="Entitlements" placeholder="Include mention of the Pre-Application Neighborhood Meeting (include as an attachment) and major issues identified. Also include correspondence received (also as an attachment)."></textarea>
+		<textarea class="form-control" id="PublicComments" placeholder="Include mention of the Pre-Application Neighborhood Meeting (include as an attachment) and major issues identified. Also include correspondence received (also as an attachment)."></textarea>
+	</div>
+	<!--PLANNING COMMISSION STUDY SESSION -->
+	<div class="col-sm-12 form-group">
+		<label for="PlanningCommissionStudySession">PLANNING COMMISSION STUDY SESSION:</label>
+		<textarea class="form-control" id="PlanningCommissionStudySession" placeholder="Most items which go to the Planning Commission have been heard in a study session first.  If that is the case, summarize the Planning Commission study session direction.  Also indicate if project changes made to response to identified issues."></textarea>
+	</div>
+	<!--ENVIRONMENTAL DETERMINATION -->
+	<div class="col-sm-12 form-group">
+		<label for="EnvironmentalDetermination">ENVIRONMENTAL DETERMINATION:</label>
+		<textarea class="form-control" id="EnvironmentalDetermination" placeholder="Include brief CEQA discussion here. This should be short.  If there is a more lengthy discussion, for example, of traffic impacts, put under “Other Issues” above.  If a Neg Dec or EIR done, indicate the specific public review period provided."></textarea>
 	</div>
 	<!--NOTICE PROVIDED -->
 	<div class="col-sm-12 form-group">
@@ -111,12 +118,7 @@ In accordance with Government Code section 65090, notice of this meeting was pub
 •	The interested parties list which includes interested individuals who contacted the City and requested to be added to the project notification list.
 "></textarea>
 	</div>
-	<!--SUMMARY AND NEXT STEPS -->
-	<div class="col-sm-12 form-group">
-		<label for="SummaryandNextSteps">SUMMARY AND NEXT STEPS:</label>
-		<textarea class="form-control" id="Entitlements">At this time, staff is seeking Planning Commission comments and input on the following issues:</textarea>
-	</div>
-	<!--SUMMARY AND NEXT STEPS -->
+	<!--Attachments -->
 	<div class="col-sm-12 form-group">
 		<label for="Attachments">Attachments:</label>
 		<textarea class="form-control" id="Attachments" onKeydown="addLineNumber(this.id)">1.</textarea>
@@ -127,7 +129,7 @@ In accordance with Government Code section 65090, notice of this meeting was pub
 			Following this study session, the applicant will revise the plans as necessary to respond to comments from staff and the Planning Commission and submit a formal planning application.
 		</p>
 	</div>
-	<!--SUMMARY AND NEXT STEPS -->
+	<!--Staff Contact -->
 	<div class="col-sm-12 form-group">
 		<label for="StaffContact">Staff Contact:</label>
 		<textarea class="form-control" id="Entitlements">
@@ -144,6 +146,7 @@ Email
 $('document').ready(function(){
 	$('textarea').attr('rows','5');
 	$('#NoticeProvided').attr('rows','10');
+	$('#Recommendations').attr('rows','10');
 })
 
 /**
@@ -182,16 +185,24 @@ function actionLanguageCh(){
 *IT ADDS ANOTHER NUMBER TO THE NUMBERED LIST AUTOMATICALLY
 *
 *required (divId)
+* countNum (optional) a number passed in to change the starting number
 */
-function addLineNumber(divId){
+function addLineNumber(divId, countNum){
 	divId = '#' + divId
+	if(countNum == 'undefined'){
+		countnum = 1
+	} else if (countNum == 0){
+		countnum = 0
+	} else {
+		countnum = 1
+	}
 	if (event.which == 13) {
 		event.preventDefault();
 
 		var text = $(divId).val();
 		var lines = text.split(/\r|\r\n|\n/);
 		var count = lines.length
-		count = count + 1;		
+		count = count + countnum;		
 		var press = jQuery.Event("keydown");
 
 		press.ctrlKey = true;

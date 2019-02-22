@@ -1,0 +1,138 @@
+<script>
+document.getElementById("Author").value = document.getElementById("OriginatorName").value ;
+
+    function setMeetingDate(sel)
+    {
+document.getElementById("MeetingDate").value = sel.options[sel.selectedIndex].text
+document.getElementById("MeetingDateDisplay").value = moment(document.getElementById("MeetingDate").value).format('LL'); 
+
+    }
+
+/*document.getElementById("SubmittedBy").value = document.getElementById("OriginatorName").value*/
+
+</script>
+<legend>Meeting Information</legend>
+    <body>
+            <div class="form-group  dataType" data-type="Meeting Select With Sections">
+                <div class="row">
+                    <label class="col-md-3 control-label col-centered" for="committeeSelect">Committee:</label>
+                </div>
+            <div class="row">
+                    <div class="col-md-6">
+                        <select id="committeeSelect" name="committeeSelect" data-for="meetingTypes" data-field-hasvalue="false" data-field-values="committees" class="form-control "></select>
+            </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3 control-label" for="meetingTypeSelect">Meeting Type:</label>
+</div>
+<div class="row">
+                    <div class="col-md-6">
+                        <select id="meetingTypeSelect" name="meetingTypeSelect" data-dependent-on="committeeSelect" data-field-hasvalue="false" data-field-values="meetingTypes" class="form-control "></select>
+                    </div>
+                </div>
+   </div>
+        <br/>
+                <div class="row">
+                    <label class="col-md-3 control-label" for="meetingDateSelect">Meeting Date:</label>
+                    </div>
+<div class="row">
+<div class="col-md-6">
+                        <select id="meetingDateSelect" name="meetingDateSelect" data-dependent-on="meetingTypeSelect" onChange="setMeetingDate(this);"  data-field-hasvalue="false" data-field-values="meetingDates" class="form-control "></select>
+                    </div>
+                </div>
+    <br/>
+     </div>
+     </div>
+                <div class="row">
+                    <label class="col-md-3 control-label" for="meetingSectionSelect">Meeting Section:</label>
+     </div>
+ <div class="row">
+                    <div class="col-md-6">
+                        <select id="meetingSectionSelect" name="meetingSectionSelect" data-dependent-on="meetingDateSelect" data-field-hasvalue="false" data-field-values="meetingSections" class="form-control "></select>
+                    </div>
+     </div>
+    <br/>
+                </div>
+            </div>
+<legend>Staff Report</legend>	
+<input type="hidden" name="MeetingDate" id="MeetingDate" />
+<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
+<input type="hidden" name="Department" id="Department" value="Administration />
+ <div class='row'>
+            <div class='col-sm-6'>
+                <div class='form-group'>
+                    <label for="DepartmentId">Department:</label><span style="color: red;">*</span>
+<select class="form-control" id="DepartmentId" name="DepartmentId" required="true"  placeholder="Please Select">
+<option value="City Attorney">City Attorney</option>
+<option value="City Clerk">City Clerk</option>
+<option value="Community Development">Community Development</option>
+<option value="Department Head">Department Head</option>
+<option value="Finance">Finance</option>
+<option value="Fire">Fire</option>
+<option value="Human Resource">Human Resource</option>
+<option value="Information Technology">Information Technology</option>
+<option value="Library">Library</option>
+<option value="Parks and Recreation">Parks and Recreation</option>
+<option value="Peer Review">Peer Review</option>
+<option value="Police">Police</option>
+
+				</select>
+                </div>
+            </div>
+ </div>
+<div class='row'>
+	<div class='col-md-12'>
+		<div class='form-group'>
+			<label for="Subject">Subject:</label><span style="color: red;">*</span>
+			<textarea  class="form-control" name="Subject" id="Subject" rows="10" cols="160" placeholder="Item Title Goes here"></textarea>
+		</div>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="Recommendation">Recommendation:</label><span style="color: red;">*</span>
+			<textarea  class="form-control" name="Recommendation" id="Recommendation" rows="10" cols="160"></textarea>
+		</div>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="Background">Background:</label><span style="color: red;">*</span>
+			<textarea  class="form-control" name="Background" id="Background" rows="10" cols="160"></textarea>
+		</div>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="BudgetImpact">Budget Impact:</label><span style="color: red;">*</span>
+			<textarea  class="form-control" name="BudgetImpact" id="BudgetImpact" rows="10" cols="160"></textarea>
+		</div>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="EnvironmentalImpact">Environmental Impact:</label><span style="color: red;">*</span>
+			<textarea  class="form-control" name="EnvironmentalImpact" id="EnvironmentalImpact" rows="10" cols="160"></textarea>
+		</div>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-md-6'>
+		<div class='form-group'>
+			<label for="Author">Author:</label><span style="color: red;">*</span>
+			<input class="form-control" id="Author" name="Author" required="true" type="text" value=""/>
+		</div>
+	</div>
+	<div class='col-md-6'>
+		<div class='form-group'>
+			<label for="AuthorTitle">Author Title:</label><span style="color: red;">*</span>
+								<input class="form-control" id="AuthorTitle" name="AuthorTitle" required="true" type="text" value=""/>
+		</div>
+	</div>
+</div>
+ </div>
