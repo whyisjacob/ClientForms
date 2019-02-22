@@ -1,1 +1,173 @@
-ar template 1
+<input type="hidden" name="DocumentTitle" id="DocumentTitle" value="AR Template PC 1" />
+<input type="hidden" name="FormTitle" id="FormTitle" value="AR Template PC 1" />
+<input type="hidden" name="GroupId" id="GroupId" />
+<input type="hidden" name="Author" id="Author" />
+<input type="hidden" name="DivisionHeadId" id="DivisionHeadId" />
+<input type="hidden" name="DeptHeadId" id="DeptHeadId" />
+<input type="hidden" name="DeptIdHolder" id="DeptIdHolder" />
+<input type="hidden" name="DeptNameHolder" id="DeptNameHolder" />
+<input type="hidden" name="MeetingDate" id="MeetingDate" />
+<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
+
+<legend>AR Template PC 1</legend>
+<div class="row">
+	<!--To-->
+	<div class="col-sm-2 form-group">
+		<label for="Committee">To:</label>
+	</div>
+	<div class="col-sm-10 form-group">
+		<input type="text" class="form-control" id="Committee" placeholder="Committee">
+	</div>
+	<!--From-->
+	<div class="col-sm-2 form-group">
+		<label for="Author">From:</label>
+	</div>
+	<div class="col-sm-10 form-group">
+		<input type="text" class="form-control" id="Author" placeholder="Author">
+	</div>
+	<!--Prepared By-->
+	<div class="col-sm-2 form-group">
+		<label for="Preparedby">Prepared By:</label>
+	</div>
+	<div class="col-sm-10 form-group">
+		<input type="text" class="form-control" id="Preparedby" placeholder="Preparedby">
+	</div>
+	<!--Meeting Date-->
+	<div class="col-sm-2 ">
+		<label for="MeetingDate">Meeting Date:</label>
+	</div>
+	<div class="col-sm-10 ">
+		<input type="date" class="form-control" id="MeetingDate" placeholder="MeetingDate">
+	</div>
+	<!--Subject-->
+	<div class="col-sm-12 form-group">
+		<label for="Subject">Subject:</label>
+		<input type="text" class="form-control" id="Subject" placeholder="Subject">
+	</div>
+	<!--Action Language-->
+	<div class="col-sm-12 form-group">
+		<label for="ActionLanguage">Action Language:</label>
+		<select class="form-control" id="ActionLanguage" onChange="actionLanguageCh()">
+			<option>Select One</option>
+			<option value="Contract">Contract</option>
+			<option value="Agreement">Agreement</option>
+			<option value="Resolution">Resolution</option>
+			<option value="Ordinance">Ordinance</option>
+		</select>
+	</div>
+	<div class="col-sm-12 form-group">
+		<label for="RequestedAction">Requested Action:</label>
+		<textarea class="form-control" id="RequestedAction" placeholder="RequestedAction"></textarea>
+
+	</div>
+
+	<!--Recommendation-->
+	<div class="col-sm-12">
+		<label for="Recommendations">Recommendation:</label>
+		<textarea class="form-control" id="Recommendations" placeholder="Recommendation"></textarea>
+	</div>
+
+	<div class="col-sm-12 ">
+		<h2>BACKGROUND</h2>
+	</div>
+	<!--Project Description-->
+	<div class="col-sm-12 form-group">
+		<label for="ProjectDescription">Project Description:</label>
+		<textarea class="form-control" id="ProjectDescription" placeholder="Include all elements of the project/building, including data (reference factual data sheet) as well as a physical description of the project design."></textarea>
+	</div>
+	<!--Site Description-->
+	<div class="col-sm-12 form-group">
+		<label for="SiteDescription">Site Description:</label>
+		<textarea class="form-control" id="SiteDescription" placeholder="Include size, general location, zoning and general plan designation."></textarea>
+	</div>
+	<!--Applicable Code and Policy Review -->
+	<div class="col-sm-12 form-group">
+		<label for="ApplicableCodeandPolicyReview">Applicable Code and Policy Review:</label>
+		<textarea class="form-control" id="ApplicableCodeandPolicyReview" placeholder="Include brief summary of compliance with General Plan, Zoning Code, applicable specific/area plans design guidelines and sustainability measures.  For study session items, this may be more of a description of issues to be addressed, since studies are not yet done and plans are not yet complete."></textarea>
+	</div>
+	<!--Other Issues -->
+	<div class="col-sm-12 form-group">
+		<label for="OtherIssues">Other Issues:</label>
+		<textarea class="form-control" id="OtherIssues" placeholder="If there are other issues to be discussed, mention them here."></textarea>
+	</div>
+	<!--ENTITLEMENTS -->
+	<div class="col-sm-12 form-group">
+		<label for="Entitlements">ENTITLEMENTS:</label>
+		<textarea class="form-control" id="Entitlements" placeholder="The proposed project would require the following entitlements (See mandatory findings for these entitlements in Attachment 4).  Also indicate that environmental review in conformance with the California Environmental Quality Act will be completed. If you know of the particular studies to be completed (traffic, noise, design review, etc, mention them here."></textarea>
+	</div>
+	<!--PUBLIC COMMENTS -->
+	<div class="col-sm-12 form-group">
+		<label for="PublicComments">PUBLIC COMMENTS:</label>
+		<textarea class="form-control" id="Entitlements" placeholder="Include mention of the Pre-Application Neighborhood Meeting (include as an attachment) and major issues identified. Also include correspondence received (also as an attachment)."></textarea>
+	</div>
+	<!--NOTICE PROVIDED -->
+	<div class="col-sm-12 form-group">
+		<label for="NoticeProvided">NOTICE PROVIDED:</label>
+		<textarea class="form-control" id="NoticeProvided" placeholder="Briefly list all noticing done. Would normally look like this:
+In accordance with Government Code section 65090, notice of this meeting was published in the Examiner newspaper at least 10 days before this Study Session. In accordance with Government Code section 65091 and the City’s Municipal Code noticing requirements, this hearing was noticed to the following parties ten days in advance of the Planning Commission meeting:
+•	Property owners, residential tenants and business tenants within 1,000 feet of the project site;
+•	The City’s “900 List” which contains nearly 100 Homeowner Associations, Neighborhood Associations, local utilities, media, and other organizations interested in citywide planning projects;
+•	The City’s Planning “Notify Me” email list; and,
+•	The interested parties list which includes interested individuals who contacted the City and requested to be added to the project notification list.
+"></textarea>
+	</div>
+	<!--SUMMARY AND NEXT STEPS -->
+	<div class="col-sm-12 form-group">
+		<label for="SummaryandNextSteps">SUMMARY AND NEXT STEPS:</label>
+		<textarea class="form-control" id="Entitlements">At this time, staff is seeking Planning Commission comments and input on the following issues:</textarea>
+	</div>
+	<!--instructional text -->
+	<div class="col-sm-12 form-group">
+		<p>
+			Following this study session, the applicant will revise the plans as necessary to respond to comments from staff and the Planning Commission and submit a formal planning application.
+		</p>
+	</div>
+	<!--SUMMARY AND NEXT STEPS -->
+	<div class="col-sm-12 form-group">
+		<label for="StaffContact">Staff Contact:</label>
+		<textarea class="form-control" id="Entitlements">
+Name, Title -
+include who prepared the report in this section
+
+Email
+(650) XXX-XXXX</textarea>
+	</div>
+
+</div>
+
+<script>
+$('document').ready(function(){
+	$('textarea').attr('rows','5');
+	$('#NoticeProvided').attr('rows','10');
+})
+
+/**
+* Language to display when an "ACTION LANGUAGE" option is chosen
+*/
+function actionLanguageCh(){
+	var actionValue = $('#ActionLanguage').val(),
+		html;
+	switch(actionValue){
+		case "Contract":
+			html = 'Award a contract to (company name) for (project or job name) in the amount of $______ and authorize (title of person) to execute the contract in substantially the form presented.\nOptional text: "establish a contingency fund in the amount of $____ and authorize the (title of person) to execute amendments/change orders within that amount.\n\nApprove Amendment No. ___ to the contract with (company name) for the purpose of _________ in the amount of $______ for a new contract total of $______."';
+			$('#RequestedAction').val(html)
+			$('#RequestedAction').attr('rows','10')
+			break;
+		case "Agreement":
+			html = 'Approve an agreement to (company name) for (project or job name) in the amount of $______ and authorize (title of person) to execute the agreement in substantially the form presented.\nOptional text: "establish a contingency fund in the amount of $____ and authorize the (title of person) to execute amendments/change orders within that amount."\n\nApprove Amendment No. ___ to the agreement with (company name) for the purpose of _________ in the amount of $______ for a new contract total of $______.';
+			$('#RequestedAction').val(html)
+			$('#RequestedAction').attr('rows','10')
+			break;
+		case "Resolution":
+			html = 'Adopt a Resolution to use an alternative purchasing method to\n\nAdopt a Resolution to '
+			$('#RequestedAction').val(html)
+			$('#RequestedAction').attr('rows','5')
+			break;
+		case "Ordinance":
+			html = 'Introduce an Ordinance to\n\nAdopt an Ordinance to '
+			$('#RequestedAction').val(html)
+			$('#RequestedAction').attr('rows','5')
+			break;
+	}
+}
+</script>
