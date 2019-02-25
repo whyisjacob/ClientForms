@@ -12,4 +12,7 @@ module.exports = function (app) {
   app.get("/branson/CodeAmendment", function (req, res) {
     res.render("branson/CodeAmendment", {clientUrl: clientUrl,client: client,form: "Code Amendment"});
   });
+  app.get("/branson/bid-proposal", function (req, res) {
+    res.render("branson/bid-proposal", {clientUrl: clientUrl,client: client,form: "Bid Proposal"});
+  });
 }  
