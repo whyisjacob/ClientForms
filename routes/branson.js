@@ -6,11 +6,10 @@ var Form = "City of Branson"
 
 module.exports = function (app) {
 
-    app.get("/branson/", function (req, res) {
-      res.render("branson/index", {
-        clientUrl: clientUrl,
-        client: client,
-        form: false
-      });
-    });
+  app.get("/branson/", function (req, res) {
+    res.render("branson/index", {clientUrl: clientUrl,client: client,form: false});
+  });
+  app.get("/branson/CodeAmendment", function (req, res) {
+    res.render("branson/CodeAmendment", {clientUrl: clientUrl,client: client,form: "Code Amendment"});
+  });
 }  

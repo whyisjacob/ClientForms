@@ -1,0 +1,378 @@
+<style>
+	.popover-content {		
+		width: max-content;
+		max-width: 700px;
+	}
+	
+	.popover {		
+		width: max-content;
+		max-width: 700px;
+	}
+	
+	.1 {
+		counter-reset: item;
+	}
+	.2 {
+		counter-increment: item;
+	}
+	.3 {
+		counter-increment: item;
+	}
+</style>
+	<input type="hidden" name="MeetingDate" id="MeetingDate" />
+	<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
+	<input type="hidden" name="DeptNameHolder" id="DeptNameHolder" />
+	<input type="hidden" name="DeptIdHolder" id="DeptIdHolder" />
+	<input type="hidden" name="DeptHeadId" id="DeptHeadId" />
+	<input type="hidden" name="DivHeadId" id="DivHeadId" />
+
+	<legend>Meeting Information</legend>
+	
+	<div class="form-group  dataType" data-type="Meeting Select With Sections">
+		<div class="row">
+			<label class="col-md-3 control-label col-centered" for="committeeSelect">Committee:</label>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<select id="committeeSelect" name="committeeSelect" data-for="meetingTypes" data-field-hasvalue="false" data-field-values="committees" class="form-control "></select>
+            </div>
+		</div>
+	</div>
+
+	<div class="row">
+		<label class="col-md-3 control-label" for="meetingTypeSelect">Meeting Type:</label>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<select id="meetingTypeSelect" name="meetingTypeSelect" data-dependent-on="committeeSelect" data-field-hasvalue="false" data-field-values="meetingTypes" class="form-control "></select>
+		</div>
+	</div>
+
+	<br/>
+
+	<div class="row">
+		<label class="col-md-3 control-label" for="meetingDateSelect">Meeting Date:</label>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<select id="meetingDateSelect" name="meetingDateSelect" data-dependent-on="meetingTypeSelect" onChange="setMeetingDate(this);"  data-field-hasvalue="false" data-field-values="meetingDates" class="form-control "></select>
+		</div>
+	</div>
+
+	<br/>
+
+	<div class="row">
+		<label class="col-md-3 control-label" for="meetingSectionSelect">Meeting Section:</label>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<select id="meetingSectionSelect" name="meetingSectionSelect" data-dependent-on="meetingDateSelect" data-field-hasvalue="false" data-field-values="meetingSections" class="form-control "></select>
+		</div>
+	</div>
+	
+	<br />
+	
+	<div class="row">
+		<label class="col-md-3 control-label" for="ItemType">Item Type:</label>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-6">
+			<select id="ItemType" name="ItemType" data-name="ItemType" onchange="showPresenterField()" class="form-control "></select>
+		</div>
+	</div>
+    <br/>
+	<br/>
+	<legend>Code Amendment</legend>
+<div class="row">
+	<!--Item/Subject-->
+	<div class="col-sm-2 form-group">
+		<label for="ItemSubject">Item/Subject:</label>
+	</div>
+	<div class="col-sm-10 form-group">
+		<input type="text" class="form-control" name="ItemSubject" id="ItemSubject" placeholder="Item/Subject">
+	</div>
+	<!--Initiated By-->
+	<div class="col-sm-2 form-group">
+		<label for="InitiatedBy">Initiated By:</label>
+	</div>
+	<div class="col-sm-10 form-group">
+		<input type="text" class="form-control" name="InitiatedBy" id="InitiatedBy" placeholder="InitiatedBy">
+	</div>
+	<!--Reading-->
+    <div class="col-sm-6">
+        <div class="col-sm-4 form-group">
+            <label for="FirstReading">First Reading:</label>
+        </div>
+        <div class="col-sm-8 form-group">
+            <input type="date" class="form-control" name="FirstReading" id="FirstReading" placeholder="FirstReading">
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="col-sm-4 form-group">
+            <label for="FinalReading">Final Reading:</label>
+        </div>
+        <div class="col-sm-8 form-group">
+            <input type="date" class="form-control" name="FinalReading" id="FinalReading" placeholder="FinalReading">
+        </div>
+    </div>
+    <!--EXECUTIVE SUMMARY-->
+	<div class="col-sm-2 form-group">
+		<label for="ExecutiveSummary">Executive Summary:</label>
+	</div>
+	<div class="col-sm-10 form-group">
+		<textarea class="form-control" name="ExecutiveSummary" id="ExecutiveSummary" placeholder="ExecutiveSummary"></textarea>
+	</div>
+    <!--FINANCIAL IMPACT-->
+	<div class="col-sm-2 form-group">
+		<label for="FinancialImpact">Financial Impact:</label>
+	</div>
+	<div  class="col-sm-10 form-group">
+		<select id="FinancialImpact" class="form-control" name="FinancialImpact" onChange="isOther('FinancialImpact')">
+            <option value="NoImpact">No Impact / Not Applicable</option>
+            <option value="BudgetedInCurrentYearBudget">Budgeted in the current year’s budget</option>
+            <option value="Other">Other (See Additional Explanation)</option>
+        </select> 
+	</div>
+    <!--Staff Recommendation-->
+	<div class="col-sm-2 form-group">
+		<label for="StaffRecommendation">Staff Recommendation:</label>
+	</div>
+	<div class="col-sm-10 form-group">
+		<select id="FinancialImpact" class="form-control" name="StaffRecommendation">
+            <option value="Yes">Recommended</option>
+            <option value="No">Not Recommended</option>
+            <option value="Neutral">Neutral/None</option>
+        </select> 
+	</div>
+	<div class="col-sm-12"><!--left blank to fix weird behavior--></div>
+    <!--Community Plan 2030-->
+	<div class="col-sm-2 form-group">
+		<label for="CommunityPlan">Community Plan 2030:</label>
+	</div>
+	<div class="col-sm-10 form-group">
+		<textarea class="form-control" name="CommunityPlan" id="CommunityPlan" placeholder="Community Plan"></textarea>
+	</div>
+    <!--Attached Exhibits-->
+	<div class="col-sm-2 form-group">
+		<label for="AttachedExhibits">Attached Exhibits:</label>
+	</div>
+	<div class="col-sm-10 form-group">
+		<textarea class="form-control" name="AttachedExhibits" id="AttachedExhibits" placeholder="Attached Exhibits"></textarea>
+	</div>
+
+</div>
+
+
+
+<script>	
+	$(document).ready(function(){
+		$("#ROW_Presenter").hide();
+		$("#ROW_CEQAVals").hide();
+		$("#ROW_EnvironmentalDetermination").hide();
+        $("textarea").attr('rows','5');
+
+		$('[data-toggle="tooltip"]').tooltip();		
+		
+		populateDept();
+	})	
+
+    /**
+    * Required: inputName = name of select element that you are editing.
+    */
+    function isOther(inputName){
+        var inputVal = $('#'+inputName).val();
+        if(inputVal == "Other"){
+            //change the name of the select input to inputName_old so as to not risk sending incorrect data
+            $('#'+inputName).attr('name', inputName + "_old")
+
+            //
+            $('#'+inputName).parent().attr('id', inputName + "_parent")
+            $('#'+inputName + '_parent').append("<input type='text' name='" + inputName + "' id='" + inputName + "_other' class='form-control' placeholder='Explain'>")
+
+            //assign focus to new input
+            $('#' + inputName + '_other').focus();
+        } else {
+			$('#'+inputName).attr('name', inputName)
+            $('#' + inputName + '_other').remove();
+            $('#'+inputName).parent().attr('id', " " )
+		}
+    }
+	
+	$('[data-toggle="popover"]').each(function() {
+		var $pop = $(this);
+		$pop.popover({
+			html: true,
+			trigger: "hover",
+			title: $pop.attr('data-title'),
+			content: $pop.attr('data.content'),
+			container: $pop,
+			animation: false
+		})
+	})
+	
+	function populateDept() {
+		var url = window.location.protocol + "//" + window.location.host + "/";		
+		
+		$.ajax({
+			type: "Get",
+			url: url + "api/user/list",
+			datatype: "json",
+			success: function(data) {
+				$.each(data, function(index, element) {
+					//alert(element.id);
+					
+					if (element.id == $("#OriginatorId").val()) {
+						getDept(element.departmentId);						
+
+						populateDeptDivHeads();
+					}
+				})
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("Error Occurred getting populateDept: " + errorThrown);
+			}
+		})
+	}
+	
+	function getDept(id) {
+		var deptName;
+		var url = window.location.protocol + "//" + window.location.host + "/";		
+		
+		$.ajax({
+			type: "Get",
+			url: url + "api/department/list",
+			datatype: "json",
+			success: function(data) {				
+				$.each(data, function(index, element) {
+					if (element.id == id) {
+						$("#Department").append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>')
+						
+						$("#DeptNameHolder").val(element.name);
+						$("#DeptIdHolder").val(element.id);
+					}
+					else {						
+						$("#Department").append('<option value="' + element.id + '">' + element.name + '</option>')
+					}
+				})				
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("Error Occurred getting System Item Types: " + errorThrown);
+			}
+		})		
+	}
+	
+	function populateDeptDivHeads() {
+		var url = window.location.protocol + "//" + window.location.host + "/";		
+		
+		$.ajax({
+			type: "Get",
+			url: url + "api/userGroup/list",
+			datatype: "json",
+			success: function(data) {				
+				$.each(data, function(index, element) {					
+					if (element.name == $("#Department").val() + "_DH") {													
+						$("#DeptHeadId").val(element.id);						
+					}
+					else if (element.name == $("#Department").val() + "_DivHead") {
+						$("#DivHeadId").val(element.id);
+					}					
+				})
+				
+				populateAuthor();
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("Error Occurred getting System Item Types: " + errorThrown);
+			}
+		})
+	}
+	
+	function populateAuthor() {		
+		var url = window.location.protocol + "//" + window.location.host + "/";				
+		
+		$.ajax({
+			type: "Get",
+			url: url + "api/user/list",
+			datatype: "json",
+			success: function(data) {				
+				$.each(data, function(index, ele) {
+					if (ele.id == $("#OriginatorId").val()) {
+						$("#Author").val(ele.firstName + " " + ele.lastName + ", " + ele.position);
+					}					
+				})
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("Error Occurred getting System Item Types: " + errorThrown);
+			}
+		})
+	}
+	
+	function setMeetingDate(sel) {
+		$("#MeetingDate").val(sel.options[sel.selectedIndex].text);
+		$("#MeetingDateDisplay").val(moment($("#MeetingDate").val().format('LL')));
+    }
+	
+	function showPresenterField() {	
+		if ($("#ItemType option:selected").text() !== "Consent Calendar" && $("#ItemType option:selected").text() !== "") {
+			$("#ROW_Presenter").show();
+		}
+		else if ($("#ItemType option:selected").text() == "" || $("#ItemType option:selected").text() == null) {
+			$("#ROW_Presenter").hide();
+		}
+		else {
+			$("#ROW_Presenter").hide();
+		}
+		
+		if ($("#ItemType option:selected").text() == "CONTRACT") {
+			$("#Recommendation").val('Award a contract to (company name) for (project or job name) in the amount of $______ and authorize (title of person) to execute the contract in substantially the form presented.\nOptional text: "establish a contingency fund in the amount of $____ and authorize the (title of person) to execute amendments/change orders within that amount."\n\nApprove Amendment No. ___ to the contract with (company name) for the purpose of _________ in the amount of $______ for a new contract total of $______.')
+		}		
+		else if ($("#ItemType option:selected").text() == "AGREEMENT") {
+			$("#Recommendation").val('Approve an agreement to (company name) for (project or job name) in the amount of $______ and authorize (title of person) to execute the agreement in substantially the form presented.\nOptional text: "establish a contingency fund in the amount of $____ and authorize the (title of person) to execute amendments/change orders within that amount."\n\nApprove Amendment No. ___ to the agreement with (company name) for the purpose of _________ in the amount of $______ for a new contract total of $______.')
+		}		
+		else if ($("#ItemType option:selected").text() == "RESOLUTION") {
+			$("#Recommendation").val('Adopt a Resolution to use an alternative purchasing method to\n\nAdopt a Resolution to')
+		}		
+		else if ($("#ItemType option:selected").text() == "ORDINANCE") {
+			$("#Recommendation").val("Introduce an Ordinance to\n\nAdopt an Ordinance to")
+		}
+		else {
+			$("#Recommendation").val("")
+		}
+	}
+	
+	function ceqaReview() {
+		if ($("#CEQAReview").is(':checked')) {
+			$("#ROW_CEQAVals").show();
+			$("#ROW_EnvironmentalDetermination").show();			
+		}
+		else {			
+			$("#ROW_CEQAVals").hide();			   
+			$("#CEQAPublicResource").prop('checked', false);
+			$("#CEQAGuidline15301").prop('checked', false);
+			$("#CEQAGuidline15378B4").prop('checked', false);
+			$("#CEQAGuidline15378B5").prop('checked', false);
+			
+			$("#ROW_EnvironmentalDetermination").hide();			
+			$("#EnvironmentalDetermination").val("");
+		}
+	}
+	
+	function updateEnvironmentalDetermination(id) {
+		if ($("#" + id).is(':checked')) {			
+			$('[data-name="ceqavals"]').each(function() {
+				if (this.id !== id) {
+					$(this).prop('checked', false);
+				}
+			})
+			
+			$("#EnvironmentalDetermination").val($('label[for="' + id + '"]').text());
+		}
+		else {
+			$("#EnvironmentalDetermination").val("");
+		}	
+	}
+</script>	

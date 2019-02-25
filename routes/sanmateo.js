@@ -16,4 +16,7 @@ module.exports = function (app) {
   app.get("/sanmateo/ar_template_pc_2", function (req, res) {
     res.render("sanmateo/ar_template_pc_2", { clientUrl: clientUrl,client: client,form: 'ar_template_pc_2'});
   });
+  app.get("/sanmateo/agenda_report_form", function (req, res) {
+    res.render("sanmateo/agenda_report_form", { clientUrl: clientUrl,client: client,form: 'Agenda Report Form'});
+  });
 }  
