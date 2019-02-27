@@ -166,7 +166,71 @@
 	</div>
 
 </div>
+<br/>
+<br/>
+<legend>Code Amendment</legend>
+<div class="row">
+    <!--Attached Exhibits-->
+	<div class="col-sm-2 form-group">
+		<label for="IncludeOrdinance">Include <i>(or create)</i> an ordinance?:</label>
+	</div>
+	<div class="col-sm-10 form-group">
+		<select id="IncludeOrdinance" class="form-control" name="IncludeOrdinance" onChange="AddOrdinance(this.id)">
+			<option></option>
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</select>
+	</div>
+	<div class="col-xs-12"></div>
+	<!--ordinance Section-->
+	<div id="ordinanceSection" >
+		<!--Chapter Number-->
+		<div class="col-sm-2 form-group">
+			<label for="ChapterNumber">Chapter Number:</label>
+		</div>
+		<div class="col-sm-10 form-group">
+			<input type="number" class="form-control ordinanceCh" id="ChapterNumber" name="ChapterNumber" placeholder="#"> 
+		</div>
+		<!--Section Number-->
+		<div class="col-sm-2 form-group">
+			<label for="SectionNumber">Section Number:</label>
+		</div>
+		<div class="col-sm-10 form-group">
+			<input type="number" class="form-control ordinanceCh" id="SectionNumber" name="SectionNumber" placeholder="#"> 
+		</div>
+		<!--Project-->
+		<div class="col-sm-2 form-group">
+				<label for="ProjectName">Project:</label>
+			</div>
+			<div class="col-sm-10 form-group">
+				<input type="text" class="form-control ordinanceCh" id="ProjectName" name="ProjectName" placeholder="Project Name"> 
+			</div>
+		<!--Project-->
+		<div class="col-sm-2 form-group">
+			<label for="CodeSectionName">Code Section Name:</label>
+		</div>
+		<div class="col-sm-10 form-group">
+			<input type="text" class="form-control ordinanceCh" id="CodeSectionName" name="CodeSectionName" placeholder="Code Section Name"> 
+		</div>
+		<div class="col-xs-12"></div>
 
+		<!--Project-->
+		<div class="col-sm-2 form-group">
+			<label for="CodeChanges">Code Changes:</label>
+		</div>
+		<div class="col-sm-10 form-group">
+			<textarea type="text" class="form-control ordinanceCh" id="CodeChanges" name="CodeChanges" placeholder="Code Changes"> </textarea>
+		</div>
+		<!--Date Effective-->
+		<div class="col-sm-2 form-group">
+			<label for="EffectiveDate">Date Effective:</label>
+		</div>
+		<div class="col-sm-10 form-group">
+			<input type="date" class="ordinanceCh form-control" id="EffectiveDate" name="EffectiveDate">
+		</div>
+		
+	</div>
+</div>
 
 
 <script>	
@@ -175,12 +239,30 @@
 		$("#ROW_CEQAVals").hide();
 		$("#ROW_EnvironmentalDetermination").hide();
         $("textarea").attr('rows','5');
+		$('#ordinanceSection').hide();
 
 		$('[data-toggle="tooltip"]').tooltip();		
 		
 		displayUsersSelect('InitiatedBy')
 		populateDept();
 	})
+
+	function AddOrdinance(id){
+		var choiceVal = $('#'+id).val();
+		if (choiceVal == "yes"){
+			$('#ordinanceSection').show();
+			$('.ordinanceCh').each(function(ind,val){
+				var valId = $(val).attr('id');
+				$(val).attr('name','Document2.'+valId)
+			})
+		} else {
+			$('.ordinanceCh').each(function(ind,val){
+				var valId = $(val).attr('id');
+				$(val).attr('name', +valId)
+			})
+			$('#ordinanceSection').hide();
+		}
+	}
 
 	/*
 	* name: displayUsersSelect(userElement)
