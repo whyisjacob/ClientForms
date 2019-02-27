@@ -1,3 +1,7 @@
+$(document).ready(function(){
+	$("textarea").attr('rows', '5');
+
+})
 /*
 *ADDS KEYDOWN TO div 
 *SO WHEN THE ENTER BUTTON IS PRESSED 
@@ -37,6 +41,8 @@ function addLineNumber(divId, countNum) {
 
 
 /**
+ * function isOther = auto adds an input if the text "other" is selected. 
+ * Use: You do need to call this function with an 'onChange=isOther(inputName)' on the html element
 * Required: inputName = name of select element that you are editing.
 */
 function isOther(inputName) {
@@ -57,3 +63,45 @@ function isOther(inputName) {
 		$('#' + inputName).parent().attr('id', " ")
 	}
 }
+
+
+
+
+
+/*
+	* name: displayUsersSelect(userElement)
+	* description: Display all account users as options in a html select input.
+	* required function getAllUsers();
+	* required userElement
+	* param userElement. the id of the html select input where data will go. ID must be select element else will error
+	*/
+function displayUsersSelect(userElement) {
+	var display;
+	var users = getAllUsers().done(function (data) {
+		$(data).each(function (ind, val) {
+			var fullName = val.firstName + " " + val.lastName;
+			var accountName = $('#OriginatorName').val();
+			if (!accountName == undefined) {
+				if (fullName == accountName) {
+					display += "<option value='" + fullName + "' selected='selected'>" + fullName + "</option>";
+
+				} else {
+					display += "<option value='" + fullName + "'>" + fullName + "</option>";
+				}
+			} else {
+				display += "<option value='" + fullName + "'>" + fullName + "</option>";
+			}
+		})
+		$('#' + userElement).append(display)
+	});
+}
+
+/*
+* name: getAllUsers();
+* description: simply return a JSON list of all users on the account.
+*/
+function getAllUsers() {
+	var url = window.location.protocol + "//" + window.location.host + "/";
+	return $.getJSON(url + 'api/User/list', function (d) {
+	})
+}	

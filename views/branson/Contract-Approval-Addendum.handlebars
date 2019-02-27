@@ -95,7 +95,7 @@
 </div>
 <br />
 <br />
-<legend>Bid Proposal</legend>
+<legend>Contract Approval - Addendum</legend>
 <div class="row">
 	<!--Item/Subject-->
 	<div class="col-sm-2 form-group">
@@ -128,49 +128,12 @@
 			<input type="date" class="form-control" name="FinalReading" id="FinalReading" placeholder="FinalReading">
 		</div>
 	</div>
-</div>
-<br />
-<br />
-<legend>Executive Summary</legend>
-<div class="row">
-	<div class="col-sm-12 form-group">
-		<p>
-			1. This item from <input type="text" name="VendorName" id="VendorName" placeholder="Vendor Name"> for <input type="text" name="Project" id="Project" placeholder="Project"> in the amount not to exceed $<input type="number" name="Amount" id="amount" placeholder="0.00">.<br><br>
-			<span class="form-group">
-				Reason For Purchase: 
-				<input type="text" name="ReasonForPurchase" id="ReasonForPurchase" placeholder="Reason For Purchase">
-			</span>
-		</p>
-	</div>
-	<!--Bid details-->
+    <!--EXECUTIVE SUMMARY-->
 	<div class="col-sm-2 form-group">
-		2. Bid details:
+		<label for="ExecutiveSummary">Executive Summary:</label>
 	</div>
 	<div class="col-sm-10 form-group">
-		<textarea class="form-control" name="BidDetails" id="BidDetails" placeholder="- Number of bids received, list of bidders, amount of each bid and who was awarded bid. 
-- If non-qualified bids are listed, denote the bid was not qualified and why
-- If only one bid was received, list how many request for bids were sent out.
-- Was it a state or cooperative bid etc.
-- Reason: Example: low bid, if not low bid then include explanation as to why
-"></textarea>
-	</div>
-	<!--Additional Information-->
-	<div class="col-sm-2 form-group">
-		3. Additional Information:
-	</div>
-	<div class="col-sm-10 form-group">
-		<textarea class="form-control" name="Additional Information" id="AdditionalInformation" placeholder="Provide any additional information not mentioned previously"></textarea>
-	</div>
-
-	<!--ItemFunds-->
-	<div class="col-sm-2 form-group">
-		4. Funds for this item are budgeted in the :
-	</div>
-	<div class="col-sm-10 form-group">
-		<select id="ItemFunds" class="form-control" name="ItemFunds">
-			<option value="CurrentYearBudget">No Impact / Not Applicable</option>
-			<option value="NextYearBudget">Budgeted in the current year’s budget</option>
-		</select>
+		<textarea class="form-control" name="ExecutiveSummary" id="ExecutiveSummary" placeholder="ExecutiveSummary"></textarea>
 	</div>
 
 </div>
