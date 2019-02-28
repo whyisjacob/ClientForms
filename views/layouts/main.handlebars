@@ -46,10 +46,16 @@
 <body>
     <div class="container-fluid">
         <div>
-            <a href="/">Return</a>
+            {{#if innerUrl}}
+                <a href="{{innerUrl}}">Return</a>
+            {{else}}
+                <a href="/">Return</a>
+            {{/if}}
+
         </div>
         <div>
             <p>
+
                 Editing <b style="text-transform: uppercase">{{form}}</b> for: <b>{{client}}</b>, and their URL is <a href="{{clientUrl}}" target="_blank">{{clientUrl}}</a>
             </p>
         </div>
