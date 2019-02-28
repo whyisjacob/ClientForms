@@ -28,6 +28,7 @@ app.set("view engine", "handlebars");
 require("./routes/mainroutes.js")(app);
 require("./routes/branson.js")(app);
 require("./routes/sanmateo.js")(app);
+require("./routes/goodyear.js")(app);
 
 
 

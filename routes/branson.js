@@ -28,4 +28,10 @@ module.exports = function (app) {
   app.get(innerUrl+"Contract-Approval-Renewal", function (req, res) {
     res.render("branson/Contract-Approval-Renewal", {clientUrl: clientUrl,client: client,form: "Contract Approval - Renewal",innerUrl});
   });
+  app.get(innerUrl+"Ordinance-for-Everything-Else", function (req, res) {
+    res.render("branson/Ordinance-for-Everything-Else", {clientUrl: clientUrl,client: client,form: "Ordinance-for-Everything-Else",innerUrl});
+  });
+  app.get(innerUrl+"Resolution-Template", function (req, res) {
+    res.render("branson/Resolution-Template", {clientUrl: clientUrl,client: client,form: "Resolution Template",innerUrl});
+  });
 }  

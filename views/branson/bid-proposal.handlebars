@@ -168,8 +168,8 @@
 	</div>
 	<div class="col-sm-10 form-group">
 		<select id="ItemFunds" class="form-control" name="ItemFunds">
-			<option value="CurrentYearBudget">No Impact / Not Applicable</option>
-			<option value="NextYearBudget">Budgeted in the current year’s budget</option>
+			<option value="Current Years Budget">Current year’s budget</option>
+			<option value="Next Years Budget">Budgeted in the current year’s budget</option>
 		</select>
 	</div>
 
@@ -231,7 +231,52 @@
 	</div>
 
 </div>
+<br/>
+<br/>
+<legend>Code Amendment</legend>
+<div class="row">
+    <!--Attached Exhibits-->
+	<div class="col-sm-2 form-group">
+		<label for="IncludeOrdinance">Include <i>(or create)</i> an ordinance?:</label>
+	</div>
+	<div class="col-sm-10 form-group">
+		<select id="IncludeOrdinance" class="form-control" name="IncludeOrdinance" onChange="AddOrdinance(this.id)">
+			<option></option>
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</select>
+	</div>
+	<div class="col-xs-12"></div>
+	<!--ordinance Section-->
+	<div id="ordinanceSection" >
+		<!--Vendor Name-->
+		<div class="col-sm-2 form-group">
+			<label for="VendorName">Vendor:</label>
+		</div>
+		<div class="col-sm-10 form-group">
+			<input type="text" class="form-control ordinanceCh" id="Vendor" name="Vendor" placeholder="Vendor"> 
+		</div>
+		<!--Vendor Name-->
+		<div class="col-sm-2 form-group">
+			<label for="ProjectName">Project:</label>
+		</div>
+		<div class="col-sm-10 form-group">
+			<input type="text" class="form-control ordinanceCh" id="ProjectName" name="ProjectName" placeholder="Project"> 
+		</div>
+		<!--Project Amount-->
+		<div class="col-sm-2 form-group">
+			<label for="ProjectAmount">Project Amount:</label>
+		</div>
+		<div class="col-sm-10 form-group">
 
+			<div class="input-group">
+      			<div class="input-group-addon">$</div>
+				<input type="text" class="form-control ordinanceCh" id="ProjectAmount" name="ProjectAmount" placeholder="0.00"> 
+			</div>
+		</div>
+		
+	</div>
+</div>
 
 
 <script>
@@ -241,11 +286,29 @@
 		$("#ROW_CEQAVals").hide();
 		$("#ROW_EnvironmentalDetermination").hide();
 		$("textarea").attr('rows', '5');
+		$('#ordinanceSection').hide();
 
 		$('[data-toggle="tooltip"]').tooltip();
 		displayUsersSelect('InitiatedBy')
 		populateDept();
 	})
+
+function AddOrdinance(id){
+		var choiceVal = $('#'+id).val();
+		if (choiceVal == "yes"){
+			$('#ordinanceSection').show();
+			$('.ordinanceCh').each(function(ind,val){
+				var valId = $(val).attr('id');
+				$(val).attr('name','Document2.'+valId)
+			})
+		} else {
+			$('.ordinanceCh').each(function(ind,val){
+				var valId = $(val).attr('id');
+				$(val).attr('name', +valId)
+			})
+			$('#ordinanceSection').hide();
+		}
+	}
 
 	/*
 	* name: displayUsersSelect(userElement)

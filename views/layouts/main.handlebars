@@ -54,9 +54,15 @@
 
         </div>
         <div>
+            {{#if form}}
+                Editing <b style="text-transform: uppercase">{{form}}</b> for: <b>{{client}}</b>, and their URL is <a href="{{clientUrl}}" target="_blank">{{clientUrl}}</a>
+            {{else}}
+                Editing: <b>{{client}}</b>, and their URL is <a href="{{clientUrl}}" target="_blank">{{clientUrl}}</a>
+            {{/if}}
+
+
             <p>
 
-                Editing <b style="text-transform: uppercase">{{form}}</b> for: <b>{{client}}</b>, and their URL is <a href="{{clientUrl}}" target="_blank">{{clientUrl}}</a>
             </p>
         </div>
         {{{ body }}}
