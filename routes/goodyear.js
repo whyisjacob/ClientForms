@@ -10,4 +10,7 @@ module.exports = function (app) {
   app.get(innerUrl, function (req, res) {
     res.render("goodyear/index", {clientUrl: clientUrl,client: client,form: false, innerUrl: false});
   });
+  app.get(innerUrl + 'Staff_Report_New', function (req, res) {
+    res.render("goodyear/Staff_Report_New", {clientUrl: clientUrl,client: client,form: false, innerUrl: false});
+  });
 }
