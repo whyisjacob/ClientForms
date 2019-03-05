@@ -1,108 +1,116 @@
 <style>
-	.popover-content {		
+	.popover-content {
 		width: max-content;
 		max-width: 700px;
 	}
-	
-	.popover {		
+
+	.popover {
 		width: max-content;
 		max-width: 700px;
 	}
-	
+
 	.1 {
 		counter-reset: item;
 	}
+
 	.2 {
 		counter-increment: item;
 	}
+
 	.3 {
 		counter-increment: item;
 	}
 </style>
-	<input type="hidden" name="MeetingDate" id="MeetingDate" />
-	<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
-	<input type="hidden" name="DeptNameHolder" id="DeptNameHolder" />
-	<input type="hidden" name="DeptIdHolder" id="DeptIdHolder" />
-	<input type="hidden" name="DeptHeadId" id="DeptHeadId" />
-	<input type="hidden" name="DivHeadId" id="DivHeadId" />
+<input type="hidden" name="MeetingDate" id="MeetingDate" />
+<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
+<input type="hidden" name="DeptNameHolder" id="DeptNameHolder" />
+<input type="hidden" name="DeptIdHolder" id="DeptIdHolder" />
+<input type="hidden" name="DeptHeadId" id="DeptHeadId" />
+<input type="hidden" name="DivHeadId" id="DivHeadId" />
 
-	<legend>Meeting Information</legend>
-	
-	<div class="form-group  dataType" data-type="Meeting Select With Sections">
-		<div class="row">
-			<label class="col-md-3 control-label col-centered" for="committeeSelect">Committee:</label>
-		</div>
+<legend>Meeting Information</legend>
 
-		<div class="row">
-			<div class="col-md-6">
-				<select id="committeeSelect" name="committeeSelect" data-for="meetingTypes" data-field-hasvalue="false" data-field-values="committees" class="form-control ">
-					<option value="1">City Council</option>
-				</select>
-            </div>
-		</div>
-	</div>
-
+<div class="form-group  dataType" data-type="Meeting Select With Sections">
 	<div class="row">
-		<label class="col-md-3 control-label" for="meetingTypeSelect">Meeting Type:</label>
+		<label class="col-md-3 control-label col-centered" for="committeeSelect">Committee:</label>
 	</div>
 
 	<div class="row">
 		<div class="col-md-6">
-			<select id="meetingTypeSelect" name="meetingTypeSelect" data-dependent-on="committeeSelect" data-field-hasvalue="false" data-field-values="meetingTypes" class="form-control ">
-								<option></option>
-				<option value="1">City Council Regular Meeting</option>
-				<option value="2">City Council Special Meeting</option>
-				<option value="8">City Council Work Session</option>		
-				<option value="4">City Council Subcommittee</option>		
-
+			<select id="committeeSelect" name="committeeSelect" data-for="meetingTypes" data-field-hasvalue="false"
+				data-field-values="committees" class="form-control ">
+				<option value="1">City Council</option>
 			</select>
 		</div>
 	</div>
+</div>
 
-	<br/>
+<div class="row">
+	<label class="col-md-3 control-label" for="meetingTypeSelect">Meeting Type:</label>
+</div>
 
-	<div class="row">
-		<label class="col-md-3 control-label" for="meetingDateSelect">Meeting Date:</label>
-	</div>
+<div class="row">
+	<div class="col-md-6">
+		<select id="meetingTypeSelect" name="meetingTypeSelect" data-dependent-on="committeeSelect"
+			data-field-hasvalue="false" data-field-values="meetingTypes" class="form-control" onchange="prepMeetingDates(this.id)">
+			<option></option>
+			<!--<option value="1">City Council Regular Meeting</option>
+			<option value="2">City Council Special Meeting</option>
+			<option value="8">City Council Work Session</option>
+			<option value="4">City Council Subcommittee</option>-->
 
-	<div class="row">
-		<div class="col-md-6">
-			<select id="meetingDateSelect" name="meetingDateSelect" data-dependent-on="meetingTypeSelect" onChange="setMeetingDate(this);"  data-field-hasvalue="false" data-field-values="meetingDates" class="form-control "></select>
-		</div>
+		</select>
 	</div>
+</div>
 
-	<br/>
+<br />
 
-	<div class="row">
-		<label class="col-md-3 control-label" for="meetingSectionSelect">Meeting Section:</label>
-	</div>
+<div class="row">
+	<label class="col-md-3 control-label" for="meetingDateSelect">Meeting Date:</label>
+</div>
 
-	<div class="row">
-		<div class="col-md-6">
-			<select id="meetingSectionSelect" name="meetingSectionSelect" data-dependent-on="meetingDateSelect" data-field-hasvalue="false" data-field-values="meetingSections" class="form-control "></select>
-		</div>
+<div class="row">
+	<div class="col-md-6">
+		<select id="meetingDateSelect" name="meetingDateSelect" data-dependent-on="meetingTypeSelect"
+			onChange="setMeetingDate(this);" data-field-hasvalue="false" data-field-values="meetingDates"
+			class="form-control "></select>
 	</div>
-	
-	<br />
-	
-	<div class="row">
-		<label class="col-md-3 control-label" for="ItemType">Item Type:</label>
+</div>
+
+<br />
+
+<div class="row">
+	<label class="col-md-3 control-label" for="meetingSectionSelect">Meeting Section:</label>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<select id="meetingSectionSelect" name="meetingSectionSelect" data-dependent-on="meetingDateSelect"
+			data-field-hasvalue="false" data-field-values="meetingSections" class="form-control "></select>
 	</div>
-	
-	<div class="row">
-		<div class="col-md-6">
-			<select id="ItemType" name="ItemType" data-name="ItemType" onchange="showPresenterField()" class="form-control "></select>
-		</div>
+</div>
+
+<br />
+
+<div class="row">
+	<label class="col-md-3 control-label" for="ItemType">Item Type:</label>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<select id="ItemType" name="ItemType" data-name="ItemType" onchange="showPresenterField()"
+			class="form-control "></select>
 	</div>
-    <br/>
-	<br/>
-<legend>Staff Report</legend>	
+</div>
+<br />
+<br />
+<legend>Staff Report</legend>
 <input type="hidden" name="MeetingDate" id="MeetingDate" />
 <input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
- <div class='row'>
-                             </div>
-            </div>
- </div>
+<div class='row'>
+</div>
+</div>
+</div>
 
 
 
@@ -110,7 +118,7 @@
 	<div class='col-md-12'>
 		<div class='form-group'>
 			<label for="Subject">SUBJECT:</label><span style="color: red;">*</span>
-			<textarea  class="form-control" name="Subject" id="Subject" rows="10" cols="160"></textarea>
+			<textarea class="form-control" name="Subject" id="Subject" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -119,7 +127,7 @@
 	<div class='col-md-12'>
 		<div class='form-group'>
 			<label for="StaffPresenters">STAFF PRESENTERS:</label><span style="color: red;">*</span>
-			<textarea  class="form-control" name="StaffPresenter" id="StaffPresenter" rows="10" cols="160"></textarea>
+			<textarea class="form-control" name="StaffPresenter" id="StaffPresenter" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -128,7 +136,7 @@
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="SUMMARY">SUMMARY:</label><span style="color: red;">*</span>
-			<textarea  class="form-control" name="Summary" id="Summary" rows="10" cols="160"></textarea>
+			<textarea class="form-control" name="Summary" id="Summary" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -136,7 +144,7 @@
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="Recommendation">RECOMMENDATION</label><span style="color: red;">*</span>
-			<textarea  class="form-control" name="Recommendation" id="Recommendation" rows="10" cols="160"></textarea>
+			<textarea class="form-control" name="Recommendation" id="Recommendation" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -144,7 +152,7 @@
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="FiscalAnalysis">FISCAL ANALYSIS</label><span style="color: red;">*</span>
-			<textarea  class="form-control" name="FiscalAnalysis" id="FiscalAnalysis" rows="10" cols="160"></textarea>
+			<textarea class="form-control" name="FiscalAnalysis" id="FiscalAnalysis" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -152,7 +160,7 @@
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="Background">BACKGROUND AND PREVIOUS ACTIONS:</label><span style="color: red;">*</span>
-			<textarea  class="form-control" name="Background" id="Background" rows="10" cols="160"></textarea>
+			<textarea class="form-control" name="Background" id="Background" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -160,7 +168,7 @@
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="StaffAnalysis">STAFF ANALYSIS</label><span style="color: red;">*</span>
-			<textarea  class="form-control" name="StaffAnalysis" id="StaffAnalysis" rows="10" cols="160"></textarea>
+			<textarea class="form-control" name="StaffAnalysis" id="StaffAnalysis" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -168,7 +176,7 @@
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="Attachments">ATTACHMENTS</label><span style="color: red;">*</span>
-			<textarea  class="form-control" name="Attachments" id="Attachments" rows="10" cols="160"></textarea>
+			<textarea class="form-control" name="Attachments" id="Attachments" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -177,30 +185,51 @@
 	<div class='col-md-6'>
 		<div class='form-group'>
 			<label for="Author">Author:</label><span style="color: red;">*</span>
-			<input class="form-control" id="Author" name="Author" required="true" type="text" value=""/>
+			<input class="form-control" id="Author" name="Author" required="true" type="text" value="" />
 		</div>
 	</div>
 	<div class='col-md-6'>
 		<div class='form-group'>
 			<label for="AuthorTitle">Author Title:</label><span style="color: red;">*</span>
-			<input class="form-control" id="AuthorTitle" name="AuthorTitle" required="true" type="text" value="Founder" readonly/>
+			<input class="form-control" id="AuthorTitle" name="AuthorTitle" required="true" type="text" value="Founder"
+				readonly />
 		</div>
 	</div>
 </div>
 
- </div>
-<script>	
-	$(document).ready(function(){
+</div>
+<script>
+	$(document).ready(function () {
 		$("#ROW_Presenter").hide();
 		$("#ROW_CEQAVals").hide();
 		$("#ROW_EnvironmentalDetermination").hide();
-		$("textarea").attr('rows','5');
-		$('[data-toggle="tooltip"]').tooltip();		
+		$("textarea").attr('rows', '5');
+		$('[data-toggle="tooltip"]').tooltip();
 		
+		setTimeout(function(){
+		changeCommittee()
+
+		}, 5000)
+
 		populateDept();
-	})	
-	
-	$('[data-toggle="popover"]').each(function() {
+	})
+
+	function changeCommittee(){
+		$('#committeeSelect').val('1')
+		console.log('hippo')
+	}
+
+	function prepMeetingDates(id){
+		console.log('foo2')
+		var meetingTypeSelectId = id;
+		var meetingTypeId = $('#'+id).val();
+				console.log(meetingTypeSelectId)
+		console.log(meetingTypeId)
+
+		loadMeetingDates(meetingTypeId, meetingTypeSelectId)
+	}
+
+	$('[data-toggle="popover"]').each(function () {
 		var $pop = $(this);
 		$pop.popover({
 			html: true,
@@ -211,109 +240,109 @@
 			animation: false
 		})
 	})
-	
+
 	function populateDept() {
-		var url = window.location.protocol + "//" + window.location.host + "/";		
-		
+		var url = window.location.protocol + "//" + window.location.host + "/";
+
 		$.ajax({
 			type: "Get",
 			url: url + "api/user/list",
 			datatype: "json",
-			success: function(data) {
-				$.each(data, function(index, element) {
+			success: function (data) {
+				$.each(data, function (index, element) {
 					//alert(element.id);
-					
+
 					if (element.id == $("#OriginatorId").val()) {
-						getDept(element.departmentId);						
+						getDept(element.departmentId);
 
 						populateDeptDivHeads();
 					}
 				})
 			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
 				alert("Error Occurred getting populateDept: " + errorThrown);
 			}
 		})
 	}
-	
+
 	function getDept(id) {
 		var deptName;
-		var url = window.location.protocol + "//" + window.location.host + "/";		
-		
+		var url = window.location.protocol + "//" + window.location.host + "/";
+
 		$.ajax({
 			type: "Get",
 			url: url + "api/department/list",
 			datatype: "json",
-			success: function(data) {				
-				$.each(data, function(index, element) {
+			success: function (data) {
+				$.each(data, function (index, element) {
 					if (element.id == id) {
 						$("#Department").append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>')
-						
+
 						$("#DeptNameHolder").val(element.name);
 						$("#DeptIdHolder").val(element.id);
 					}
-					else {						
+					else {
 						$("#Department").append('<option value="' + element.id + '">' + element.name + '</option>')
 					}
-				})				
+				})
 			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
 				alert("Error Occurred getting System Item Types: " + errorThrown);
 			}
-		})		
+		})
 	}
-	
+
 	function populateDeptDivHeads() {
-		var url = window.location.protocol + "//" + window.location.host + "/";		
-		
+		var url = window.location.protocol + "//" + window.location.host + "/";
+
 		$.ajax({
 			type: "Get",
 			url: url + "api/userGroup/list",
 			datatype: "json",
-			success: function(data) {				
-				$.each(data, function(index, element) {					
-					if (element.name == $("#Department").val() + "_DH") {													
-						$("#DeptHeadId").val(element.id);						
+			success: function (data) {
+				$.each(data, function (index, element) {
+					if (element.name == $("#Department").val() + "_DH") {
+						$("#DeptHeadId").val(element.id);
 					}
 					else if (element.name == $("#Department").val() + "_DivHead") {
 						$("#DivHeadId").val(element.id);
-					}					
+					}
 				})
-				
+
 				populateAuthor();
 			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
 				alert("Error Occurred getting System Item Types: " + errorThrown);
 			}
 		})
 	}
-	
-	function populateAuthor() {		
-		var url = window.location.protocol + "//" + window.location.host + "/";				
-		
+
+	function populateAuthor() {
+		var url = window.location.protocol + "//" + window.location.host + "/";
+
 		$.ajax({
 			type: "Get",
 			url: url + "api/user/list",
 			datatype: "json",
-			success: function(data) {				
-				$.each(data, function(index, ele) {
+			success: function (data) {
+				$.each(data, function (index, ele) {
 					if (ele.id == $("#OriginatorId").val()) {
 						$("#Author").val(ele.firstName + " " + ele.lastName + ", " + ele.position);
-					}					
+					}
 				})
 			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
 				alert("Error Occurred getting System Item Types: " + errorThrown);
 			}
 		})
 	}
-	
+
 	function setMeetingDate(sel) {
 		$("#MeetingDate").val(sel.options[sel.selectedIndex].text);
 		$("#MeetingDateDisplay").val(moment($("#MeetingDate").val().format('LL')));
-    }
-	
-	function showPresenterField() {	
+	}
+
+	function showPresenterField() {
 		if ($("#ItemType option:selected").text() !== "Consent Calendar" && $("#ItemType option:selected").text() !== "") {
 			$("#ROW_Presenter").show();
 		}
@@ -323,16 +352,16 @@
 		else {
 			$("#ROW_Presenter").hide();
 		}
-		
+
 		if ($("#ItemType option:selected").text() == "CONTRACT") {
 			$("#Recommendation").val('Award a contract to (company name) for (project or job name) in the amount of $______ and authorize (title of person) to execute the contract in substantially the form presented.\nOptional text: "establish a contingency fund in the amount of $____ and authorize the (title of person) to execute amendments/change orders within that amount."\n\nApprove Amendment No. ___ to the contract with (company name) for the purpose of _________ in the amount of $______ for a new contract total of $______.')
-		}		
+		}
 		else if ($("#ItemType option:selected").text() == "AGREEMENT") {
 			$("#Recommendation").val('Approve an agreement to (company name) for (project or job name) in the amount of $______ and authorize (title of person) to execute the agreement in substantially the form presented.\nOptional text: "establish a contingency fund in the amount of $____ and authorize the (title of person) to execute amendments/change orders within that amount."\n\nApprove Amendment No. ___ to the agreement with (company name) for the purpose of _________ in the amount of $______ for a new contract total of $______.')
-		}		
+		}
 		else if ($("#ItemType option:selected").text() == "RESOLUTION") {
 			$("#Recommendation").val('Adopt a Resolution to use an alternative purchasing method to\n\nAdopt a Resolution to')
-		}		
+		}
 		else if ($("#ItemType option:selected").text() == "ORDINANCE") {
 			$("#Recommendation").val("Introduce an Ordinance to\n\nAdopt an Ordinance to")
 		}
@@ -340,36 +369,36 @@
 			$("#Recommendation").val("")
 		}
 	}
-	
+
 	function ceqaReview() {
 		if ($("#CEQAReview").is(':checked')) {
 			$("#ROW_CEQAVals").show();
-			$("#ROW_EnvironmentalDetermination").show();			
+			$("#ROW_EnvironmentalDetermination").show();
 		}
-		else {			
-			$("#ROW_CEQAVals").hide();			   
+		else {
+			$("#ROW_CEQAVals").hide();
 			$("#CEQAPublicResource").prop('checked', false);
 			$("#CEQAGuidline15301").prop('checked', false);
 			$("#CEQAGuidline15378B4").prop('checked', false);
 			$("#CEQAGuidline15378B5").prop('checked', false);
-			
-			$("#ROW_EnvironmentalDetermination").hide();			
+
+			$("#ROW_EnvironmentalDetermination").hide();
 			$("#EnvironmentalDetermination").val("");
 		}
 	}
-	
+
 	function updateEnvironmentalDetermination(id) {
-		if ($("#" + id).is(':checked')) {			
-			$('[data-name="ceqavals"]').each(function() {
+		if ($("#" + id).is(':checked')) {
+			$('[data-name="ceqavals"]').each(function () {
 				if (this.id !== id) {
 					$(this).prop('checked', false);
 				}
 			})
-			
+
 			$("#EnvironmentalDetermination").val($('label[for="' + id + '"]').text());
 		}
 		else {
 			$("#EnvironmentalDetermination").val("");
-		}	
+		}
 	}
-</script>	
+</script>
