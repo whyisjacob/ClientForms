@@ -47,17 +47,18 @@
     <div class="container-fluid">
         <div>
             {{#if innerUrl}}
-                <a href="{{innerUrl}}">Return</a>
+            <a href="{{innerUrl}}">Return</a>
             {{else}}
-                <a href="/">Return</a>
+            <a href="/">Return</a>
             {{/if}}
 
         </div>
         <div>
             {{#if form}}
-                Editing <b style="text-transform: uppercase">{{form}}</b> for: <b>{{client}}</b>, and their URL is <a href="{{clientUrl}}" target="_blank">{{clientUrl}}</a>
+            Editing <b style="text-transform: uppercase">{{form}}</b> for: <b>{{client}}</b>, and their URL is <a
+                href="{{clientUrl}}" target="_blank">{{clientUrl}}</a>
             {{else}}
-                Editing: <b>{{client}}</b>, and their URL is <a href="{{clientUrl}}" target="_blank">{{clientUrl}}</a>
+            Editing: <b>{{client}}</b>, and their URL is <a href="{{clientUrl}}" target="_blank">{{clientUrl}}</a>
             {{/if}}
 
 

@@ -20,6 +20,10 @@
 	.3 {
 		counter-increment: item;
 	}
+
+	.nobold {
+		font-weight: 100 !important;
+	}
 </style>
 <input type="hidden" name="MeetingDate" id="MeetingDate" />
 <input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
@@ -37,8 +41,8 @@
 
 	<div class="row">
 		<div class="col-md-6">
-			<select id="committeeSelect" name="committeeSelect" data-for="meetingTypes" data-field-hasvalue="false"
-				data-field-values="committees" class="form-control ">
+			<select id="committeeSelect" name="committeeSelect" class="form-control " disabled>
+				<option value="1">City Council</option>
 			</select>
 		</div>
 	</div>
@@ -50,14 +54,16 @@
 
 <div class="row">
 	<div class="col-md-6">
-		<select id="meetingTypeSelect" name="meetingTypeSelect" data-dependent-on="committeeSelect"
-			data-field-hasvalue="false" data-field-values="meetingTypes" class="form-control" onchange="prepMeetingDates(this.id)">
-			<option></option>
-			<!--<option value="1">City Council Regular Meeting</option>
+		<select id="meetingTypeSelect" name="meetingTypeSelect" class="form-control" data-dependent-on="committeeSelect"
+			data-field-hasvalue="false" data-field-values="meetingTypes" onchange="prepMeeting(this.id)">
+			<option value="0">Select Meeting Type</option>
+			<option value="1">City Council Regular Meeting</option>
 			<option value="2">City Council Special Meeting</option>
 			<option value="8">City Council Work Session</option>
-			<option value="4">City Council Subcommittee</option>-->
-
+			<option value="21">City Council Subcommittee: Audit</option>
+			<option value="22">City Council Subcommittee: Boards, Commissions and Committee Appointments</option>
+			<option value="23">City Council Subcommittee: Community Funding Review</option>
+			<option value="24">City Council Subcommittee: Executive Search Firm Selection</option>
 		</select>
 	</div>
 </div>
@@ -102,17 +108,38 @@
 	</div>
 </div>
 <br />
+
+<div class='row'>
+	<div class='col-sm-6'>
+		<div class='form-group'>
+			<label for="RecordationRequired">Recordation Required</label><span style="color: red;">*</span>
+			<select id="RecordationRequired" name="RecordationRequired" class="form-control">
+				<option value="0">Choose One</option>
+				<option value="Yes">Yes</option>
+				<option value="No">No</option>
+			</select>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class='col-sm-6'>
+		<div class='form-group'>
+			<label for="PublicationRequired">Publication Required</label><span style="color: red;">*</span>
+			<select id="PublicationRequired" name="PublicationRequired" class="form-control">
+				<option value="0">Choose One</option>
+				<option value="Yes">Yes</option>
+				<option value="No">No</option>
+			</select>
+
+		</div>
+	</div>
+</div>
+
+<br />
 <br />
 <legend>Staff Report</legend>
 <input type="hidden" name="MeetingDate" id="MeetingDate" />
 <input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
-<div class='row'>
-</div>
-</div>
-</div>
-
-
-
 <div class='row'>
 	<div class='col-md-12'>
 		<div class='form-group'>
@@ -126,7 +153,24 @@
 	<div class='col-md-12'>
 		<div class='form-group'>
 			<label for="StaffPresenters">STAFF PRESENTERS:</label><span style="color: red;">*</span>
-			<textarea class="form-control" name="StaffPresenter" id="StaffPresenter" rows="10" cols="160"></textarea>
+			<div class="row">
+				<div class="col-sm-6">
+					<select class="form-control" id="internalUsers" onchange="selectUser(this.id)">
+					</select>
+					<label for="CustomName">Add Custom Name</label>
+
+					<div class="input-group">
+						<input type="text" id="CustomName" name="CustomName" value="Name - Title" class="form-control">
+						<div class="input-group-addon"><span onclick="AddCustomUser()">add</span></div>
+
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<textarea class="form-control" name="StaffPresenter" id="StaffPresenter" rows="10"
+						disabled></textarea>
+					<span class="btn btn-default pull-right" onclick="clearForm()">Clear</span>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -195,39 +239,211 @@
 		</div>
 	</div>
 </div>
+<br />
+<br />
+<legend>Additional Questions</legend>
+<div class="row">
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="ContractSentSeparately">Will contract be sent separately</label><span
+				style="color: red;">*</span>
+			<input id="ContractSentSeparatelyY" type="checkbox" class="ContractSentSeparately"
+				name="ContractSentSeparately" value="Yes"> Yes
+			<input id="ContractSentSeparatelyN" type="checkbox" class="ContractSentSeparately"
+				name="ContractSentSeparately" value="No"> No
+		</div>
+	</div>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="OrdinanceRequirePosting">Does ordinance require posting (if penal provisions or associated
+				fees/fines)?</label><span style="color: red;">*</span>
+			<input id="OrdinanceRequirePostingY" type="checkbox" class="OrdinanceRequirePosting"
+				name="OrdinanceRequirePosting" value="Yes"> Yes
+			<input id="OrdinanceRequirePostingN" type="checkbox" class="OrdinanceRequirePosting"
+				name="OrdinanceRequirePosting" value="No"> No
+		</div>
+	</div>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="RateFeeChange">Does item affect rate fees?</label><span style="color: red;">*</span>
+			<input id="RateFeeChangeY" type="checkbox" class="RateFeeChange" name="RateFeeChange" value="Yes"> Yes
+			<input id="RateFeeChangeN" type="checkbox" class="RateFeeChange" name="RateFeeChange" value="No"> No
+		</div>
+	</div>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="EmergencyClauseOrdinance">Emergency clause ordinance?</label><span style="color: red;">*</span>
+			<input id="EmergencyClauseOrdinanceY" type="checkbox" class="EmergencyClauseOrdinance"
+				name="EmergencyClauseOrdinance" value="Yes"> Yes
+			<input id="EmergencyClauseOrdinanceN" type="checkbox" class="EmergencyClauseOrdinance"
+				name="EmergencyClauseOrdinance" value="No"> No
+		</div>
+	</div>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="ExhibitRequiresSignature">Does exhibit require signature?</label><span
+				style="color: red;">*</span>
+			<input id="ExhibitRequiresSignatureY" type="checkbox" class="ExhibitRequiresSignature"
+				name="ExhibitRequiresSignature" value="Yes"> Yes
+			<input id="ExhibitRequiresSignatureN" type="checkbox" class="ExhibitRequiresSignature"
+				name="ExhibitRequiresSignature" value="No"> No
+		</div>
+	</div>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="ProcurementItem">Procurement Item?</label><span style="color: red;">*</span>
+			<input id="ProcurementItemY" type="checkbox" class="ProcurementItem" name="ProcurementItem" value="Yes"> Yes
+			<input id="ProcurementItemN" type="checkbox" class="ProcurementItem" name="ProcurementItem" value="No"> No
+		</div>
+	</div>
+	<!--if yes-->
+	<div class='col-sm-12 '>
+		<div class='form-group'>
+			<label for="AccountCode">Account Code</label><span style="color: red;">*</span>
+			<input type="number" class="form-control" name="AccountCode" id="AccountCode">
+		</div>
+	</div>
 
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="ContractNumber">Contract #</label><span style="color: red;">*</span>
+			<input type="text" id="ContractNumber" class="form-control" name="ContractNumber">
+		</div>
+	</div>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="SpecialInstructions">Special Instructions</label><span style="color: red;">*</span>
+			<textarea class="form-control" id="SpecialInstructions" name="SpecialInstructions"></textarea>
+		</div>
+	</div>
 </div>
+
 <script>
+	var url = window.location.protocol + "//" + window.location.host + "/",
+		department = [];
 	$(document).ready(function () {
 		$("#ROW_Presenter").hide();
 		$("#ROW_CEQAVals").hide();
 		$("#ROW_EnvironmentalDetermination").hide();
 		$("textarea").attr('rows', '5');
 		$('[data-toggle="tooltip"]').tooltip();
-		
-		setTimeout(function(){
-		changeCommittee()
 
-		}, 5000)
-
-		populateDept();
+		displayUsersSelect('internalUsers')
 	})
+	/*ContractSentSeparately
+	OrdinanceRequirePosting
+	RateFeeChange
+	EmergencyClauseOrdinance
+	ExhibitRequiresSignature
+	ProcurementItem*/
+	var selectedBox = null;
+	$(".ContractSentSeparately").click(function () {selectedBox = this.id;
+		$(".ContractSentSeparately").each(function () {if (this.id == selectedBox) {this.checked = true;}else {this.checked = false;};});});
+	$(".OrdinanceRequirePosting").click(function () {selectedBox = this.id;
+		$(".OrdinanceRequirePosting").each(function () {if (this.id == selectedBox) {this.checked = true;}else {this.checked = false;};});});
+	$(".RateFeeChange").click(function () {selectedBox = this.id;
+		$(".RateFeeChange").each(function () {if (this.id == selectedBox) {this.checked = true;}else {this.checked = false;};});});
+	$(".EmergencyClauseOrdinance").click(function () {selectedBox = this.id;
+		$(".EmergencyClauseOrdinance").each(function () {if (this.id == selectedBox) {this.checked = true;}else {this.checked = false;};});});
+	$(".ExhibitRequiresSignature").click(function () {selectedBox = this.id;
+		$(".ExhibitRequiresSignature").each(function () {if (this.id == selectedBox) {this.checked = true;}else {this.checked = false;};});});
+	$(".ProcurementItem").click(function () {selectedBox = this.id;
+		$(".ProcurementItem").each(function () {if (this.id == selectedBox) {this.checked = true;}else {this.checked = false;};});});
 
-	function changeCommittee(){
-		$('#committeeSelect').val('1')
-		console.log('hippo')
+	function clearForm() {
+		$('#StaffPresenter').html('');
+	}
+	function AddCustomUser() {
+		var x = $('#CustomName').val();
+		if (x == "Name - Title") {
+			//reject name and alert user
+			alert("Please enter a name and Title");
+		} else {
+			$('#StaffPresenter').append(x + "\n")
+			var x = $('#CustomName').val("Name - Title");
+		}
+	}
+	function selectUser(id) {
+		var x = $('#internalUsers').val();
+		$('#StaffPresenter').append(x + "\n")
 	}
 
-	function prepMeetingDates(id){
-		console.log('foo2')
-		var meetingTypeSelectId = id;
-		var meetingTypeId = $('#'+id).val();
-				console.log(meetingTypeSelectId)
+	/*
+	* name: displayUsersSelect(userElement)
+	* description: Display all account users as options in a html select input.
+	* required function getAllUsers();
+	* required userElement
+	* param userElement. the id of the html select input where data will go. ID must be select element else will error
+	*/
+	function displayUsersSelect(userElement) {
+		var display = "<option>Select User</option>";
+		var users = getAllUsers().done(function (data) {
+			var department1 = department[0];
+			var y;
+			$(data).each(function (ind, val) {
+				if (val.position == undefined || val.position == null || val.position == "") {
+					y = ' '
+				} else {
+					y = ' - ' + val.position
+				}
+				var fullName = val.firstName + " " + val.lastName;
+				var deptId = val.departmentId
+				var accountName = $('#OriginatorName').val();
+				display += "<option value='" + fullName + y + "'>" + fullName + y + "</option>";
+			})
+			$('#' + userElement).append(display)
+		});
+	}
+
+	/*
+	* name: getAllUsers();
+	* description: simply return a JSON list of all users on the account.
+	*/
+	function getAllUsers() {
+		var url = window.location.protocol + "//" + window.location.host + "/";
+		return $.getJSON(url + 'api/User/list', function (d) {
+		})
+	}
+	function prepMeeting(id) {
+		var meetingTypeId = $('#meetingTypeSelect').val();
 		console.log(meetingTypeId)
 
-		loadMeetingDates(meetingTypeId, meetingTypeSelectId)
+		loadMeetingDates(meetingTypeId, 'meetingTypeSelect')
 	}
 
+	function loadMeetingDates(meetingTypeId, meetingTypeSelectId) {
+		if (meetingTypeId === "0") return;
+		$("#meetingDateSelect").html('')
+		$("#meetingDateSelect").append($("<option></option>").val(0).html("Select Meeting Type"));
+
+		$.getJSON(ROOT + "api/meeting/listupcomingbymeetingtype/?meetingTypeId=" + meetingTypeId, null, function (data) {
+			if (data.length > 0) {
+				$.each(data, function (index, meeting) {
+					var date = new Date(meeting.scheduledEvent.start);
+
+					$("#meetingDateSelect").append($("<option></option>").val(meeting.id).data("title", meeting.title).html((date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear()));
+				});
+			}
+			else {
+				$("#meetingDateSelect").append($("<option></option>").val("").html("No upcoming meetings"));
+			}
+		})
+	}
+	function loadMeetingSections(meetingId, meetingDataSelectId) {
+		if (meetingId === "0") return;
+
+		$.getJSON(ROOT + "api/meetingsectiontemplate/list/?meetingId=" + meetingId, null, function (data) {
+
+			$("#meetingSectionSelect").find("option").remove();
+			$("#meetingSectionSelect").append($('<option></option>').val(0).html("Select Section"));
+
+			$.each(data, function (index, section) {
+
+				$("#meetingSectionSelect").append($("<option></option>").val(section.meetingSectionId).html(section.name));
+
+			});
+		})
+	}
 	$('[data-toggle="popover"]').each(function () {
 		var $pop = $(this);
 		$pop.popover({
@@ -239,7 +455,6 @@
 			animation: false
 		})
 	})
-
 	function populateDept() {
 		var url = window.location.protocol + "//" + window.location.host + "/";
 
@@ -263,7 +478,6 @@
 			}
 		})
 	}
-
 	function getDept(id) {
 		var deptName;
 		var url = window.location.protocol + "//" + window.location.host + "/";
@@ -273,17 +487,7 @@
 			url: url + "api/department/list",
 			datatype: "json",
 			success: function (data) {
-				$.each(data, function (index, element) {
-					if (element.id == id) {
-						$("#Department").append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>')
-
-						$("#DeptNameHolder").val(element.name);
-						$("#DeptIdHolder").val(element.id);
-					}
-					else {
-						$("#Department").append('<option value="' + element.id + '">' + element.name + '</option>')
-					}
-				})
+				department.push(data)
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
 				alert("Error Occurred getting System Item Types: " + errorThrown);
@@ -315,7 +519,6 @@
 			}
 		})
 	}
-
 	function populateAuthor() {
 		var url = window.location.protocol + "//" + window.location.host + "/";
 
@@ -339,33 +542,62 @@
 	function setMeetingDate(sel) {
 		$("#MeetingDate").val(sel.options[sel.selectedIndex].text);
 		$("#MeetingDateDisplay").val(moment($("#MeetingDate").val().format('LL')));
+		var value = $('#meetingDateSelect').val();
+		loadMeetingSections(value, 'meetingDateSelect')
 	}
 
 	function showPresenterField() {
-		if ($("#ItemType option:selected").text() !== "Consent Calendar" && $("#ItemType option:selected").text() !== "") {
-			$("#ROW_Presenter").show();
-		}
-		else if ($("#ItemType option:selected").text() == "" || $("#ItemType option:selected").text() == null) {
-			$("#ROW_Presenter").hide();
-		}
-		else {
-			$("#ROW_Presenter").hide();
-		}
+		var itemType = $('#ItemType').val();
+		switch (itemType) {
+			case '19':
+				//Annexation
+				$('#RecordationRequired ').val("Yes").change()
+				$('#PublicationRequired ').val("Yes").change()
+				break;
+			case '20':
+				//Board of Adjustment
+				$('#RecordationRequired ').val("No").change()
+				$('#PublicationRequired ').val("No").change()
+				break;
+			case '21':
+				//Final Plat
+				$('#RecordationRequired ').val("No").change()
+				$('#PublicationRequired ').val("No").change()
+				break;
+			case '22':
+				//Other
+				$('#RecordationRequired ').val("No").change()
+				$('#PublicationRequired ').val("No").change()
+				break;
+			case '23':
+				//Preliminary Plat
+				$('#RecordationRequired ').val("Yes").change()
+				$('#PublicationRequired ').val("No").change()
+				break;
+			case '24':
+				//Rezone
+				$('#RecordationRequired ').val("Yes").change()
+				$('#PublicationRequired ').val("Yes").change()
+				break;
+			case '25':
+				//Special Use Permit
+				$('#RecordationRequired ').val("No").change()
+				$('#PublicationRequired ').val("Yes").change()
+				break;
+			case '26':
+				//Use Permit
+				$('#RecordationRequired ').val("No").change()
+				$('#PublicationRequired ').val("No").change()
+				break;
+			case '27':
+				//Zoning Ordinance Text Amendment
+				$('#RecordationRequired ').val("No").change()
+				$('#PublicationRequired ').val("Yes").change()
+				break;
+			default:
+				$('#RecordationRequired ').val("0").change()
+				$('#PublicationRequired ').val("0").change()
 
-		if ($("#ItemType option:selected").text() == "CONTRACT") {
-			$("#Recommendation").val('Award a contract to (company name) for (project or job name) in the amount of $______ and authorize (title of person) to execute the contract in substantially the form presented.\nOptional text: "establish a contingency fund in the amount of $____ and authorize the (title of person) to execute amendments/change orders within that amount."\n\nApprove Amendment No. ___ to the contract with (company name) for the purpose of _________ in the amount of $______ for a new contract total of $______.')
-		}
-		else if ($("#ItemType option:selected").text() == "AGREEMENT") {
-			$("#Recommendation").val('Approve an agreement to (company name) for (project or job name) in the amount of $______ and authorize (title of person) to execute the agreement in substantially the form presented.\nOptional text: "establish a contingency fund in the amount of $____ and authorize the (title of person) to execute amendments/change orders within that amount."\n\nApprove Amendment No. ___ to the agreement with (company name) for the purpose of _________ in the amount of $______ for a new contract total of $______.')
-		}
-		else if ($("#ItemType option:selected").text() == "RESOLUTION") {
-			$("#Recommendation").val('Adopt a Resolution to use an alternative purchasing method to\n\nAdopt a Resolution to')
-		}
-		else if ($("#ItemType option:selected").text() == "ORDINANCE") {
-			$("#Recommendation").val("Introduce an Ordinance to\n\nAdopt an Ordinance to")
-		}
-		else {
-			$("#Recommendation").val("")
 		}
 	}
 
