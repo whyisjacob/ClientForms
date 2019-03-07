@@ -1,285 +1,8 @@
-<style>
-	.popover-content {
-		width: max-content;
-		max-width: 700px;
-	}
-
-	.popover {
-		width: max-content;
-		max-width: 700px;
-	}
-
-	.1 {
-		counter-reset: item;
-	}
-
-	.2 {
-		counter-increment: item;
-	}
-
-	.3 {
-		counter-increment: item;
-	}
-</style>
-<input type="hidden" name="MeetingDate" id="MeetingDate" />
-<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
-<input type="hidden" name="DeptNameHolder" id="DeptNameHolder" />
-<input type="hidden" name="DeptIdHolder" id="DeptIdHolder" />
-<input type="hidden" name="DeptHeadId" id="DeptHeadId" />
-<input type="hidden" name="DivHeadId" id="DivHeadId" />
-
-<legend>Meeting Information</legend>
-
-<div class="form-group  dataType" data-type="Meeting Select With Sections">
-	<div class="row">
-		<label class="col-md-3 control-label col-centered" for="committeeSelect">Committee:</label>
-	</div>
-
-	<div class="row">
-		<div class="col-md-6">
-			<select id="committeeSelect" name="committeeSelect" data-for="meetingTypes" data-field-hasvalue="false"
-				data-field-values="committees" class="form-control "></select>
-		</div>
-	</div>
-</div>
-
-<div class="row">
-	<label class="col-md-3 control-label" for="meetingTypeSelect">Meeting Type:</label>
-</div>
-
-<div class="row">
-	<div class="col-md-6">
-		<select id="meetingTypeSelect" name="meetingTypeSelect" data-dependent-on="committeeSelect"
-			data-field-hasvalue="false" data-field-values="meetingTypes" class="form-control "></select>
-	</div>
-</div>
-
-<br />
-
-<div class="row">
-	<label class="col-md-3 control-label" for="meetingDateSelect">Meeting Date:</label>
-</div>
-
-<div class="row">
-	<div class="col-md-6">
-		<select id="meetingDateSelect" name="meetingDateSelect" data-dependent-on="meetingTypeSelect"
-			onChange="setMeetingDate(this);" data-field-hasvalue="false" data-field-values="meetingDates"
-			class="form-control "></select>
-	</div>
-</div>
-
-<br />
-
-<div class="row">
-	<label class="col-md-3 control-label" for="meetingSectionSelect">Meeting Section:</label>
-</div>
-
-<div class="row">
-	<div class="col-md-6">
-		<select id="meetingSectionSelect" name="meetingSectionSelect" data-dependent-on="meetingDateSelect"
-			data-field-hasvalue="false" data-field-values="meetingSections" class="form-control "></select>
-	</div>
-</div>
-
-<br />
-
-<div class="row">
-	<label class="col-md-3 control-label" for="ItemType">Item Type:</label>
-</div>
-
-<div class="row">
-	<div class="col-md-6">
-		<select id="ItemType" name="ItemType" data-name="ItemType" onchange="showPresenterField()"
-			class="form-control "></select>
-	</div>
-</div>
-<br />
-<br />
-<legend>Bid Proposal</legend>
-<div class="row">
-	<!--Item/Subject-->
-	<div class="col-sm-2 form-group">
-		<label for="ItemSubject">Item/Subject:</label>
-	</div>
-	<div class="col-sm-10 form-group">
-		<input type="text" class="form-control" name="ItemSubject" id="ItemSubject" placeholder="Item/Subject">
-	</div>
-	<!--Initiated By-->
-	<div class="col-sm-2 form-group">
-		<label for="InitiatedBy">Initiated By:</label>
-	</div>
-	<div class="col-sm-10 form-group">
-		<select id="InitiatedBy" class="form-control"></select>
-	</div>
-	<!--Reading-->
-	<div class="col-sm-6">
-		<div class="col-sm-4 form-group">
-			<label for="FirstReading">First Reading:</label>
-		</div>
-		<div class="col-sm-8 form-group">
-			<input type="date" class="form-control" name="FirstReading" id="FirstReading" placeholder="FirstReading">
-		</div>
-	</div>
-	<div class="col-sm-6">
-		<div class="col-sm-4 form-group">
-			<label for="FinalReading">Final Reading:</label>
-		</div>
-		<div class="col-sm-8 form-group">
-			<input type="date" class="form-control" name="FinalReading" id="FinalReading" placeholder="FinalReading">
-		</div>
-	</div>
-</div>
-<br />
-<br />
-<legend>Executive Summary</legend>
-<div class="row">
-	<div class="col-sm-12 form-group">
-		<p>
-			1. This item from <input type="text" name="VendorName" id="VendorName" placeholder="Vendor Name"> for <input type="text" name="Project" id="Project" placeholder="Project"> in the amount not to exceed $<input type="number" name="Amount" id="amount" placeholder="0.00">.<br><br>
-			<span class="form-group">
-				Reason For Purchase: 
-				<input type="text" name="ReasonForPurchase" id="ReasonForPurchase" placeholder="Reason For Purchase">
-			</span>
-		</p>
-	</div>
-	<!--Bid details-->
-	<div class="col-sm-2 form-group">
-		2. Bid details:
-	</div>
-	<div class="col-sm-10 form-group">
-		<textarea class="form-control" name="BidDetails" id="BidDetails" placeholder="- Number of bids received, list of bidders, amount of each bid and who was awarded bid. 
-- If non-qualified bids are listed, denote the bid was not qualified and why
-- If only one bid was received, list how many request for bids were sent out.
-- Was it a state or cooperative bid etc.
-- Reason: Example: low bid, if not low bid then include explanation as to why
-"></textarea>
-	</div>
-	<!--Additional Information-->
-	<div class="col-sm-2 form-group">
-		3. Additional Information:
-	</div>
-	<div class="col-sm-10 form-group">
-		<textarea class="form-control" name="Additional Information" id="AdditionalInformation" placeholder="Provide any additional information not mentioned previously"></textarea>
-	</div>
-
-	<!--ItemFunds-->
-	<div class="col-sm-2 form-group">
-		4. Funds for this item are budgeted in the :
-	</div>
-	<div class="col-sm-10 form-group">
-		<select id="ItemFunds" class="form-control" name="ItemFunds">
-			<option value="Current Years Budget">Current year’s budget</option>
-			<option value="Next Years Budget">Budgeted in the current year’s budget</option>
-		</select>
-	</div>
-
-</div>
-<br><br>
-<legend>Additional Information</legend>
-<div class="row">
-
-	<!--FINANCIAL IMPACT-->
-	<div class="col-sm-2 form-group">
-		<label for="FinancialImpact">Financial Impact:</label>
-	</div>
-	<div class="col-sm-10 form-group">
-		<select id="FinancialImpact" class="form-control" name="FinancialImpact">
-			<option value="NoImpact">No Impact / Not Applicable</option>
-			<option value="BudgetedInCurrentYearBudget">Budgeted in the current year’s budget</option>
-			<option value="Other">Other (See Additional see additional explanation under Detailed Analysis)</option>
-		</select>
-	</div>
-	<!--Staff Recommendation-->
-	<div class="col-sm-2 form-group">
-		<label for="StaffRecommendation">Staff Recommendation:</label>
-	</div>
-	<div class="col-sm-10 form-group">
-		<select id="FinancialImpact" class="form-control" name="StaffRecommendation">
-			<option value="Yes">Recommended</option>
-			<option value="No">Not Recommended</option>
-			<option value="Neutral">Neutral/None</option>
-		</select>
-	</div>
-	<div class="col-sm-12">
-		<!--left blank to fix weird behavior-->
-	</div>
-	<!--Community Plan 2030-->
-	<div class="col-sm-2 form-group">
-		<label for="CommunityPlan">Community Plan 2030:</label>
-	</div>
-	<div class="col-sm-10 form-group">
-		<select name="CommunityPlan" id="CommunityPlan" class="form-control">
-			<option>Form indicated list will be provided later</option>
-		</select>
-	</div>
-	<div class="col-xs-12"></div>
-	<!--Attached Exhibits-->
-	<div class="col-sm-2 form-group">
-		<label for="AttachedExhibits">Attached Exhibits:</label>
-	</div>
-	<div class="col-sm-10 form-group">
-		<textarea class="form-control" name="AttachedExhibits" id="AttachedExhibits"
-			placeholder="Attached Exhibits"></textarea>
-	</div>
-	<!--Detailed Analysis-->
-	<div class="col-sm-2 form-group">
-		<label for="DetailedAnalysis">Detailed Analysis:</label>
-	</div>
-	<div class="col-sm-10 form-group">
-		<textarea class="form-control" name="DetailedAnalysis" id="DetailedAnalysis"
-			placeholder="Required if 'other' is chosen on Financial Impact"></textarea>
-	</div>
-
-</div>
-<br/>
-<br/>
-<legend>Code Amendment</legend>
-<div class="row">
-    <!--Attached Exhibits-->
-	<div class="col-sm-2 form-group">
-		<label for="IncludeOrdinance">Include <i>(or create)</i> an ordinance?:</label>
-	</div>
-	<div class="col-sm-10 form-group">
-		<select id="IncludeOrdinance" class="form-control" name="IncludeOrdinance" onChange="AddOrdinance(this.id)">
-			<option></option>
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</select>
-	</div>
-	<div class="col-xs-12"></div>
-	<!--ordinance Section-->
-	<div id="ordinanceSection" >
-		<!--Vendor Name-->
-		<div class="col-sm-2 form-group">
-			<label for="VendorName">Vendor:</label>
-		</div>
-		<div class="col-sm-10 form-group">
-			<input type="text" class="form-control ordinanceCh" id="Vendor" name="Vendor" placeholder="Vendor"> 
-		</div>
-		<!--Vendor Name-->
-		<div class="col-sm-2 form-group">
-			<label for="ProjectName">Project:</label>
-		</div>
-		<div class="col-sm-10 form-group">
-			<input type="text" class="form-control ordinanceCh" id="ProjectName" name="ProjectName" placeholder="Project"> 
-		</div>
-		<!--Project Amount-->
-		<div class="col-sm-2 form-group">
-			<label for="ProjectAmount">Project Amount:</label>
-		</div>
-		<div class="col-sm-10 form-group">
-
-			<div class="input-group">
-      			<div class="input-group-addon">$</div>
-				<input type="text" class="form-control ordinanceCh" id="ProjectAmount" name="ProjectAmount" placeholder="0.00"> 
-			</div>
-		</div>
-		
-	</div>
-</div>
-
-
 <script>
+	var firstReadingPicker;
+	var finalReadingPicker;
+	var firstReadingPickerClose;
+	var finalReadingPickerClose;
 
 	$(document).ready(function () {
 		$("#ROW_Presenter").hide();
@@ -287,36 +10,101 @@
 		$("#ROW_EnvironmentalDetermination").hide();
 		$("textarea").attr('rows', '5');
 		$('#ordinanceSection').hide();
+		
+		//SET THE FIRST NUMBER IN BACKUPDOCUMENTATION NUMBERED LIST
+		$("#AttachedExhibits").val("1. ");
 
 		$('[data-toggle="tooltip"]').tooltip();
-		displayUsersSelect('InitiatedBy')
+		
 		populateDept();
+		
+		//*******************************ADDS KEYDOWN TO AttachedExhibits SO WHEN THE ENTER BUTTON IS PRESSED IT ADDS ANOTHER NUMBER TO THE NUMBERED LIST AUTOMATICALLY****************************************
+		$("#AttachedExhibits").keydown(function(event) {
+			if (event.which == 13) {
+				event.preventDefault();
+				
+				var bDoc = $("#AttachedExhibits").val();
+				var lines = bDoc.split(/\r|\r\n|\n/);
+				var count = lines.length
+				count = count + 1;		
+				
+				var press = jQuery.Event("keydown");		
+				press.ctrlKey = true;
+				press.which = 13;
+				
+				bDoc = bDoc + String.fromCharCode(press.which) + count + ". ";
+				
+				$("#AttachedExhibits").val(bDoc);
+			}
+		})
+		
+		firstReadingPicker = $('#FirstReading').pickadate({
+			labelMonthNext: 'Go to the next month',
+			labelMonthPrev: 'Go to the previous month',
+			labelMonthSelect: 'Pick a month from the dropdown',
+			labelYearSelect: 'Pick a year from the dropdown',			
+			format: 'mm/dd/yyyy',
+			formatSubmit: 'mm/dd/yyyy',
+			selectMonths: true,
+			selectYears: true
+		});
+		
+		finalReadingPicker = $('#FinalReading').pickadate({
+			labelMonthNext: 'Go to the next month',
+			labelMonthPrev: 'Go to the previous month',
+			labelMonthSelect: 'Pick a month from the dropdown',
+			labelYearSelect: 'Pick a year from the dropdown',			
+			format: 'mm/dd/yyyy',
+			formatSubmit: 'mm/dd/yyyy',
+			selectMonths: true,
+			selectYears: true
+		});
+		
+		firstReadingPickerClose = firstReadingPicker.pickadate('picker');
+		finalReadingPickerClose = finalReadingPicker.pickadate('picker');
+	})
+	
+	firstReadingPickerClose.on('close', function() {
+		
+	})
+	
+	finalReadingPickerClose.on('close', function() {
+		
 	})
 
-function AddOrdinance(id){
-		var choiceVal = $('#'+id).val();
-		if (choiceVal == "yes"){
+	function AddOrdinance(){
+		if ($("#IncludeOrdinance").is(':checked')) {
+			$("#ordinanceSection").find('input').each(function() {
+				$(this).prop('required', true);
+			})
+			
+			$("#ordinanceSection").find('textarea').each(function() {
+				$(this).prop('required', true);
+			})
+			
+			$("#ordinanceSection").find('select').each(function() {
+				$(this).prop('required', true);
+			})
+			
 			$('#ordinanceSection').show();
-			$('.ordinanceCh').each(function(ind,val){
-				var valId = $(val).attr('id');
-				$(val).attr('name','Document2.'+valId)
-			})
-		} else {
-			$('.ordinanceCh').each(function(ind,val){
-				var valId = $(val).attr('id');
-				$(val).attr('name', +valId)
-			})
-			$('#ordinanceSection').hide();
 		}
+		else {
+			$("#ordinanceSection").find('input').each(function() {
+				$(this).prop('required', false);
+			})
+			
+			$("#ordinanceSection").find('textarea').each(function() {
+				$(this).prop('required', false);
+			})
+			
+			$("#ordinanceSection").find('select').each(function() {
+				$(this).prop('required', false);
+			})
+			
+			$('#ordinanceSection').hide();
+		}		
 	}
-
-	/*
-	* name: displayUsersSelect(userElement)
-	* description: Display all account users as options in a html select input.
-	* required function getAllUsers();
-	* required userElement
-	* param userElement. the id of the html select input where data will go
-	*/
+	
 	function displayUsersSelect(userElement) {
 		var display;
 		var users = getAllUsers().done(function (data) {
@@ -326,7 +114,6 @@ function AddOrdinance(id){
 				if (!accountName == undefined) {
 					if (fullName == accountName) {
 						display += "<option value='" + fullName + "' selected='selected'>" + fullName + "</option>";
-
 					} else {
 						display += "<option value='" + fullName + "'>" + fullName + "</option>";
 					}
@@ -337,20 +124,13 @@ function AddOrdinance(id){
 			$('#' + userElement).append(display)
 		});
 	}
-
-	/*
-	* name: getAllUsers();
-	* description: simply return a JSON list of all users on the account.
-	*/
+	
 	function getAllUsers() {
 		var url = window.location.protocol + "//" + window.location.host + "/";
 		return $.getJSON(url + 'api/User/list', function (d) {
 		})
 	}
 
-    /**
-    * Required: inputName = name of select element that you are editing.
-    */
 	function isOther(inputName) {
 		var inputVal = $('#' + inputName).val();
 		if (inputVal == "Other") {
@@ -415,15 +195,18 @@ function AddOrdinance(id){
 			url: url + "api/department/list",
 			datatype: "json",
 			success: function (data) {
+				$("#InitiatedBy").empty();
+				$("#InitiatedBy").append('<option value=""></option>')
+				
 				$.each(data, function (index, element) {
 					if (element.id == id) {
-						$("#Department").append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>')
+						$("#InitiatedBy").append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>')
 
 						$("#DeptNameHolder").val(element.name);
 						$("#DeptIdHolder").val(element.id);
 					}
 					else {
-						$("#Department").append('<option value="' + element.id + '">' + element.name + '</option>')
+						$("#InitiatedBy").append('<option value="' + element.id + '">' + element.name + '</option>')
 					}
 				})
 			},
@@ -434,6 +217,9 @@ function AddOrdinance(id){
 	}
 
 	function populateDeptDivHeads() {
+		$("#DeptNameHolder").val($("#InitiatedBy option:selected").text());
+		$("#DeptIdHolder").val($("#InitiatedBy option:selected").val());
+						
 		var url = window.location.protocol + "//" + window.location.host + "/";
 
 		$.ajax({
@@ -442,7 +228,7 @@ function AddOrdinance(id){
 			datatype: "json",
 			success: function (data) {
 				$.each(data, function (index, element) {
-					if (element.name == $("#Department").val() + "_DH") {
+					if (element.name == $("#DeptNameHolder").val() + "_DH") {
 						$("#DeptHeadId").val(element.id);
 					}
 					else if (element.name == $("#Department").val() + "_DivHead") {
@@ -482,64 +268,463 @@ function AddOrdinance(id){
 		$("#MeetingDate").val(sel.options[sel.selectedIndex].text);
 		$("#MeetingDateDisplay").val(moment($("#MeetingDate").val().format('LL')));
 	}
-
-	function showPresenterField() {
-		if ($("#ItemType option:selected").text() !== "Consent Calendar" && $("#ItemType option:selected").text() !== "") {
-			$("#ROW_Presenter").show();
-		}
-		else if ($("#ItemType option:selected").text() == "" || $("#ItemType option:selected").text() == null) {
-			$("#ROW_Presenter").hide();
-		}
-		else {
-			$("#ROW_Presenter").hide();
-		}
-
-		if ($("#ItemType option:selected").text() == "CONTRACT") {
-			$("#Recommendation").val('Award a contract to (company name) for (project or job name) in the amount of $______ and authorize (title of person) to execute the contract in substantially the form presented.\nOptional text: "establish a contingency fund in the amount of $____ and authorize the (title of person) to execute amendments/change orders within that amount."\n\nApprove Amendment No. ___ to the contract with (company name) for the purpose of _________ in the amount of $______ for a new contract total of $______.')
-		}
-		else if ($("#ItemType option:selected").text() == "AGREEMENT") {
-			$("#Recommendation").val('Approve an agreement to (company name) for (project or job name) in the amount of $______ and authorize (title of person) to execute the agreement in substantially the form presented.\nOptional text: "establish a contingency fund in the amount of $____ and authorize the (title of person) to execute amendments/change orders within that amount."\n\nApprove Amendment No. ___ to the agreement with (company name) for the purpose of _________ in the amount of $______ for a new contract total of $______.')
-		}
-		else if ($("#ItemType option:selected").text() == "RESOLUTION") {
-			$("#Recommendation").val('Adopt a Resolution to use an alternative purchasing method to\n\nAdopt a Resolution to')
-		}
-		else if ($("#ItemType option:selected").text() == "ORDINANCE") {
-			$("#Recommendation").val("Introduce an Ordinance to\n\nAdopt an Ordinance to")
-		}
-		else {
-			$("#Recommendation").val("")
-		}
-	}
-
-	function ceqaReview() {
-		if ($("#CEQAReview").is(':checked')) {
-			$("#ROW_CEQAVals").show();
-			$("#ROW_EnvironmentalDetermination").show();
-		}
-		else {
-			$("#ROW_CEQAVals").hide();
-			$("#CEQAPublicResource").prop('checked', false);
-			$("#CEQAGuidline15301").prop('checked', false);
-			$("#CEQAGuidline15378B4").prop('checked', false);
-			$("#CEQAGuidline15378B5").prop('checked', false);
-
-			$("#ROW_EnvironmentalDetermination").hide();
-			$("#EnvironmentalDetermination").val("");
-		}
-	}
-
-	function updateEnvironmentalDetermination(id) {
-		if ($("#" + id).is(':checked')) {
-			$('[data-name="ceqavals"]').each(function () {
-				if (this.id !== id) {
-					$(this).prop('checked', false);
+	
+	function updateFinImpactHtml() {
+		var val = $("#FinancialImpact option:selected").val();
+		var html = "";
+		
+		if (val != "") {
+			$("#FinancialImpact option").each(function() {
+				if (val == $(this).val() && $(this).val() != "") {
+					if (html == "") {
+						html = '<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
+					}
+					else {
+						html = html + '\n<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
+					}
 				}
-			})
+				else if ($(this).val() != "") {
+					if (html == "") {
+						html = '<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
+					}
+					else {
+						html = html + '\n<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
+					}
+				}
+			})		
 
-			$("#EnvironmentalDetermination").val($('label[for="' + id + '"]').text());
+			$("#FinImpact").val(html);
 		}
 		else {
-			$("#EnvironmentalDetermination").val("");
+			$("#FinImpact").val("");
 		}
 	}
+	
+	function updateStaffRecHtml() {
+		var val = $("#StaffRecommendation option:selected").val();
+		var html = "";
+		
+		if (val != "") {
+			$("#StaffRecommendation option").each(function() {
+				if (val == $(this).val() && $(this).val() != "") {
+					if (html == "") {
+						html = '<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
+					}
+					else {
+						html = html + '\n<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
+					}
+				}
+				else if ($(this).val() != "") {
+					if (html == "") {
+						html = '<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
+					}
+					else {
+						html = html + '\n<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
+					}
+				}
+			})		
+
+			$("#StaffRec").val(html);
+		}
+		else {
+			$("#StaffRec").val("");
+		}
+	}
+	
+	function populateOrdinanceInfo(id) {		
+		if (id != "ProjectAmount" && id != "Amount") {									
+			$("[data-parent=" + id + "]").each(function() {
+				$(this).val($("#" + id).val());
+			})
+		}
+		else {
+			var removeDollarSign = $("#" + id).val();
+			removeDollarSign = removeDollarSign.replace("$", "");
+					
+			if (removeDollarSign.toString().indexOf(",") >= 0 && removeDollarSign.toString().indexOf(".") >= 0) {
+				removeDollarSign = removeDollarSign.replace(/[^0-9\.]/g, '');
+			}
+			if (removeDollarSign.toString().indexOf(".") >= 0 && removeDollarSign.toString().indexOf(",") < 0) {
+				removeDollarSign = +(removeDollarSign * 100);
+			}
+			else if (isNaN(removeDollarSign) || removeDollarSign == "") {
+				removeDollarSign = parseFloat(0, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
+				removeDollarSign = +(removeDollarSign * 100);
+			}
+			else {
+				removeDollarSign = parseFloat(removeDollarSign, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
+								
+				if (removeDollarSign.toString().indexOf(",") >= 0 && removeDollarSign.toString().indexOf(".") >= 0) {
+					removeDollarSign = removeDollarSign.replace(/[^0-9\.]/g, '');
+				}					
+				if (removeDollarSign.toString().indexOf(".") >= 0 && removeDollarSign.toString().indexOf(",") < 0) {
+					removeDollarSign = +(removeDollarSign * 100);
+				}
+			}
+					
+			if (isNaN(removeDollarSign)) {				
+				$("#" + id).val("$" + parseFloat(0, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+			}
+			else {
+				$("#" + id).val("$" + parseFloat($("#" + id).val(), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());		
+			}			
+		}
+	}
+	
+	function SelectAllText(id) {
+		var currency = $("#" + id).val().replace("$", "");
+		var newCurrency = "";
+
+		if (currency.indexOf(",") >= 0 && currency.indexOf(".") >= 0) {
+			newCurrency = (parseInt(currency.replace(/[^0-9\.]/g, '')));
+				
+			$("#" + id).val(newCurrency);
+		}
+		if (currency.indexOf(".") >= 0 && currency.indexOf(",") < 0) {
+			newCurrency = +(currency * 100) / 100;
+				
+			$("#" + id).val(newCurrency);			
+		}
+			
+		if (isNaN(newCurrency) || newCurrency == "") {
+			$("#" + id).val(0);
+		}
+			
+		if (document.selection) {
+			var range = document.body.createTextRange();
+			range.moveToElementText(document.getElementById(id));
+			range.select();
+		}
+		else if (window.getSelection) {
+			var range = document.createRange();
+			range.selectNodeContents(document.getElementById(id));
+			window.getSelection().removeAllRanges();
+			window.getSelection().addRange(range);			
+		}
+		
+		$("#" + id).select();
+	}
+	
+	//<div contenteditable="true" id="FinImpact" name="FinImpact" style="width: 500px; height: 150px; border: 1px solid black;"></div>
 </script>
+
+<style>
+	.popover-content {
+		width: max-content;
+		max-width: 700px;
+	}
+
+	.popover {
+		width: max-content;
+		max-width: 700px;
+	}
+</style>
+
+<body>
+	<input type="hidden" name="MeetingDate" id="MeetingDate" />
+	<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
+	<input type="hidden" name="DeptNameHolder" id="DeptNameHolder" />
+	<input type="hidden" name="DeptIdHolder" id="DeptIdHolder" />
+	<input type="hidden" name="DeptHeadId" id="DeptHeadId" />
+	<input type="hidden" name="DivHeadId" id="DivHeadId" />	
+	<input type="hidden" name="FinImpact" id="FinImpact" />
+	<input type="hidden" name="StaffRec" id="StaffRec" />
+	<input type="hidden" name="Document2.DocumentType" id="Document2.DocumentType" value="3" />
+	<input type="hidden" name="Document2.name" id="Document2.name" value="Bid Proposal - Ordinance" />
+	<input type="hidden" data-parent="ProjectVendorName" name="Document2.ProjectVendorName1" id="Document2.ProjectVendorName1" />
+	<input type="hidden" data-parent="ProjectVendorName" name="Document2.ProjectVendorName2" id="Document2.ProjectVendorName2" />
+	<input type="hidden" data-parent="ProjectVendorName" name="Document2.ProjectVendorName3" id="Document2.ProjectVendorName3" />
+	<input type="hidden" data-parent="ProjectName" name="Document2.ProjectName1" id="Document2.ProjectName1" />
+	<input type="hidden" data-parent="ProjectName" name="Document2.ProjectName2" id="Document2.ProjectName2" />
+	<input type="hidden" data-parent="ProjectName" name="Document2.ProjectName3" id="Document2.ProjectName3" />
+	<input type="hidden" name="NumberOfDocuments" id="NumberOfDocuments" value="2" />	
+
+	<legend>Meeting Information</legend>
+
+	<div class="form-group  dataType" data-type="Meeting Select With Sections">
+		<div class="row">
+			<label class="col-md-3 control-label col-centered" for="committeeSelect">Committee:</label>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<select id="committeeSelect" name="committeeSelect" data-for="meetingTypes" data-field-hasvalue="false" data-field-values="committees" class="form-control "></select>
+			</div>
+		</div>
+	</div>
+	
+	<br />
+
+	<div class="row">
+		<label class="col-md-3 control-label" for="meetingTypeSelect">Meeting Type:</label>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<select id="meetingTypeSelect" name="meetingTypeSelect" data-dependent-on="committeeSelect" data-field-hasvalue="false" data-field-values="meetingTypes" class="form-control "></select>
+		</div>
+	</div>
+
+	<br />
+
+	<div class="row">
+		<label class="col-md-3 control-label" for="meetingDateSelect">Meeting Date:</label>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<select id="meetingDateSelect" name="meetingDateSelect" data-dependent-on="meetingTypeSelect" onChange="setMeetingDate(this);" data-field-hasvalue="false" data-field-values="meetingDates" class="form-control "></select>
+		</div>
+	</div>
+
+	<br />
+
+	<div class="row">
+		<label class="col-md-3 control-label" for="meetingSectionSelect">Meeting Section:</label>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<select id="meetingSectionSelect" name="meetingSectionSelect" data-dependent-on="meetingDateSelect" data-field-hasvalue="false" data-field-values="meetingSections" class="form-control "></select>
+		</div>
+	</div>
+
+	<br />
+
+	<div class="row">
+		<label class="col-md-3 control-label" for="ItemType">Item Type:</label>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<select id="ItemType" name="ItemType" data-name="ItemType" class="form-control "></select>
+		</div>
+	</div>
+
+	<br />
+	<br />
+
+	<legend>Bid Proposal</legend>
+	
+	<div class="row">
+		<div class="col-sm-12 form-group">
+			<label for="Subject">Item/Subject:</label>
+			
+			<textarea rows="5" cols="100" class="form-control" name="Subject" id="Subject" placeholder="Item/Subject"></textarea>
+		</div>
+	</div>
+		
+	<div class="row">
+		<div class="col-sm-12 form-group">
+			<label for="InitiatedBy">Initiated By:</label>
+			
+			<select id="InitiatedBy" style="width: 450px;" name="InitiatedBy" onchange="populateDeptDivHeads()" class="form-control"></select>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div>
+			<div class="col-sm-12 form-group">
+				<div style="display: inline-block; width: 45%;">
+					<label for="FirstReading">First Reading:</label>
+				
+					<input type="text" style="width: 150px;" class="form-control datepicker" name="FirstReading" id="FirstReading" placeholder="FirstReading" />
+				</div>			
+		
+				<div style="display: inline-block; width: 45%;">
+					<label for="FinalReading">Final Reading:</label>
+
+					<input type="text" style="width: 150px;" class="form-control datepicker" name="FinalReading" id="FinalReading" placeholder="FinalReading" />
+				</div>
+			</div>			
+		</div>
+	</div>
+
+	<br />
+	<br />
+
+	<legend>Executive Summary</legend>
+	
+	<div class="row">
+		<div class="col-sm-12 form-group">
+			<label>1.</label> This item from <input style="width: 225px;" type="text" name="VendorName" id="VendorName" placeholder="Vendor Name"> for <input style="width: 225px;" type="text" name="Project" id="Project" placeholder="Project"> in the amount not to exceed <input style="width: 175px;" onblur="populateOrdinanceInfo(this.id)" onfocus="SelectAllText(this.id);" type="text" name="Amount" id="Amount" placeholder="$0.00">.
+				
+			<br />
+			<br />
+				
+			<span class="form-group" style="margin-left: 3%;">
+				<label for="Reason">Reason For Purchase:</label>
+				
+				<br />
+
+				<textarea style="margin-left: 5%;" rows="3" cols="100" name="Reason" id="Reason" placeholder="Description of item. Reason for purchase. If needed."></textarea>
+			</span>			
+		</div>
+	</div>
+		
+	<br />	
+	
+	<div class="row">
+		<div class="col-sm-12 form-group">
+			<label for="BidDetails">2. Bid details:</label>
+			
+			<i data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover" title="Bidder Instructions" data-content="- Number of bids received, list of bidders, amount of each bid who was awarded bid. If non-qualified bids are listed, denote the bid was not qualified and why<br>- If only one bid was received, list how many request for bids were sent out.<br>- Was it a state or cooperative bid etc.<br>- Reason: Example: low bid, if not low bid then include explanation as to why" class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
+			
+			<textarea rows="3" class="form-control" name="BidDetails" id="BidDetails" placeholder="Bid Details."></textarea>
+		</div>		
+	</div>
+	
+	<br />
+		
+	<div class="row">
+		<table class="form-group" style="width: 100%">
+			<tr>
+				<td style="text-align: center; width: 45%">
+					<label for="Bidders">BIDDER</label>
+				</td>
+				
+				<td></td>
+				
+				<td style="text-align: center; width: 45%">
+					<label for="Amounts">AMOUNT</label>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: center; width: 45%">
+					<textarea name="Bidders" id="Bidders" rows="3" cols="50" placeholder="List of Bidders."></textarea>
+				</td>
+				
+				<td></td>
+				
+				<td style="text-align: center; width: 45%">
+					<textarea name="Amounts" id="Amounts" rows="3" cols="50" placeholder="Amounts."></textarea>
+				</td>
+			<tr>
+		</table>
+	</div>
+		
+	<br />	
+	
+	<div class="row">
+		<div class="col-sm-12 form-group">
+			<label for="AdditionalInformation">3. Additional Information:</label>
+			
+			<textarea class="form-control" name="AdditionalInformation" id="AdditionalInformation" placeholder="Provide any additional information not mentioned previously"></textarea>
+		</div>		
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-12 form-group">			
+			<label>4.</label> Funds for this are budgeted in the <select class="form-control" style="width: 100px; display: inline;" name="BudgetYear" id="BudgetYear"><option value=""></option><option value="current">current</option><option value="next">next</option></select> year's budget.
+		</div>		
+	</div>
+
+	<br />	
+	
+	<br />
+	<br />
+	
+	<legend>Additional Information</legend>
+	
+	<div class="row">
+		<div class="col-sm-12">
+			<table style="width: 100%;">
+				<tr>
+					<td style="width: 45%;">
+						<div class="form-group">
+							<label style="font-size: 14pt; text-decoration: underline; font-weight: bold;">FINANCIAL IMPACT:</label>
+						</div>
+					</td>
+					
+					<td style="width: 45%;">
+						<div class="form-group">
+							<label style="font-size: 14pt; text-decoration: underline; font-weight: bold;">STAFF RECOMMENDATION:</label>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 45%;">			
+						<div class="form-group">
+							<select onchange="updateFinImpactHtml()" class="form-control" style="width: 400px;" name="FinancialImpact" id="FinancialImpact">
+								<option value=""></option>
+								<option value="0">No impact/Not applicable</option>
+								<option value="1">Budgeted in the current year's budget</option>
+								<option value="2">Other (See additional explanation)</option>
+							</select>						
+						</div>
+					</td>
+					
+					<td style="width: 45%;">
+						<div class="form-group">
+							<select onchange="updateStaffRecHtml()" class="form-control" style="width: 400px;" name="StaffRecommendation" id="StaffRecommendation">
+								<option value=""></option>
+								<option value="0">Recommended</option>
+								<option value="1">Not Recommended</option>
+								<option value="2">Neutral/None</option>
+							</select>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+	<br />	
+	
+	<div class="row">
+		<div class="col-sm-12 form-group">
+			<label for="CommunityPlan">Community Plan 2030:</label>
+
+			<select style="width: 500px" name="CommunityPlan" id="CommunityPlan" class="form-control">
+				<option>Form indicated list will be provided later</option>
+			</select>
+		</div>
+	</div>
+
+	<br />
+	
+	<div class="row">
+		<div class="col-sm-12 form-group">
+			<label for="AttachedExhibits">Attached Exhibits:</label>
+
+			<textarea rows="3" cols="100" class="form-control" name="AttachedExhibits" id="AttachedExhibits" placeholder="Attached Exhibits"></textarea>
+		</div>			
+	</div>
+
+	<br />
+	
+	<div class="row">
+		<div class="col-sm-12 form-group">
+			<label for="DetailedAnalysis">Detailed Analysis:</label>
+		
+			<textarea rows="3" class="form-control" name="DetailedAnalysis" id="DetailedAnalysis" placeholder="Required if 'other' is chosen on Financial Impact"></textarea>
+		</div>
+	</div>
+
+	<br />
+	<br />
+	
+	<legend>Code Amendment</legend>
+	
+	<div class="row">		
+		<div class="col-sm-12 form-group">
+			<input type="checkbox" id="IncludeOrdinance" name="IncludeOrdinance" onchange="AddOrdinance(this.id)"><label style="margin-left: 5px;" for="IncludeOrdinance">Include <i>(or create)</i> an ordinance?</label></input>			
+		</div>		
+	</div>
+	
+	<div class="row" id="ordinanceSection">			
+		<div class="col-sm-12 form-group">
+			<label for="VendorName">Vendor:</label>
+				
+			<input type="text" onblur="populateOrdinanceInfo(this.id)" class="form-control" style="width: 275px;" id="ProjectVendorName" name="ProjectVendorName" placeholder="Vendor"> 
+		</div>
+			
+		<div class="col-sm-12 form-group">
+			<label for="ProjectName">Project:</label>
+				
+			<input type="text" onblur="populateOrdinanceInfo(this.id)" class="form-control" style="width: 275px;" id="ProjectName" name="ProjectName" placeholder="Project"> 
+		</div>
+			
+		<div class="col-sm-12 form-group">
+			<label for="ProjectAmount">Project Amount:</label>
+				
+			<input type="text" onblur="populateOrdinanceInfo(this.id)" onfocus="SelectAllText(this.id);" class="form-control" style="width: 175px;" id="ProjectAmount" name="ProjectAmount" placeholder="$0.00"> 
+		</div>			
+	</div>
+</body>

@@ -42,7 +42,7 @@
 	<div class="row">
 		<div class="col-md-6">
 			<select id="committeeSelect" name="committeeSelect" class="form-control " disabled>
-				<option value="1">City Council</option>
+				<option value="2">Planning & Zoning Commission</option>
 			</select>
 		</div>
 	</div>
@@ -57,13 +57,7 @@
 		<select id="meetingTypeSelect" name="meetingTypeSelect" class="form-control" data-dependent-on="committeeSelect"
 			data-field-hasvalue="false" data-field-values="meetingTypes" onchange="prepMeeting(this.id)">
 			<option value="0">Select Meeting Type</option>
-			<option value="1">City Council Regular Meeting</option>
-			<option value="2">City Council Special Meeting</option>
-			<option value="8">City Council Work Session</option>
-			<option value="21">City Council Subcommittee: Audit</option>
-			<option value="22">City Council Subcommittee: Boards, Commissions and Committee Appointments</option>
-			<option value="23">City Council Subcommittee: Community Funding Review</option>
-			<option value="24">City Council Subcommittee: Executive Search Firm Selection</option>
+			<option value="13">Planning & Zoning Commission</option>
 		</select>
 	</div>
 </div>
@@ -112,8 +106,8 @@
 <div class='row'>
 	<div class='col-sm-6'>
 		<div class='form-group'>
-			<label for="RecordationRequired">Recordation Required</label><span style="color: red;">*</span>
-			<select id="RecordationRequired" name="RecordationRequired" class="form-control">
+			<label for="PlanningCommissionRequired">Planning Commission Required</label><span style="color: red;">*</span>
+			<select id="PlanningCommissionRequired" name="PlanningCommissionRequired" class="form-control">
 				<option value="0">Choose One</option>
 				<option value="Yes">Yes</option>
 				<option value="No">No</option>
@@ -124,8 +118,8 @@
 <div class="row">
 	<div class='col-sm-6'>
 		<div class='form-group'>
-			<label for="PublicationRequired">Publication Required</label><span style="color: red;">*</span>
-			<select id="PublicationRequired" name="PublicationRequired" class="form-control">
+			<label for="PublicHearingRequired">Public Hearing Required</label><span style="color: red;">*</span>
+			<select id="PublicHearingRequired" name="PublicHearingRequired" class="form-control">
 				<option value="0">Choose One</option>
 				<option value="Yes">Yes</option>
 				<option value="No">No</option>
@@ -141,13 +135,11 @@
 <input type="hidden" name="MeetingDate" id="MeetingDate" />
 <input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
 <div class='row'>
-	<div class='col-md-12'>
-		<div class='form-group'>
-			<label for="Subject">SUBJECT:</label><span style="color: red;">*</span>
-			<textarea class="form-control" name="Subject" id="Subject" rows="10" cols="160"></textarea>
-		</div>
-	</div>
 </div>
+</div>
+</div>
+
+
 
 <div class='row'>
 	<div class='col-md-12'>
@@ -176,6 +168,15 @@
 </div>
 
 <div class='row'>
+	<div class='col-md-12'>
+		<div class='form-group'>
+			<label for="StaffPresenters">STAFF PRESENTERS:</label><span style="color: red;">*</span>
+			<textarea class="form-control" name="StaffPresenter" id="StaffPresenter" rows="10" cols="160"></textarea>
+		</div>
+	</div>
+</div>
+
+<div class='row'>
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="SUMMARY">SUMMARY:</label><span style="color: red;">*</span>
@@ -194,8 +195,8 @@
 <div class='row'>
 	<div class='col-sm-12'>
 		<div class='form-group'>
-			<label for="FiscialImpact">FISCAL IMPACT</label><span style="color: red;">*</span>
-			<textarea class="form-control" name="FiscialImpact" id="FiscialImpact" rows="10" cols="160"></textarea>
+			<label for="FiscalAnalysis">FISCAL ANALYSIS</label><span style="color: red;">*</span>
+			<textarea class="form-control" name="FiscalAnalysis" id="FiscalAnalysis" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -239,35 +240,42 @@
 		</div>
 	</div>
 </div>
-<br />
-<br />
+
+</div>
 <legend>Additional Questions</legend>
 <div class="row">
+    <!--Case #-->
 	<div class='col-sm-12'>
 		<div class='form-group'>
-			<label for="ContractSentSeparately">Will contract be sent separately</label><span
+			<label for="CaseNumber">Case #</label><span style="color: red;">*</span>
+			<input type="text" id="CaseNumber" class="form-control" name="CaseNumber">
+		</div>
+	</div>
+    <!--Planning Commission Meeting Date-->
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="PlanningCommissionMtgDate">Planning Commission Meeting Date</label><span
 				style="color: red;">*</span>
-			<input id="ContractSentSeparatelyY" type="checkbox" class="ContractSentSeparately"
-				name="ContractSentSeparately" value="Yes"> Yes
-			<input id="ContractSentSeparatelyN" type="checkbox" class="ContractSentSeparately"
-				name="ContractSentSeparately" value="No"> No
+			<input id="PlanningCommissionMtgDate" type="date" class="PlanningCommissionMtgDate"
+				name="PlanningCommissionMtgDate">
 		</div>
 	</div>
+    <!--Land Use-->
 	<div class='col-sm-12'>
 		<div class='form-group'>
-			<label for="OrdinanceRequirePosting">Does ordinance require posting (if penal provisions or associated
-				fees/fines)?</label><span style="color: red;">*</span>
-			<input id="OrdinanceRequirePostingY" type="checkbox" class="OrdinanceRequirePosting"
-				name="OrdinanceRequirePosting" value="Yes"> Yes
-			<input id="OrdinanceRequirePostingN" type="checkbox" class="OrdinanceRequirePosting"
-				name="OrdinanceRequirePosting" value="No"> No
+			<label for="LandUse">Land Use?</label><span style="color: red;">*</span>
+			<input id="LandUseY" type="checkbox" class="LandUse"
+				name="LandUse" value="Yes"> Yes
+			<input id="LandUseN" type="checkbox" class="LandUse"
+				name="LandUse" value="No"> No
 		</div>
 	</div>
+    <!--Planning Commission Required-->
 	<div class='col-sm-12'>
 		<div class='form-group'>
-			<label for="RateFeeChange">Does item affect rate fees?</label><span style="color: red;">*</span>
-			<input id="RateFeeChangeY" type="checkbox" class="RateFeeChange" name="RateFeeChange" value="Yes"> Yes
-			<input id="RateFeeChangeN" type="checkbox" class="RateFeeChange" name="RateFeeChange" value="No"> No
+			<label for="PlanningCommissionRequired">Planning Commission Required?</label><span style="color: red;">*</span>
+			<input id="PlanningCommissionRequiredY" type="checkbox" class="PlanningCommissionRequired" name="PlanningCommissionRequired" value="Yes"> Yes
+			<input id="PlanningCommissionRequiredN" type="checkbox" class="PlanningCommissionRequired" name="PlanningCommissionRequired" value="No"> No
 		</div>
 	</div>
 	<div class='col-sm-12'>
@@ -324,14 +332,6 @@
 				<textarea id="ProjectStrings" name="ProjectStrings" class="form-control" disabled
 					placeholder="Added Project String Codes"></textarea>
 			</div>
-		</div>
-	</div>
-	<!--Contract #-->
-
-	<div class='col-sm-12'>
-		<div class='form-group'>
-			<label for="ContractNumber">Contract #</label><span style="color: red;">*</span>
-			<input type="text" id="ContractNumber" class="form-control" name="ContractNumber">
 		</div>
 	</div>
 	<div class='col-sm-12'>
@@ -422,13 +422,13 @@
 		}
 	}
 	var selectedBox = null;
-	$(".ContractSentSeparately").click(function () {
+	$(".LandUse").click(function () {
 		selectedBox = this.id;
-		$(".ContractSentSeparately").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+		$(".LandUse").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
 	});
-	$(".OrdinanceRequirePosting").click(function () {
+	$(".PlanningCommissionRequired").click(function () {
 		selectedBox = this.id;
-		$(".OrdinanceRequirePosting").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+		$(".PlanningCommissionRequired").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
 	});
 	$(".RateFeeChange").click(function () {
 		selectedBox = this.id;
@@ -648,52 +648,52 @@
 		switch (itemType) {
 			case '19':
 				//Annexation
-				$('#RecordationRequired ').val("Yes").change()
-				$('#PublicationRequired ').val("Yes").change()
+				$('#PlanningCommissionRequired ').val("No").change()
+				$('#PublicHearingRequired ').val("0").change()
 				break;
 			case '20':
 				//Board of Adjustment
-				$('#RecordationRequired ').val("No").change()
-				$('#PublicationRequired ').val("No").change()
+				$('#PlanningCommissionRequired ').val("0").change()
+				$('#PublicHearingRequired ').val("0").change()
 				break;
 			case '21':
 				//Final Plat
-				$('#RecordationRequired ').val("No").change()
-				$('#PublicationRequired ').val("No").change()
+				$('#PlanningCommissionRequired ').val("No").change()
+				$('#PublicHearingRequired ').val("No").change()
 				break;
 			case '22':
 				//Other
-				$('#RecordationRequired ').val("No").change()
-				$('#PublicationRequired ').val("No").change()
+				$('#PlanningCommissionRequired ').val("0").change()
+				$('#PublicHearingRequired ').val("0").change()
 				break;
 			case '23':
 				//Preliminary Plat
-				$('#RecordationRequired ').val("Yes").change()
-				$('#PublicationRequired ').val("No").change()
+				$('#PlanningCommissionRequired ').val("Yes").change()
+				$('#PublicHearingRequired ').val("No").change()
 				break;
 			case '24':
 				//Rezone
-				$('#RecordationRequired ').val("Yes").change()
-				$('#PublicationRequired ').val("Yes").change()
+				$('#PlanningCommissionRequired ').val("Yes").change()
+				$('#PublicHearingRequired ').val("Yes").change()
 				break;
 			case '25':
 				//Special Use Permit
-				$('#RecordationRequired ').val("No").change()
-				$('#PublicationRequired ').val("Yes").change()
+				$('#PlanningCommissionRequired ').val("Yes").change()
+				$('#PublicHearingRequired ').val("Yes").change()
 				break;
 			case '26':
 				//Use Permit
-				$('#RecordationRequired ').val("No").change()
-				$('#PublicationRequired ').val("No").change()
+				$('#PlanningCommissionRequired ').val("No").change()
+				$('#PublicHearingRequired ').val("No").change()
 				break;
 			case '27':
 				//Zoning Ordinance Text Amendment
-				$('#RecordationRequired ').val("No").change()
-				$('#PublicationRequired ').val("Yes").change()
+				$('#PlanningCommissionRequired ').val("Yes").change()
+				$('#PublicHearingRequired ').val("Yes").change()
 				break;
 			default:
-				$('#RecordationRequired ').val("0").change()
-				$('#PublicationRequired ').val("0").change()
+				$('#PlanningCommissionRequired ').val("0").change()
+				$('#PublicHearingRequired ').val("0").change()
 
 		}
 	}
