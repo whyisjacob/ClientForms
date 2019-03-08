@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8" />
+		
+        <title></title>
+		
+		<script type=“text/javascript”>
+			$(document).ready(function() {
+				$("#ROW_Department").hide();
+				
+				populateUsers();
+				
+				$("input").css('font-family', 'Calibri');
+				$("select").css('font-family', 'Calibri');
+				$("textarea").css('font-family', 'Calibri');
+				$("label").css('font-family', 'Calibri');
+				$("legend").css('font-family', 'Calibri');
+				$(".option").css('font-family', 'Calibri');
+				$("option").css('font-family', 'Calibri');
+			})
+			
+			function populateUsers() {
+				var url = window.location.protocol + "//" + window.location.host + "/";
+
+				$.ajax({
+					type: "Get",
+					url: url + "api/User/list",
+					datatype: "json",
+					success: function(data) {                                                              
+						$("#Preparedby").empty();
+						$("#Preparedby").append('<option value=""></option>');						
+		                                                               
+						$.each(data, function(index, element) {							
+							if (element.position == "") {
+								$("#Preparedby").append('<option data-name="' + element.firstName + ' ' + element.lastName + '" data-id="' + element.id + '" value="' + element.id + '">' + element.firstName + ' ' + element.lastName + '</option>');
+							}
+							else {								
+								$("#Preparedby").append('<option data-name="' + element.firstName + ' ' + element.lastName + ', ' + element.position + '" data-id="' + element.id + '" value="' + element.id + '">' + element.firstName + ' ' + element.lastName + ", " + element.position + '</option>');
+							}
+						})
+						
+						var sel = $("#Preparedby");
+						var selected = sel.val(); // cache selected value, before reordering
+						var opts_list = sel.find('option');
+						opts_list.sort(function(a, b) { return $(a).text() > $(b).text() ? 1 : -1; });
+						sel.html('').append(opts_list);
+						sel.val(selected);
+						
+						$('#Preparedby').selectize({
+							create: false,
+							sortField: 'text'
+						});
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("Error Occurred getting System Item Types: " + errorThrown);
+					}
+				})
+			}
+ 
+			function getDept(id) {
+				$("#OrigId").val(id);
+				$("#FLName").val($("#Preparedby option:selected").text());
+				
+				var url = window.location.protocol + "//" + window.location.host + "/";
+
+				$.ajax({
+					type: "Get",
+					url: url + "api/userGroup/list",
+					datatype: "json",
+					success: function(data) {
+						$("#Department").empty();
+						$("#Department").append('<option value=""></option>');
+						
+						$.each(data, function(index, element) {
+							$.each(element.users, function(index, ele) {								
+								if (id == ele.id) {
+									$("#Department").append('<option data-id="' + element.id + '" value="' + element.id + '" selected="selected">' + element.name + '</option>');
+								}
+							})
+						})
+						
+						//$("#ROW_Department").show();
+					},
+					error: function(data) {
+						alert("Error Occurred getting System Item Types: " + errorThrown);
+					}
+				})
+			}
+
+			function setMeetingDate(sel) {
+				document.getElementById("MeetingDate").value = sel.options[sel.selectedIndex].text
+				document.getElementById("MeetingDateDisplay").value = moment(document.getElementById("MeetingDate").value).format('LL'); 
+			}
+			
+			function setPosition(sel) {
+				document.getElementById("Title").value = sel.options[sel.selectedIndex].text
+			}
+			
+			function setMeetingType(sel) {
+				document.getElementById("MeetingType").value = sel.options[sel.selectedIndex].text
+			}
+		</script>
+	</head>
+	
+	<style>
+		textarea {  
+			font-family:"Calibri";
+			font-size: 12px;
+		}
+	</style>
+	
+    <body>
+		<input type="hidden" name="OrigId" id="OrigId" value="" />
+		<input type="hidden" name="FLName" id="FLName" value="" />
+		<input type="hidden" name="MeetingDate" id="MeetingDate" />
+		<input type="hidden" name="Title" id="Title" />
+		<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
+		<input type="hidden" name="MeetingType" id="MeetingType" />
+		
+		<legend>Agenda Item Form</legend>
+		
+		<div class="form-group  dataType" data-type="Meeting Select With Sections">
+			<div class="row">
+				<label class="col-md-3 control-label col-centered" for="committeeSelect">Committee:</label>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<select id="committeeSelect" name="committeeSelect" data-for="meetingTypes" onChange="setMeetingType(this);" data-field-hasvalue="false" data-field-values="committees" class="form-control " required="true" ></select>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<label class="col-md-3 control-label" for="meetingTypeSelect">Meeting Type:</label>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<select id="meetingTypeSelect" name="meetingTypeSelect" data-dependent-on="committeeSelect"  data-field-hasvalue="false" data-field-values="meetingTypes" class="form-control " required="true"></select>
+			</div>
+		</div>
+		
+        <br/>
+		
+		<div class="row">
+			<label class="col-md-3 control-label" for="meetingDateSelect">Meeting Date:</label>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<select id="meetingDateSelect" name="meetingDateSelect" data-dependent-on="meetingTypeSelect" onChange="setMeetingDate(this);"  data-field-hasvalue="false" data-field-values="meetingDates" class="form-control " required="true" ></select>
+			</div>
+		</div>
+
+		<br/>
+		
+		<div class="row">
+			<label class="col-md-3 control-label" for="meetingSectionSelect">Meeting Section:</label>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<select id="meetingSectionSelect" name="meetingSectionSelect" data-dependent-on="meetingDateSelect" data-field-hasvalue="false" data-field-values="meetingSections" class="form-control " required="true" ></select>
+			</div>
+		</div>
+
+		<br/>		
+
+		<legend>Report</legend>	
+		<div class='form-group'>
+			<div class="row">
+				<div class="col-md-6">
+					<label for="Preparedby">Prepared by:</label>
+				
+					<span style="color: red;">*</span>
+				</div>
+			</div>
+
+			<div class="row">	
+				<div class="col-md-6">
+					<select id="Preparedby" style="width: 555px;" name="Preparedby" onchange="getDept(this.value)" class="form-control " required="true"></select>
+				</div>
+			</div>
+		</div>
+
+		<div id="ROW_Department" class='form-group'>
+			<div class="row">
+				<div class="col-md-6">
+					<label for="Department">Department:</label>
+				
+					<span style="color: red;">*</span>
+				</div>
+			</div>
+
+			<div class="row">	
+				<div class="col-md-6">
+					<select id="Department" style="width: 555px;" name="Department" class="form-control " required="true"></select>
+				</div>
+			</div>
+		</div>		
+
+		<div class='row'>
+			<div class='col-md-12'>
+				<div class='form-group'>
+					<label for="Subject">SUBJECT:</label>
+
+					<span style="color: red;">*</span>
+
+					<textarea  class="form-control" name="Subject" id="Subject" rows="4" cols="160" required="true"></textarea>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
