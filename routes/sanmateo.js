@@ -20,4 +20,9 @@ module.exports = function (app) {
   app.get(innerUrl+"agenda_report_form", function (req, res) {
     res.render("sanmateo/agenda_report_form", { clientUrl: clientUrl,client: client,form: 'Agenda Report Form', innerUrl});
   });
+  //agenda_report_form_CCD_AdvancedPlanning
+  app.get(innerUrl+"agenda_report_form_CCD_AdvancedPlanning", function (req, res) {
+    res.render("sanmateo/agenda_report_form_CCD_AdvancedPlanning", { clientUrl: clientUrl,client: client,form: 'Agenda Report Form: CDD - Advanced Planning', innerUrl});
+  });
+
 }  

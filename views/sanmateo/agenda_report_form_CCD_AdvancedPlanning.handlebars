@@ -1,0 +1,967 @@
+<script>
+	var langArr;
+	var userArr;
+	
+	$(document).ready(function(){
+		$("#ROW_Presenter").hide();
+		$("#ROW_EnvironmentalDetermination").hide();		
+		
+		$('[data-toggle="tooltip"]').tooltip();
+		
+		langArr = [
+			{
+				'section': "Ceremonial", 'itemtype': "Informational", 'action': "Informational", 'recommendation': "Presentation or Informational"
+			},		
+			{
+				'section': "Consent ", 'itemtype': "Contract", 'action': "Generic", 'recommendation': "Award a contract to [company name] for [project or job name] in the amount of $[        ] and authorize [title of person] to execute the contract in substantially the form presented."
+			},
+			{
+				'section': "Consent", 'itemtype': "Contract", 'action': "Contingency", 'recommendation': "Award a contract to [company name] for [project or job name] in the amount of $[      ] ; establish a contingency fund in the amount of $[      ] and approve change orders within the contingency amount; and authorize the [title of person] to execute the contract in substantially the form presented."
+			},
+			{
+				'section': "Consent", 'itemtype': "Contract", 'action': "Amendment", 'recommendation': "Approve Amendment No. [    ] to the contract with [company name] for the purpose of [    ] in the amount of $[       ] for a new contract total of $ [       ]."
+			},
+			{
+				'section': "Consent", 'itemtype': "Contract", 'action': "Change Order", 'recommendation': "Approve Change Order # [      ] to the contract with [company name] for the purpose of [     ] in the amount of $[     ] for a new contract total of $ [     ]."
+			},
+			{
+				'section': "Consent", 'itemtype': "Agreement", 'action': "Generic", 'recommendation': "Approve an agreement with [company name] for [project or job name] in the amount of $[       ] and authorize [title of person] to execute the agreement in substantially the form presented."
+			},
+			{
+				'section': "Consent", 'itemtype': "Agreement", 'action': "Contingency", 'recommendation': "Approve an agreement to [company name] for [project or job name] in the amount of $[     ] ; establish a contingency fund in the amount of $[       ] and approve change orders within the contingency amount; and authorize the [title of person] to execute the agreement in substantially the form presented."
+			},
+			{
+				'section': "Consent", 'itemtype': "Agreement", 'action': "Amendment", 'recommendation': "Approve Amendment No. [       ] to the agreement with [company name] for [state the purpose] in the amount of $[     ] for a new agreement total of $ [     ]."
+			},
+			{
+				'section': "Consent", 'itemtype': "Agreement", 'action': "Change Order", 'recommendation': "Approve Change Order # [     ] to the agreement with [company name] for [state the purpose] in the amount of $[       ] for a new agreement total of $ [       ]."
+			},
+			{
+				'section': "Consent", 'itemtype': "Resolution", 'action': "Generic", 'recommendation': "Adopt a Resolution to"
+			},
+			{
+				'section': "Consent", 'itemtype': "Resolution", 'action': "Alternative Purchasing Method", 'recommendation': "Adopt a Resolution to use an alternative purchasing method to [enter into an agreement or contract] with [company name] for [project or job name] in the amount of $[        ] and authorize [title of person] to execute the contract in substantially the form presented."
+			},
+			{
+				'section': "Consent", 'itemtype': "Resolution", 'action': "Sole Source", 'recommendation': "Adopt a Resolution to find that calling for competitive bids would be impracticable and unavailing and approve a [purchase contract, agreement or contract] with [company name] for [project or job name] in the amount of $[        ] and authorize [title of person] to execute the contract in substantially the form presented."
+			},
+			{
+				'section': "Consent", 'itemtype': "Resolution", 'action': "Budget Transfer", 'recommendation': "Adopt a Resolution to authorize a budget transfer of $ [       ] from [identify budget account title/project name] to [identify budget account title/project name] for [reason for the transfer]."
+			},
+			{
+				'section': "Consent", 'itemtype': "Resolution", 'action': "Appropriation", 'recommendation': "Adopt a Resolution to appropriate $ [      ] from the [identify budget account title/project fund name] to the [      ] for [reason for the appropriation]."
+			},
+			{
+				'section': "Consent", 'itemtype': "Resolution", 'action': "Reso w/Contract", 'recommendation': "Adopt a Resolution to [explain why resolution is required to accompany contract] and award a contract to [company name] for [project or job name] in the amount of $[        ] and authorize [title of person] to execute the contract in substantially the form presented."
+			},
+			{
+				'section': "Consent", 'itemtype': "Resolution", 'action': "Reso w/Agreement", 'recommendation': "Adopt a Resolution to [explain why resolution is required to accompany agreement] and approve an agreement with [company name] for [project or job name] in the amount of $[       ] and authorize [title of person] to execute the agreement in substantially the form presented."
+			},
+			{
+				'section': "Consent", 'itemtype': "Ordinance", 'action': "Introduction", 'recommendation': "Introduce an Ordinance to"
+			},
+			{
+				'section': "Consent", 'itemtype': "Ordinance", 'action': "Adoption", 'recommendation': "Adopt an Ordinance to"
+			},
+			{
+				'section': "Consent", 'itemtype': "Informational", 'action': "Informational", 'recommendation': "Informational"
+			},
+			{
+				'section': "Consent", 'itemtype': "Miscellaneous", 'action': "Miscellaneous", 'recommendation': "Miscellaneous"
+			},
+			{
+				'section': "Consent", 'itemtype': "Minutes", 'action': "Minutes", 'recommendation': "Approve the minutes of the [insert meeting body] meeting of [insert date of meeting(s)]."
+			},
+			{
+				'section': "Consent", 'itemtype': "Routine Item", 'action': "Routine", 'recommendation': ""
+			},
+			{
+				'section': "Public Hearing", 'itemtype': "Appeals", 'action': "Reso re:appeal", 'recommendation': "Adopt a Resolution to [deny or approve] the appeal the [state commission] decision to [state action] Planning Application [insert address], Site Plan and Architectural Review for [describe project]; Site Development Planning Application for [describe application request]; and a Vesting Tentative Subdivision Map based on the Findings for Denial."
+			},
+			{
+				'section': "Public Hearing", 'itemtype': "Planning Application", 'action': "Reso re:planning application", 'recommendation': "Adopt a Resolution to approve the Site Plan and Architectural Review, Planned Development Special Use Permit, Site Development Planning Application, Vesting Tentative Map, General Plan Amendment, and Zoning Reclassification for a property located at [insert address] for [brief description of project]; and adopt the Mitigated Negative Declaration to assess the environmental impacts of the project, based on the Findings for Approval and subject to the Conditions of Approval."
+			},
+			{
+				'section': "Public Hearing", 'itemtype': "Resolution", 'action': "Generic", 'recommendation': "Adopt a Resolution to"
+			},
+			{
+				'section': "Public Hearing", 'itemtype': "Resolution", 'action': "Alternative Purchasing Method", 'recommendation': "Adopt a Resolution to use an alternative purchasing method to"
+			},
+			{
+				'section': "Public Hearing", 'itemtype': "Resolution", 'action': "Budget Transfer", 'recommendation': "Adopt a Resolution to authorize a budget transfer of $ [       ] for [identify budget account title/project name] to [identify budget account title/project name] for [reason for the transfer]."
+			},
+			{
+				'section': "Public Hearing", 'itemtype': "Resolution", 'action': "Appropriation", 'recommendation': "Adopt a Resolution to appropriate $ [      ] from the [       ] fund to the [       ] for [reason for the appropriation]."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Contract", 'action': "Generic", 'recommendation': "Award a contract to [company name] for [project or job name] in the amount of $[        ] and authorize [title of person] to execute the contract in substantially the form presented."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Contract", 'action': "Contingency", 'recommendation': "Award a contract to [company name] for [project or job name] in the amount of $[      ] ; establish a contingency fund in the amount of $[      ] and approve change orders within the contingency amount; and authorize the [title of person] to execute the contract in substantially the form presented."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Contract", 'action': "Amendment", 'recommendation': "Approve Amendment No. [    ] to the contract with [company name] for the purpose of [    ] in the amount of $[       ] for a new contract total of $ [       ]."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Contract", 'action': "Change Order", 'recommendation': "Approve Change Order # [      ] to the contract with [company name] for the purpose of [     ] in the amount of $[     ] for a new contract total of $ [     ]."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Agreement", 'action': "Generic", 'recommendation': "Approve an agreement with [company name] for [project or job name] in the amount of $[       ] and authorize [title of person] to execute the agreement in substantially the form presented."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Agreement", 'action': "Contingency", 'recommendation': "Approve an agreement to [company name] for [project or job name] in the amount of $[     ] ; establish a contingency fund in the amount of $[       ] and approve change orders within the contingency amount; and authorize the [title of person] to execute the agreement in substantially the form presented."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Agreement", 'action': "Amendment", 'recommendation': "Approve Amendment No. [       ] to the agreement with [company name] for [state the purpose] in the amount of $[     ] for a new agreement total of $ [     ]."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Agreement", 'action': "Change Order", 'recommendation': "Approve Change Order # [     ] to the agreement with [company name] for [state the purpose] in the amount of $[       ] for a new agreement total of $ [       ]."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Resolution", 'action': "Generic", 'recommendation': "Adopt a Resolution to"
+			},
+			{
+				'section': "Old Business", 'itemtype': "Resolution", 'action': "Alternative Purchasing Method", 'recommendation': "Adopt a Resolution to use an alternative purchasing method to"
+			},
+			{
+				'section': "Old Business", 'itemtype': "Resolution", 'action': "Budget Transfer", 'recommendation': "Adopt a Resolution to authorize a budget transfer of $ [       ] from [identify budget account title/project name] to [identify budget account title/project name] for [reason for the transfer]."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Resolution", 'action': "Appropriation", 'recommendation': "Adopt a Resolution to appropriate $ [      ] from the [identify budget account title/project fund name] to the [      ] for [reason for the appropriation]."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Ordinance", 'action': "Generic", 'recommendation': "Adopt an Ordinance to"
+			},
+			{
+				'section': "Old Business", 'itemtype': "Ordinance", 'action': "Intro Code Amendment", 'recommendation': "Introduce an Ordinance to amend the San Mateo Municipal Code Chapter [insert chapter number] [insert chapter title in “quotations”] [explain purpose of amendment]."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Ordinance", 'action': "Intro Code Chapter Addition", 'recommendation': "Introduce an Ordinance to amend the San Mateo Municipal Code to add [insert chapter number] [insert chapter title in “quotations”] [explain purpose of amendment]."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Ordinance", 'action': "Adopt Code Amendment", 'recommendation': "Adopt an Ordinance to amend the San Mateo Municipal Code Chapter [insert chapter number] [insert chapter title in “quotations”] [explain purpose of amendment]."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Ordinance", 'action': "Adopt Code Chapter Addition", 'recommendation': "Adopt an Ordinance to amend the San Mateo Municipal Code to add [insert chapter number] [insert chapter title in “quotations”] [explain purpose of amendment]."
+			},
+			{
+				'section': "Old Business", 'itemtype': "Informational", 'action': "Informational", 'recommendation': "Informational"
+			},
+			{
+				'section': "Old Business", 'itemtype': "Miscellaneous", 'action': "Miscellaneous", 'recommendation': "Miscellaneous"
+			},
+			{
+				'section': "New Business", 'itemtype': "Informational", 'action': "Informational", 'recommendation': "Informational"
+			},
+			{
+				'section': "New Business", 'itemtype': "Contract", 'action': "Generic", 'recommendation': "Award a contract to [company name] for [project or job name] in the amount of $[        ] and authorize [title of person] to execute the contract in substantially the form presented."
+			},
+			{
+				'section': "New Business", 'itemtype': "Contract", 'action': "Contingency", 'recommendation': "Award a contract to [company name] for [project or job name] in the amount of $[      ] ; establish a contingency fund in the amount of $[      ] and approve change orders within the contingency amount; and authorize the [title of person] to execute the contract in substantially the form presented."
+			},
+			{
+				'section': "New Business", 'itemtype': "Contract", 'action': "Amendment", 'recommendation': "Approve Amendment No. [    ] to the contract with [company name] for the purpose of [    ] in the amount of $[       ] for a new contract total of $ [       ]."
+			},
+			{
+				'section': "New Business", 'itemtype': "Contract", 'action': "Change Order", 'recommendation': "Approve Change Order # [      ] to the contract with [company name] for the purpose of [     ] in the amount of $[     ] for a new contract total of $ [     ]."
+			},
+			{
+				'section': "New Business", 'itemtype': "Agreement", 'action': "Generic", 'recommendation': "Approve an agreement with [company name] for [project or job name] in the amount of $[       ] and authorize [title of person] to execute the agreement in substantially the form presented."
+			},
+			{
+				'section': "New Business", 'itemtype': "Agreement", 'action': "Contingency", 'recommendation': "Approve an agreement to [company name] for [project or job name] in the amount of $[     ] ; establish a contingency fund in the amount of $[       ] and approve change orders within the contingency amount; and authorize the [title of person] to execute the agreement in substantially the form presented."
+			},
+			{
+				'section': "New Business", 'itemtype': "Agreement", 'action': "Amendment", 'recommendation': "Approve Amendment No. [       ] to the agreement with [company name] for [state the purpose] in the amount of $[     ] for a new agreement total of $ [     ]."
+			},
+			{
+				'section': "New Business", 'itemtype': "Agreement", 'action': "Change Order", 'recommendation': "Approve Change Order # [     ] to the agreement with [company name] for [state the purpose] in the amount of $[       ] for a new agreement total of $ [       ]."
+			},
+			{
+				'section': "New Business", 'itemtype': "Resolution", 'action': "Generic", 'recommendation': "Adopt a Resolution to"
+			},
+			{
+				'section': "New Business", 'itemtype': "Resolution", 'action': "Alternative Purchasing Method", 'recommendation': "Adopt a Resolution to use an alternative purchasing method to"
+			},
+			{
+				'section': "New Business", 'itemtype': "Resolution", 'action': "Budget Transfer", 'recommendation': "Adopt a Resolution to authorize a budget transfer of $ [       ] from [identify budget account title/project name] to [identify budget account title/project name] for [reason for the transfer]."
+			},
+			{
+				'section': "New Business", 'itemtype': "Resolution", 'action': "Appropriation", 'recommendation': "Adopt a Resolution to appropriate $ [      ] from the [identify budget account title/project fund name] to the [      ] for [reason for the appropriation]."
+			},
+			{
+				'section': "New Business", 'itemtype': "Ordinance", 'action': "Generic", 'recommendation': "Adopt an Ordinance to"
+			},
+			{
+				'section': "New Business", 'itemtype': "Ordinance", 'action': "Intro Code Amendment", 'recommendation': "Introduce an Ordinance to amend the San Mateo Municipal Code Chapter [insert chapter number] [insert chapter title in “quotations”] [explain purpose of amendment]."
+			},
+			{
+				'section': "New Business", 'itemtype': "Ordinance", 'action': "Intro Code Chapter Addition", 'recommendation': "Introduce an Ordinance to amend the San Mateo Municipal Code to add [insert chapter number] [insert chapter title in “quotations”] [explain purpose of amendment]."
+			},
+			{
+				'section': "New Business", 'itemtype': "Ordinance", 'action': "Adopt Code Amendment", 'recommendation': "Adopt an Ordinance to amend the San Mateo Municipal Code Chapter [insert chapter number] [insert chapter title in “quotations”] [explain purpose of amendment]."
+			},
+			{
+				'section': "New Business", 'itemtype': "Ordinance", 'action': "Adopt Code Chapter Addition", 'recommendation': "Adopt an Ordinance to amend the San Mateo Municipal Code to add [insert chapter number] [insert chapter title in “quotations”] [explain purpose of amendment]."
+			},
+			{
+				'section': "New Business", 'itemtype': "Ordinance", 'action': "Informational", 'recommendation': "Informational"
+			},
+			{
+				'section': "New Business", 'itemtype': "Ordinance", 'action': "Miscellaneous", 'recommendation': "Miscellaneous"
+			}
+		];		
+		
+		$.expr[":"].contains = $.expr.createPseudo(function(arg) {
+			return function( elem ) {
+				return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+			};
+		});
+		
+		populateDept();
+	})	
+	
+	$('[data-toggle="popover"]').each(function() {
+		var $pop = $(this);
+		$pop.popover({
+			html: true,
+			trigger: "hover",
+			title: $pop.attr('data-title'),
+			content: $pop.attr('data.content'),
+			container: $pop,
+			animation: false
+		})	
+	})
+	
+	function populateDept() {
+		var url = window.location.protocol + "//" + window.location.host + "/";		
+		
+		$.ajax({
+			type: "Get",
+			url: url + "api/user/list",
+			datatype: "json",
+			success: function(data) {				
+				$.each(data, function(index, element) {
+					//alert(element.id);
+					
+					if (element.id == $("#OriginatorId").val()) {
+						getDept(element.departmentId);						
+
+						populateDeptDivHeads();
+					}
+				})
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("Error Occurred getting populateDept: " + errorThrown);
+			}
+		})
+	}
+	
+	function getDept(id) {
+		var deptName;
+		var url = window.location.protocol + "//" + window.location.host + "/";		
+		
+		$.ajax({
+			type: "Get",
+			url: url + "api/department/list",
+			datatype: "json",
+			success: function(data) {
+				$("#Department").append('<option value=""> </option>');
+				$.each(data, function(index, element) {
+					if (element.id == id) {
+						$("#Department").append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>')
+						
+						$("#DeptNameHolder").val(element.name);
+						$("#DeptIdHolder").val(element.id);
+					}
+					else {						
+						$("#Department").append('<option value="' + element.id + '">' + element.name + '</option>')
+					}
+				})				
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("Error Occurred getting System Item Types: " + errorThrown);
+			}
+		})		
+	}
+	
+	function populateDeptDivHeads() {
+		var url = window.location.protocol + "//" + window.location.host + "/";		
+		
+		$.ajax({
+			type: "Get",
+			url: url + "api/userGroup/list",
+			datatype: "json",
+			success: function(data) {				
+				$.each(data, function(index, element) {					
+					if (element.name == $("#Department").val() + "_DH") {													
+						$("#DeptHeadId").val(element.id);						
+					}
+					else if (element.name == $("#Department").val() + "_DivHead") {
+						$("#DivHeadId").val(element.id);
+					}					
+				})
+				
+				populateAuthor();
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("Error Occurred getting System Item Types: " + errorThrown);
+			}
+		})
+	}
+	
+	function populateAuthor() {		
+		var url = window.location.protocol + "//" + window.location.host + "/";				
+		
+		$.ajax({
+			type: "Get",
+			url: url + "api/user/list",
+			datatype: "json",
+			success: function(data) {
+				userArr = data;
+				
+				$.each(data, function(index, ele) {					
+					if (ele.id == $("#OriginatorId").val()) {
+						$("#Author").append('<option selected="selected" value="' + ele.firstName + " " + ele.lastName + ", " + ele.position + '">' + ele.firstName + " " + ele.lastName + ", " + ele.position + '</option>');
+						
+						$("#Email").val(ele.email);
+					}
+					else {
+						$("#Author").append('<option value="' + ele.firstName + " " + ele.lastName + ", " + ele.position + '">' + ele.firstName + " " + ele.lastName + ", " + ele.position + '</option>');
+					}
+				})
+				
+				var sel = $("#Author");
+				var selected = sel.val();
+				var opts_list = sel.find('option');
+				opts_list.sort(function(a, b) { return $(a).text() > $(b).text() ? 1 : -1; });
+				sel.html('').append(opts_list);
+				sel.val(selected);
+				
+				$('#Author').selectize({
+					create: false,
+					sortField: 'text'
+				});
+				
+				$("#ItemType").children('option').hide();
+				$("#ItemType option:first-child").show();
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("Error Occurred getting System Item Types: " + errorThrown);
+			}
+		})
+	}
+	
+	function populateDepartmentInfo() {
+		$("#DeptNameHolder").val($("#Department option:selected").text());
+		$("#DeptIdHolder").val($("#Department option:selected").val());
+	}
+	
+	function populateEmail() {
+		$.each(userArr.filter(function(obj){ return obj.firstName.toLowerCase() === $("#Author option:selected").text().split(' ')[0].toLowerCase() && obj.lastName.toLowerCase() === $("#Author option:selected").text().split(' ')[1].replace(",", "").toLowerCase()}), function(index, objs) {			
+			$("#Email").val(objs.email);
+		})		
+	}
+	
+	function setMeetingDate(sel) {
+		$("#MeetingDate").val(sel.options[sel.selectedIndex].text);
+		$("#MeetingDateDisplay").val(moment($("#MeetingDate").val().format('LL')));
+    }	
+	
+	function populateItemType() {
+		$("#ItemType").children('option').hide();
+		$("#ItemType option:first-child").show();
+		$("#ItemType option:first-child").prop('selected', true);
+		
+		$("#Action").empty();
+		$("#Recommendation").val("");
+		
+		if ($("#meetingSectionSelect option:selected").text().toLowerCase().indexOf("consent calendar") < 0 && $("#meetingSectionSelect option:selected").text() !== "") {
+			$("#ROW_Presenter").show();
+			
+			//POPULATE ITEM TYPE		
+			$.each(langArr.filter(function(obj){ return obj.section.toLowerCase() === $("#meetingSectionSelect option:selected").text().toLowerCase()}), function(index, objs) {			
+				$("#ItemType").children('option:contains(' + objs.itemtype + ')').show();
+			})			
+		}
+		else if ($("#meetingSectionSelect option:selected").text().toLowerCase().indexOf("consent calendar") >= 0 && $("#meetingSectionSelect option:selected").text() !== "") {
+			$("#ROW_Presenter").hide();
+			
+			//POPULATE ITEM TYPE		
+			$.each(langArr.filter(function(obj){ return obj.section.toLowerCase() === "consent"}), function(index, objs) {			
+				$("#ItemType").children('option:contains(' + objs.itemtype + ')').show();
+			})
+		}
+		else if ($("#meetingSectionSelect option:selected").text() == "" || $("#meetingSectionSelect option:selected").text() == null) {
+			$("#ROW_Presenter").hide();
+			
+			//POPULATE ITEM TYPE		
+			$.each(langArr.filter(function(obj){ return obj.section.toLowerCase() === $("#meetingSectionSelect option:selected").text().toLowerCase()}), function(index, objs) {			
+				$("#ItemType").children('option:contains(' + objs.itemtype + ')').show();
+			})
+		}		
+		else {
+			$("#ROW_Presenter").hide();
+			
+			//POPULATE ITEM TYPE		
+			$.each(langArr.filter(function(obj){ return obj.section.toLowerCase() === $("#meetingSectionSelect option:selected").text().toLowerCase()}), function(index, objs) {			
+				$("#ItemType").children('option:contains(' + objs.itemtype + ')').show();
+			})
+		}		
+		
+		$("#ROW_ItemTypeActions").show();
+	}
+
+	function populateActions() {
+		$("#Recommendation").val("");
+		
+		$("#Action").empty();
+		$("#Action").append('<option> </option>');
+		
+		if ($("#meetingSectionSelect option:selected").text().toLowerCase().indexOf("consent calendar") >= 0 && $("#meetingSectionSelect option:selected").text() !== "") {
+			$.each(langArr.filter(function(obj){ return obj.section.toLowerCase() === "consent" && obj.itemtype.toLowerCase() === $("#ItemType option:selected").text().toLowerCase()}), function(index, objs) {			
+				$("#Action").append('<option value="' + objs.action +'">' + objs.action + '</option>')
+			})
+		}
+		else {		
+			$.each(langArr.filter(function(obj){ return obj.section.toLowerCase() === $("#meetingSectionSelect option:selected").text().toLowerCase() && obj.itemtype.toLowerCase() === $("#ItemType option:selected").text().toLowerCase()}), function(index, objs) {			
+				$("#Action").append('<option value="' + objs.action +'">' + objs.action + '</option>')
+			})
+		}
+	}
+	
+	function populateRecommendation() {
+		if ($("#meetingSectionSelect option:selected").text().toLowerCase().indexOf("consent calendar") >= 0 && $("#meetingSectionSelect option:selected").text() !== "") {
+			$.each(langArr.filter(function(obj){ return obj.section.toLowerCase() === "consent" && obj.itemtype.toLowerCase() === $("#ItemType option:selected").text().toLowerCase() && obj.action.toLowerCase() === $("#Action option:selected").text().toLowerCase()}), function(index, objs) {
+				$("#Recommendation").val(objs.recommendation)
+			})
+		}
+		else {
+			$.each(langArr.filter(function(obj){ return obj.section.toLowerCase() === $("#meetingSectionSelect option:selected").text().toLowerCase() && obj.itemtype.toLowerCase() === $("#ItemType option:selected").text().toLowerCase() && 	obj.action.toLowerCase() === $("#Action option:selected").text().toLowerCase()}), function(index, objs) {			
+				$("#Recommendation").val(objs.recommendation);
+			})
+		}
+	}	
+	
+	function updateEnvironmentalDetermination(id) {
+		if ($("#" + id).is(':checked')) {			
+			$('[data-name="ceqavals"]').each(function() {
+				if (this.id !== id) {
+					$(this).prop('checked', false);
+				}
+			})
+			
+			$("#EnvironmentalDetermination").val("<!DOCTYPE html>" + $('label[for="' + id + '"]').html());
+			
+			$("#ROW_EnvironmentalDetermination").show();
+		}
+		else {
+			$("#EnvironmentalDetermination").val("");
+			
+			$("#ROW_EnvironmentalDetermination").hide();
+		}		
+	}
+	
+	function hideSections() {		
+		if ($("#committeeSelect option:selected").text() == "City Council") {
+			$("#meetingSectionSelect option").hide();
+			$("#meetingSectionSelect option:first-child").show();
+		
+			$("#meetingSectionSelect option").each(function() {
+				if ($(this).text().toLowerCase() == "ceremonial" || $(this).text().toLowerCase().indexOf("consent") >= 0 || $(this).text().toLowerCase() == "old business" || $(this).text().toLowerCase() == "new business" || $(this).text().toLowerCase() == "public hearing") {
+					$(this).show();
+				}
+			})
+		}
+	}
+</script>
+
+<style>
+	.popover-content {		
+		width: max-content;
+		max-width: 700px;
+	}
+	
+	.popover {		
+		width: max-content;
+		max-width: 700px;
+	}
+	
+	.1 {
+		counter-reset: item;
+	}
+	
+	.2 {
+		counter-increment: item;
+	}
+	
+	.3 {
+		counter-increment: item;
+	}
+</style>
+
+<body>
+	<input type="hidden" name="MeetingDate" id="MeetingDate" />
+	<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
+	<input type="hidden" name="DeptNameHolder" id="DeptNameHolder" />
+	<input type="hidden" name="DeptIdHolder" id="DeptIdHolder" />
+	<input type="hidden" name="DeptHeadId" id="DeptHeadId" />
+	<input type="hidden" name="DivHeadId" id="DivHeadId" />
+
+	<legend>Meeting Information</legend>
+	
+
+	<div style="display: block;">
+		<div style="display: inline-block;" class="form-group  dataType" data-type="Meeting Select With Sections">
+			<div class="row">
+				<label style="width: 150px" class="col-md-3 control-label col-centered" for="committeeSelect">Committee:</label>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<select style="width: 450px;" id="committeeSelect" name="committeeSelect" data-for="meetingTypes" data-field-hasvalue="false" data-field-values="committees" class="form-control "></select>
+				</div>
+			</div>
+		</div>
+
+		<div style="display: inline-block; margin-left: 100px;" class="form-group  dataType" data-type="Meeting Select With Sections">
+			<div class="row">
+				<label style="width: 150px" class="col-md-3 control-label" for="meetingTypeSelect">Meeting Type:</label>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<select style="width: 450px;" id="meetingTypeSelect" name="meetingTypeSelect" data-dependent-on="committeeSelect" data-field-hasvalue="false" data-field-values="meetingTypes" class="form-control "></select>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br/>
+
+	<div>
+		<div style="display: inline-block;" class="form-group  dataType" data-type="Meeting Select With Sections">
+			<div class="row">
+				<label style="width: 150px" class="col-md-3 control-label" for="meetingDateSelect">Meeting Date:</label>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<select style="width: 450px;" id="meetingDateSelect" name="meetingDateSelect" data-dependent-on="meetingTypeSelect" onChange="setMeetingDate(this);"  data-field-hasvalue="false" data-field-values="meetingDates" class="form-control "></select>
+				</div>
+			</div>
+		</div>
+
+		<div style="display: inline-block; margin-left: 100px;" class="form-group  dataType" data-type="Meeting Select With Sections">
+			<div class="row">
+				<label style="width: 150px" class="col-md-3 control-label" for="meetingSectionSelect">Meeting Section:</label>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<select style="width: 450px;" onchange="populateItemType()" id="meetingSectionSelect" onclick="hideSections()" name="meetingSectionSelect" data-dependent-on="meetingDateSelect" data-field-hasvalue="false" data-field-values="meetingSections" class="form-control "></select>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<br />
+	
+	<div id="ROW_ItemTypeActions">
+		<div style="display: inline-block;" class="form-group  dataType" data-type="Meeting Select With Sections">
+			<div class="row">
+				<label style="width: 150px" class="col-md-3 control-label" for="ItemType">Item Type:</label>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<select style="width: 450px;" id="ItemType" name="ItemType" onchange="populateActions()" data-name="ItemType" class="form-control "></select>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div style="display: inline-block; margin-left: 100px;" class="form-group  dataType" data-type="Meeting Select With Sections">
+			<div class="row">
+				<label style="width: 150px" class="col-md-3 control-label" for="Action">Action:</label>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<select onchange="populateRecommendation()" style="width: 450px;" id="Action" name="Action" data-name="Action" class="form-control "></select>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br/>
+	<br/>
+            
+	<legend>Staff Report</legend>
+	
+	<div class='row' id="ROW_Presenter">
+		<div class='col-md-6'>
+			<div class='form-group'>
+				<label for="Presenter">Presenter:</label>
+
+				<input type="text" class="form-control" id="Presenter" name="Presenter" required="false" type="text" value=""/>
+			</div>
+		</div>		
+	</div>	
+
+	<div class='row'>
+		<div class='col-sm-6'>
+			<div class='form-group'>
+				<label for="Department">Department:</label>
+
+				<select class="form-control" id="Department" name="Department" required="false" onchange="populateDepartmentInfo()" placeholder="Please Select"></select>
+			</div>
+		</div>
+	</div>
+
+	<div class='row'>
+		<div class='col-md-12'>
+			<div class='form-group'>
+				<label for="Subject">Subject:</label>
+
+				<span style="color: red;">*</span>				
+
+				<textarea  class="form-control" name="Subject" id="Subject" rows="10" cols="160" required="true" placeholder="Item Title Goes here"></textarea>
+			</div>
+		</div>
+	</div>	
+
+	<div class='row' id="ROW_Recommendation">
+		<div class='col-sm-12'>
+			<div class='form-group'>
+				<label for="Recommendation">Recommendation:</label>
+
+				<span style="color: red;">*</span>				
+				
+				<i id="recInfo" data-container="#recInfo" data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover" title="Recommendation Instructions" data-content="The Recommendation is prepared so the public can understand what is being asked of Council and should be written with this audience in mind.<br><br>This may be read aloud as the actual motion by the city council/commission and may be reflected in the minutes as the action taken.<br><br>Always begin with the action. (for example, Adopt, Award, Approve, Review)<br><br>Be consistent in language - if you are awarding an agreement then keep using the term agreement - don't intermix agreement with contract - use the document found on the actual document heading.<br><br>Be consistent with tense of words "to approve" "to adopt"<br><br>Do not include internal details such as account numbers or planning application numb." class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
+				
+				<!--<i id="recInfo" data-container="#recInfo" data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover" title="Recommendation Instructions" data-content="This becomes the action used for the agenda and automated minutes.
+					
+						<ul>
+							<li class='1'>
+								recommendation should begin with the action:
+							</li>
+							
+							<ul>
+								<li class='2'>
+									'Award' if it went through a competitive process like an RFP
+								</li>
+								
+								<ul>
+									<li class='3'>
+										Award a contract / Award an agreement
+									</li>
+								</ul>
+								
+								<li class='2'>
+									'Approve'
+								</li>
+								
+								<ul>
+									<li class='3'>
+										Approve an amendment / Approve an agreement / Approve a contract
+									</li>
+								</ul>
+								
+								<li class='2'>
+									'Adopt a Resolution to ________'
+								</li>
+								
+								<ul>
+									<li class='3'>
+										Always capitalize Resolution here
+									</li>
+								</ul>
+							</ul>
+						</ul>
+					
+					EXAMPLES:
+
+						<ul>
+							<li class='1'>
+								'Adopt a Resolution to approve the Bicycle Master Plan' or
+							</li>
+							<li class='1'>
+								'Award a contract to XYZ Company for Super Awesome Project for $1,000,000 with a contingency and reserve not to exceed $50,000' or
+							</li>
+							<li class='1'>
+								'Appropriate funds from . . .
+							</li>
+							<li class='1'>
+								After stating what the action is indicate in this order
+							</li>
+							
+							<ul>
+								<li class='2'>
+									To whom (contract / vendor name)
+								</li>
+								<li class='2'>
+									For what
+								</li>
+								<li class='2'>
+									Amount - if there is a maximum state it as “in an amount not to exceed
+								</li>
+							</ul>
+							
+							<li class='1'>
+								Be consistent in language - if you are awarding an agreement then keep using the term agreement - don’t intermix agreement with contract - use the document type found on the actual document heading
+							</li>
+							<li class='1'>
+								Be consistent with tense of words used - do not use 'approving' 'awarding' for example 'Adopt a Resolution to approve'
+							</li>
+							<li class='1'>
+								Capitalize Resolution and titles like Mayor, City Manager
+							</li>
+							<li class='1'>
+								Left adjust the body of the AR - not block style
+							</li>
+							<li class='1'>
+								Identify who is authorized to execute the agreement/contract (City Manager or Department Head?)
+							</li>
+						</ul>
+						
+						This wording is used in the agenda preparation, may be read aloud as the actual motion by the City Council and is reflected in the minutes as the action taken.
+						
+						<br>
+						<br>
+						
+						It should have all the elements needed but do not include internal details such as account numbers which would confuse the public; but be in layman’s terms so a member of the public can understand what is being asked of Council." class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>-->
+
+				<textarea  class="form-control" name="Recommendation" id="Recommendation" required="true" rows="10" cols="160" placeholder="This information will appear on the agenda under Title, and may be used as a motion, so please be thoughtful here!"></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class='row'>
+		<div class='col-sm-12'>
+			<div class='form-group'>
+				<label for="Background">Background:</label>
+				
+				<i data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover" title="Background Instructions" data-content="Clear and concise statement of the issue, listing all data used in formulation of the Recommendation. Be sure to indicate all pertinent facts and background details. This data must be complete and thorough to ensure that the Council has the necessary information to concur with the Recommendation. This section is to include a brief recitation of other alternative recommendations seriously considered, if any, and why they were discarded. If the presentation and explanation or alternatives becomes too lengthy, break it up with subheadings or consider attaching specific parts of it as an attachment instead." class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
+
+				<textarea  class="form-control" name="Background" id="Background" required="false" rows="10" cols="160"></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class='row'>
+		<div class='col-sm-12'>
+			<div class='form-group'>
+				<label for="BudgetImpact">Budget Impact:</label>
+				
+				<i data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover" title="Budget Impact Instructions" data-content="PLEASE CONSIDER: ANY OTHER DEPT NEED TO BE NOTIFIED? FINANCE? HR? IT?
+				Describe:
+					<ul>
+						<li class='1'>
+							Fiscal impact of the Recommendation
+						</li>
+						<li class='1'>
+							Source of funding needed, whether budgeted or not
+						</li>
+						<li class='1'>
+							Account or project number if budgeted.
+						</li>
+						<li class='1'>
+							If this a one time or ongoing expense
+						</li>
+					</ul>
+					
+					If not budgeted, the budget amendment should normally also be included in the Recommendation; otherwise provide explanation. In the case of onetime expense, it is important to indicate if any ongoing funding will be required such as for maintenance and or set aside for future replacement together with the anticipated funding source." class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
+
+				<textarea  class="form-control" name="BudgetImpact" id="BudgetImpact" required="false" rows="10" cols="160"></textarea>
+			</div>
+		</div>
+	</div>
+	
+	<div class='row'>
+		<div class='col-sm-12'>
+			<div class='form-group'>
+				<label for="NoticeProvided">Notice Provided:</label>
+				
+				<i data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover" title="Notice Provided Instructions" data-content="All meeting noticing requirements were met.<br><br>The directions FOR SPECIFIC....can be deleted if not used." class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
+
+				<textarea  class="form-control" name="NoticeProvided" id="NoticeProvided" rows="10" required="false" cols="160"></textarea>
+			</div>
+		</div>
+	</div>
+	
+	<div class='row'>
+		<div class='col-sm-12'>
+			<div class='form-group'>
+				<label for="Attachments">Attachments:</label>
+				
+				<i data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover" title="Attachments Instructions" data-content="List and attach all documents that are necessary for Council review. The first attachments should be any formal action being requested of the City Council; that is, ordinances and resolutions should be listed first followed by supporting documentation. ALL EXHIBITS SHOULD BE COMBINED INTO ONE DOCUMENT WITH RESO or AGREEMENT
+				
+				<br>
+				<br>
+				
+				Att 1 - Typically Proposed Resolution(s) or Ordinance(s)
+				
+				<br>
+				
+				<div style='margin-left: 41px;'>Anything to be appended to the attachments are listed as Exhibits in alpha order: e.g., Exhibit A, Exhibit B.</div>
+				Att 2 - Typically Agreement or Contract
+				
+				<br>
+				
+				Att 3 - Other background supporting documents, etc.
+				
+				<br>
+				<br>
+				
+				<ul>
+					<li class='1'>
+						If attaching a Resolution list as 'Att 1 - Proposed Resolution'
+					</li>
+					<li class='1'>
+						If Resolution and/or agreement has exhibits attached, state this when listing the attachment.
+							Att 1 - (title)
+								Exhibit A - Scope of Services
+								combine exhibits into one document with agreement
+					</li>				
+				</ul>" class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
+
+				<textarea  class="form-control" name="Attachments" id="Attachments" required="false" rows="10" cols="160"></textarea>
+			</div>
+		</div>
+	</div>
+	
+	<br />
+	<br />
+	
+	<legend>CEQA Review</legend>	
+	
+	<div class='row' id="ROW_CEQAVals">
+		<div class='col-md-12' style="margin-left: 20px;">
+			<div class='form-group' style="display: inline-block; margin-bottom: 15px;">
+				<table>
+					<tr>
+						<td style="width: 40px; vertical-align: top;">
+							<input type="checkbox" data-name="ceqavals" onchange="updateEnvironmentalDetermination(this.id)" name="CEQAPublicResource" id="CEQAPublicResource" />
+						</td>
+						
+						<td>
+							<label for="CEQAPublicResource">This <span class="text-info"> [describe what City Council is being asked to do]</span> is not a project subject to CEQA, because it can be seen with certainty that it will not cause a physical change in the environment. (Public Resources Code Section 21065.)22222</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class='form-group' style="display: inline-block; margin-bottom: 15px;">
+				<table>
+					<tr>
+						<td style="width: 40px; vertical-align: top;">
+							<input type="checkbox" data-name="ceqavals" onchange="updateEnvironmentalDetermination(this.id)" name="CEQAGuidline15301" id="CEQAGuidline15301" />
+						</td>
+						
+						<td>
+							<label for="CEQAGuidline15301">This <span class="text-info"> [describe what City Council is being asked to do]</span> is categorically exempt from CEQA as an “existing facility,” because it consists of the operation, repair, maintenance, permitting, leasing, licensing, or minor alteration of existing public or private structures, facilities, mechanical equipment, or topographical features, involving negligible or no expansion of use. (CEQA Guidelines Section 15301.)</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class='form-group' style="display: inline-block; margin-bottom: 15px;">
+				<table>
+					<tr>
+						<td style="width: 40px; vertical-align: top;">
+							<input type="checkbox" data-name="ceqavals" onchange="updateEnvironmentalDetermination(this.id)" name="CEQAGuidline15378B4" id="CEQAGuidline15378B4" />
+						</td>
+						
+						<td>
+							<label for="CEQAGuidline15378B4">This <span class="text-info"> [describe what City Council is being asked to do]</span> is not a project subject to CEQA, because it is a government fiscal activity which does not involve any commitment to any specific project which may result in a potentially significant physical impact on the environment. (CEQA Guidelines Section 15378(b)(4).)</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class='form-group' style="display: inline-block; margin-bottom: 15px;">
+				<table>
+					<tr>
+						<td style="width: 40px; vertical-align: top;">
+							<input type="checkbox" data-name="ceqavals" onchange="updateEnvironmentalDetermination(this.id)" name="CEQAGuidline15378B5" id="CEQAGuidline15378B5" />
+						</td>
+						
+						<td>			
+							<label for="CEQAGuidline15378B5">This <span class="text-info"> [describe what City Council is being asked to do]</span> is not a project subject to CEQA, because it is an organizational or administrative activity that will not result in direct or indirect physical changes in the environment. (CEQA Guidelines Section 15378(b)(5).)</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class='row' id="ROW_EnvironmentalDetermination">
+		<div class='col-sm-12'>
+			<div class='form-group'>
+				<label for="EnvironmentalDetermination">Environmental Determination:</label>
+				
+				<i data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover" title="Environmental Impact Instructions" data-content="State whether item requires environmental review or not.
+				
+				<br>
+				
+				EXAMPLES you can copy/paste. Review CEQA exemption options here:
+				<a href='https://cityofsanmateoorg.sharepoint.com/departments/attorney/Documents/CEQA Exemptions.docx' target='_blank'>
+					https://cityofsanmateoorg.sharepoint.com/departments/attorney/Documents/CEQA Exemptions.docx
+				</a>
+				
+				<br>
+				<br>
+				
+				'Environmental Impact Report approved (fill in date of approval),'
+				
+				<br>
+				
+				'Negative Declaration for the project was prepared on <span class="text-danger">[Insert Date]</span> and is available for review at <span class="text-danger">_____</span>.'
+				
+				<br>
+				
+				'In accordance with Public Resources Code section <span class="text-danger">_____</span>/CEQA Guidelines section <span class="text-danger">_____</span>, this is not a project subject to CEQA because <span class="text-danger">_____</span>.'
+				
+				<br>
+				
+				'Categorically exempt prusuant to California Environmental Quality Act Guideline <span class="text-danger">(fill in code number)</span>,'" class="glyphicon glyphicon-info-sign" aria-hidden="true">							
+				</i>
+
+				<textarea  class="form-control" name="EnvironmentalDetermination" required="false" id="EnvironmentalDetermination" rows="10" cols="160"></textarea>
+			</div>
+		</div>
+	</div>
+	
+	<br />
+	<br />	
+	
+	<legend>Staff Contact</legend>
+	<div class='row'>
+		<div class='col-sm-12'>
+			<div class='form-group' style="display: inline-block; vertical-align: middle;">
+				<label for="Author">Author:</label>
+				
+				<i data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover" title="Author Instructions" data-content="Include who prepared the report in this section." class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
+
+				<select onchange="populateEmail()" type="text" required="false" class="form-control" id="Author" name="Author" style="width: 350px;"></select>
+			</div>
+			
+			<div class='form-group' style="display: inline-block; margin-left: 3%;  vertical-align: middle;">
+				<label for="Email">Email:</label>
+				
+				<i data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover" title="Email Instructions" data-content="DO NOT create email address into a link." class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
+
+				<input type="text" style="width: 350px;" type="text" required="false" class="form-control" name="Email" id="Email" />
+			</div>
+			
+			<div class='form-group' style="display: inline-block; margin-left: 3%;  vertical-align: middle;">
+				<label for="PhoneNumber">Number:</label>
+				
+				<i data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover" title="Phone Number Instructions" data-content="Example: (650)XXX-XXXX" class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
+
+				<input type="text" style="width: 350px;" type="text" class="form-control" required="false" name="PhoneNumber" id="PhoneNumber" value="" />
+			</div>
+		</div>
+	</div>	
+ </body>
