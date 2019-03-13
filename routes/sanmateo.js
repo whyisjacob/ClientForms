@@ -1,6 +1,6 @@
 var express = require("express");
 var app = express.Router();
-var clientUrl = "Https://sanmateo.primegov.com"
+var clientUrl = "https://sanmateo.primegov.com"
 var client = "San Mateo"
 var Form;
 var innerUrl = "/sanmateo/"
@@ -23,6 +23,10 @@ module.exports = function (app) {
   //agenda_report_form_CCD_AdvancedPlanning
   app.get(innerUrl+"agenda_report_form_CCD_AdvancedPlanning", function (req, res) {
     res.render("sanmateo/agenda_report_form_CCD_AdvancedPlanning", { clientUrl: clientUrl,client: client,form: 'Agenda Report Form: CDD - Advanced Planning', innerUrl});
+  });
+  //Agenda Report Form: City Clerk
+  app.get(innerUrl+"agenda_report_form_CityClerk", function (req, res) {
+    res.render("sanmateo/agenda_report_form_CityClerk", { clientUrl: clientUrl,client: client,form: 'Agenda Report Form: City Clerk', innerUrl});
   });
 
 }  
