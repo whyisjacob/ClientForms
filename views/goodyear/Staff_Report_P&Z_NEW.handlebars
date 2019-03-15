@@ -106,8 +106,8 @@
 <div class='row'>
 	<div class='col-sm-6'>
 		<div class='form-group'>
-			<label for="PlanningCommissionRequired">Planning Commission Required</label><span style="color: red;">*</span>
-			<select id="PlanningCommissionRequired" name="PlanningCommissionRequired" class="form-control">
+			<label for="RecordationRequired">Recordation Required</label><span style="color: red;">*</span>
+			<select id="RecordationRequired" name="RecordationRequired" class="form-control">
 				<option value="0">Choose One</option>
 				<option value="Yes">Yes</option>
 				<option value="No">No</option>
@@ -118,8 +118,9 @@
 <div class="row">
 	<div class='col-sm-6'>
 		<div class='form-group'>
-			<label for="PublicHearingRequired">Public Hearing Required</label><span style="color: red;">*</span>
-			<select id="PublicHearingRequired" name="PublicHearingRequired" class="form-control">
+			<label for="PublicationRequired">Publication Required</label><span style="color: red;">*</span>
+			<select id="PublicationRequired" name="PublicationRequired" class="form-control"
+				onclick="PublicationRequired1()">
 				<option value="0">Choose One</option>
 				<option value="Yes">Yes</option>
 				<option value="No">No</option>
@@ -129,49 +130,68 @@
 	</div>
 </div>
 
-<br />
-<br />
-<legend>Staff Report</legend>
-<input type="hidden" name="MeetingDate" id="MeetingDate" />
-<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
-<div class='row'>
-</div>
-</div>
-</div>
-
-
-
-<div class='row'>
-	<div class='col-md-12'>
+<div class="row PublicationRequired">
+	<div class='col-sm-6'>
 		<div class='form-group'>
-			<label for="StaffPresenters">STAFF PRESENTERS:</label><span style="color: red;">*</span>
-			<div class="row">
-				<div class="col-sm-6">
-					<select class="form-control" id="internalUsers" onchange="selectUser(this.id)">
-					</select>
-					<label for="CustomName">Add Custom Name</label>
-
-					<div class="input-group">
-						<input type="text" id="CustomName" name="CustomName" value="Name - Title" class="form-control">
-						<div class="input-group-addon"><span onclick="AddCustomUser()">add</span></div>
-
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<textarea class="form-control" name="StaffPresenter" id="StaffPresenter" rows="10"
-						disabled></textarea>
-					<span class="btn btn-default pull-right" onclick="clearForm()">Clear</span>
-				</div>
-			</div>
+			<label for="HowManyTimes">How many times?</label>
+			<input type="number" name="HowManyTimes" id="HowManyTimes" class="form-control">
+		</div>
+	</div>
+	<div class='col-sm-6'>
+		<div class='form-group'>
+			<label for="PubSpecialInstructions">Publication Special Instructions</label>
+			<input type="text" name="PubSpecialInstructions" id="PubSpecialInstructions" class="form-control">
 		</div>
 	</div>
 </div>
 
+
+<br />
+<br />
+<legend>Council Action Report</legend>
+<input type="hidden" name="MeetingDate" id="MeetingDate" />
+<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
 <div class='row'>
 	<div class='col-md-12'>
 		<div class='form-group'>
-			<label for="StaffPresenters">STAFF PRESENTERS:</label><span style="color: red;">*</span>
-			<textarea class="form-control" name="StaffPresenter" id="StaffPresenter" rows="10" cols="160"></textarea>
+			<label for="Subject">SUBJECT:</label><span style="color: red;">*</span>
+			<textarea class="form-control" name="Subject" id="Subject" rows="10" cols="160"></textarea>
+		</div>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="Author">Requestor:</label><span style="color: red;">*</span>
+			<input class="form-control" id="Author" name="Author" required="true" type="text" disabled />
+		</div>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-md-12'>
+		<div class='form-group'>
+			<label for="StaffPresenters">Staff Presenter(s):</label><span style="color: red;">*</span>
+			<div class="row">
+				<div class="col-sm-6">
+					<select class="form-control" id="internalUsers" onchange="selectUser(this.id)">
+					</select>
+					<label for="CustomName">Add Other Presenter(s)</label>
+
+					<div class="input-group">
+						<input type="text" id="CustomName" name="CustomName" value="Name - Title" class="form-control"
+							onclick="selectElm(this.id)">
+						<div class="input-group-addon"><span onclick="AddCustomUser()">add</span></div>
+
+					</div>
+				</div>
+				<div id="presentersDisplay" class="col-sm-6 hidden">
+					<ul id="dynamicItemDisplay">
+					</ul>
+					<span id="addPresenters" class="btn btn-primary" onclick="addPresenters()">Add Presenters</span>
+					<textarea class="form-control hidden" name="StaffPresenter" id="StaffPresenter" rows="10"
+						disabled></textarea>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -195,8 +215,8 @@
 <div class='row'>
 	<div class='col-sm-12'>
 		<div class='form-group'>
-			<label for="FiscalAnalysis">FISCAL ANALYSIS</label><span style="color: red;">*</span>
-			<textarea class="form-control" name="FiscalAnalysis" id="FiscalAnalysis" rows="10" cols="160"></textarea>
+			<label for="FiscialImpact">FISCAL IMPACT</label><span style="color: red;">*</span>
+			<textarea class="form-control" name="FiscialImpact" id="FiscialImpact" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -219,39 +239,29 @@
 <div class='row'>
 	<div class='col-sm-12'>
 		<div class='form-group'>
-			<label for="Attachments">ATTACHMENTS</label><span style="color: red;">*</span>
+			<label for="Attachments">ATTACHMENT(S)</label><span style="color: red;">*</span>
 			<textarea class="form-control" name="Attachments" id="Attachments" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
 
-<div class='row'>
-	<div class='col-md-6'>
-		<div class='form-group'>
-			<label for="Author">Author:</label><span style="color: red;">*</span>
-			<input class="form-control" id="Author" name="Author" required="true" type="text" value="" />
-		</div>
-	</div>
-	<div class='col-md-6'>
-		<div class='form-group'>
-			<label for="AuthorTitle">Author Title:</label><span style="color: red;">*</span>
-			<input class="form-control" id="AuthorTitle" name="AuthorTitle" required="true" type="text" value="Founder"
-				readonly />
-		</div>
-	</div>
-</div>
 
-</div>
-<legend>Additional Questions</legend>
+<br />
+<br />
+<legend>
+	Additional Questions
+	<br>
+	<small><small><small>Will not appear on CAR</small></small></small>
+</legend>
 <div class="row">
-    <!--Case #-->
+	<!--Case #-->
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="CaseNumber">Case #</label><span style="color: red;">*</span>
 			<input type="text" id="CaseNumber" class="form-control" name="CaseNumber">
 		</div>
 	</div>
-    <!--Planning Commission Meeting Date-->
+	<!--Planning Commission Meeting Date-->
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="PlanningCommissionMtgDate">Planning Commission Meeting Date</label><span
@@ -260,22 +270,23 @@
 				name="PlanningCommissionMtgDate">
 		</div>
 	</div>
-    <!--Land Use-->
+	<!--Land Use-->
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="LandUse">Land Use?</label><span style="color: red;">*</span>
-			<input id="LandUseY" type="checkbox" class="LandUse"
-				name="LandUse" value="Yes"> Yes
-			<input id="LandUseN" type="checkbox" class="LandUse"
-				name="LandUse" value="No"> No
+			<input id="LandUseY" type="checkbox" class="LandUse" name="LandUse" value="Yes"> Yes
+			<input id="LandUseN" type="checkbox" class="LandUse" name="LandUse" value="No"> No
 		</div>
 	</div>
-    <!--Planning Commission Required-->
+	<!--Planning Commission Required-->
 	<div class='col-sm-12'>
 		<div class='form-group'>
-			<label for="PlanningCommissionRequired">Planning Commission Required?</label><span style="color: red;">*</span>
-			<input id="PlanningCommissionRequiredY" type="checkbox" class="PlanningCommissionRequired" name="PlanningCommissionRequired" value="Yes"> Yes
-			<input id="PlanningCommissionRequiredN" type="checkbox" class="PlanningCommissionRequired" name="PlanningCommissionRequired" value="No"> No
+			<label for="PlanningCommissionRequired">Planning Commission Required?</label><span
+				style="color: red;">*</span>
+			<input id="PlanningCommissionRequiredY" type="checkbox" class="PlanningCommissionRequired"
+				name="PlanningCommissionRequired" value="Yes"> Yes
+			<input id="PlanningCommissionRequiredN" type="checkbox" class="PlanningCommissionRequired"
+				name="PlanningCommissionRequired" value="No"> No
 		</div>
 	</div>
 	<div class='col-sm-12'>
@@ -299,48 +310,215 @@
 	</div>
 	<div class='col-sm-12'>
 		<div class='form-group'>
+			<label for="ItemAmendCityCode">Does Item Amend City Code?</label><span style="color: red;">*</span>
+			<input id="ItemAmendCityCodeY" type="checkbox" class="ItemAmendCityCode" name="ItemAmendCityCode"
+				value="Yes"> Yes
+			<input id="ItemAmendCityCodeN" type="checkbox" class="ItemAmendCityCode" name="ItemAmendCityCode"
+				value="No"> No
+		</div>
+	</div>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="ExhibitsRequireSignature">Exhibit(s) Require Signatures?</label><span
+				style="color: red;">*</span>
+			<input id="ExhibitsRequireSignatureY" type="checkbox" class="ExhibitsRequireSignature"
+				name="ExhibitsRequireSignature" value="Yes"> Yes
+			<input id="ExhibitsRequireSignatureN" type="checkbox" class="ExhibitsRequireSignature"
+				name="ExhibitsRequireSignature" value="No"> No
+		</div>
+	</div>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="RequiredSignatures">Required Signatures?</label><span style="color: red;">*</span><br>
+			<input id="RequiredSignaturesMayor" type="checkbox" name="RequiredSignatures" value="Mayor"> <label
+				for="RequiredSignaturesMayor"> Mayor</label><br>
+			<input id="RequiredSignaturesCityAttorney" type="checkbox" name="RequiredSignatures" value="City Attorney">
+			<label for="RequiredSignaturesCityAttorney"> City Attorney</label><br>
+			<input id="RequiredSignaturesCityManager" type="checkbox" name="RequiredSignatures" value="CityManager">
+			<label for="RequiredSignaturesCityManager"> City Manager</label><br>
+			<input id="RequiredSignaturesProcurement" type="checkbox" name="RequiredSignatures" value="Procurement">
+			<label for="RequiredSignaturesProcurement"> Procurement</label><br>
+			<input id="RequiredSignaturesCityClerk" type="checkbox" name="RequiredSignatures" value="City Clerk"> <label
+				for="RequiredSignaturesCityClerk"> City Clerk</label>
+
+		</div>
+	</div>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="TransmittalLetterRequired">Transmittal Letter Required?</label><span
+				style="color: red;">*</span>
+			<input id="TransmittalLetterRequiredY" type="checkbox" class="TransmittalLetterRequired"
+				name="ItemApproveContract" value="Yes"> Yes
+			<input id="TransmittalLetterRequiredN" type="checkbox" class="TransmittalLetterRequired"
+				name="ItemApproveContract" value="No"> No
+		</div>
+	</div>
+	<div class="row TransmittalLetterRequired_no form-group">
+		<div class="col-sm-12">
+			<label for="ContractNumber">Who will send Transmittal</label>
+		</div>
+		<div class="col-sm-12">
+			<input id="sendTransmittalDepartment" name="sendTransmittal" type="radio" value="Department"> <label for="sendTransmittalDepartment">Department</label><br>
+			<input id="sendTransmittalCityClerk" name="sendTransmittal" type="radio" value="City Clerk"> <label for="sendTransmittalCityClerk">City Clerk</label>
+		</div>
+	</div>
+	<div class="row TransmittalLetterRequired_no form-group">
+		<div class="col-sm-12">
+			<label for="TransmittalName">Transmittal Name</label>
+		</div>
+		<div class="col-sm-12">
+			<input type="text" id="TransmittalName" name="TransmittalName" class="form-control">
+		</div>
+	</div>
+	<div class="row TransmittalLetterRequired_no form-group">
+		<div class="col-sm-12">
+			<label for="TransmittalAddress">Transmittal Address</label>
+		</div>
+		<div class="col-sm-12">
+			<input type="text" id="TransmittalAddress" name="TransmittalAddress" class="form-control">
+		</div>
+	</div>
+	<div class="row TransmittalLetterRequired_no form-group">
+		<div class="col-sm-12">
+			<label for="">Transmittal City/State/Zip</label>
+		</div>
+		<div class="col-sm-4">
+			<input type="text" id="City" name="City" class="form-control" placeholder="City">
+		</div>
+		<div class="col-sm-4">
+			<input type="text" id="State" name="State" class="form-control" placeholder="State">
+		</div>
+		<div class="col-sm-4">
+			<input type="text" id="Zip" name="Zip" class="form-control" placeholder="Zip">
+		</div>
+	</div>
+	<div class="row TransmittalLetterRequired_no form-group">
+		<div class="col-sm-12">
+			<label for="TransmittalPhone">Transmittal Phone</label>
+		</div>
+		<div class="col-sm-12">
+			<input type="text" id="TransmittalPhone" name="TransmittalPhone" class="form-control">
+		</div>
+	</div>
+	<div class="row TransmittalLetterRequired_no form-group">
+		<div class="col-sm-12">
+			<label for="TransmittalEmail">Transmittal Email</label>
+		</div>
+		<div class="col-sm-12">
+			<input type="email" id="TransmittalEmail" name="TransmittalEmail" class="form-control">
+		</div>
+	</div>
+	<div class="row TransmittalLetterRequired_no form-group">
+		<div class="col-sm-12">
+			<label for="TransmittalDepartmentContact">Department Contact</label>
+		</div>
+		<div class="col-sm-12">
+			<input type="text" id="TransmittalDepartmentContact" name="TransmittalDepartmentContact" class="form-control">
+		</div>
+	</div>
+
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="ItemApproveContract">Does Item Approve a Contract?</label><span style="color: red;">*</span>
+			<input id="ItemApproveContractY" type="checkbox" class="ItemApproveContract" name="ItemApproveContract"
+				value="Yes"> Yes
+			<input id="ItemApproveContractN" type="checkbox" class="ItemApproveContract" name="ItemApproveContract"
+				value="No"> No
+		</div>
+	</div>
+	<div class="row ItemApproveContract_no form-group">
+		<div class="col-sm-12">
+			<label for="ContractNumber">Contract #</label>
+		</div>
+		<div class="col-sm-12">
+			<input type="text" id="ContractNumber" name="ContractNumber" class="form-control">
+		</div>
+	</div>
+	<div class='col-sm-12'>
+		<div class='form-group'>
 			<label for="ProcurementItem">Procurement Item?</label><span style="color: red;">*</span>
 			<input id="ProcurementItemY" type="checkbox" class="ProcurementItem" name="ProcurementItem" value="Yes"> Yes
 			<input id="ProcurementItemN" type="checkbox" class="ProcurementItem" name="ProcurementItem" value="No"> No
 		</div>
 	</div>
 	<!--Account Code-->
-	<div class='col-sm-12 '>
-		<div class='form-group'>
-			<label for="AccountCode">Account Code</label><span style="color: red;">*</span>
-			<div class="input-group">
-				<input type="text" class="form-control" name="AccountCode" id="AccountCode" pattern="\d{9}-?\d{5}"
-					min-length="14" maxlength="15">
-				<div class="input-group-addon"><span onclick="AddNewCode()">add</span></div>
-			</div>
-			<div class="">
-				<textarea id="AccountCodes" name="AccountCodes" class="form-control" disabled
-					placeholder="Added Account Codes"></textarea>
+	<div class="row procurement_No">
+		<div class='col-sm-6 '>
+			<div class='form-group'>
+				<label for="AccountCode">Account Code(s)</label><span style="color: red;">*</span>
+				<div class="input-group ">
+					<input type="text" class="form-control" name="AccountCode" id="AccountCode" min-length="13"
+						maxlength="14">
+					<div class="input-group-addon"><span onclick="AddNewCode()">add</span></div>
+				</div>
+
 			</div>
 		</div>
+		<div id="AccountCodesDisplay" class="col-sm-6 hidden">
+			<ul id="AccountCode_dynamicItemDisplay"></ul>
+			<span id="addAccCodes" class="btn btn-primary" onclick="addAccCodes()">Add Account Code(s)</span>
+
+			<textarea id="AccountCodes" name="AccountCodes" class="form-control hidden" disabled
+				placeholder="Added Account Code(s)"></textarea>
+		</div>
 	</div>
-	<!--Account Code-->
-	<div class='col-sm-12 '>
+	<!--Project String-->
+	<div class="row procurement_No">
+		<div class='col-sm-6 '>
+			<div class='form-group'>
+				<label for="ProjectString">Project String(s)</label><span style="color: red;">*</span>
+				<div class="input-group">
+					<input type="text" class="form-control" name="ProjectString" id="ProjectString" min-length="30"
+						maxlength="32">
+					<div class="input-group-addon"><span onclick="ProjectString()">add</span></div>
+				</div>
+			</div>
+		</div>
+		<div id="projectStringsDisplay" class="col-sm-6 hidden">
+			<ul id="ProjectString_dynamicItemDisplay"></ul>
+			<span id="addPjctStringCodes" class="btn btn-primary" onclick="addPjctStringCodes()">Add Project
+				String(s)</span>
+
+			<textarea id="ProjectStrings" name="ProjectStrings" class="form-control hidden" disabled
+				placeholder="Added Project String Code(s)"></textarea>
+		</div>
+
+	</div>
+	<!--Contract #-->
+
+	<div class='col-sm-12 procurement_No'>
 		<div class='form-group'>
-			<label for="ProjectString">Project String</label><span style="color: red;">*</span>
-			<div class="input-group">
-				<input type="text" class="form-control" name="ProjectString" id="ProjectString" pattern="\d{9}-?\d{5}"
-					min-length="30" maxlength="32">
-				<div class="input-group-addon"><span onclick="ProjectString()">add</span></div>
-			</div>
-			<div class="">
-				<textarea id="ProjectStrings" name="ProjectStrings" class="form-control" disabled
-					placeholder="Added Project String Codes"></textarea>
-			</div>
+			<label for="ContractNumber">Contract #</label><span style="color: red;">*</span>
+			<input type="text" id="ContractNumber" class="form-control" name="ContractNumber">
 		</div>
 	</div>
 	<div class='col-sm-12'>
 		<div class='form-group'>
-			<label for="SpecialInstructions">Special Instructions</label><span style="color: red;">*</span>
+			<label for="SpecialInstructions">Special Instructions</label>
 			<textarea class="form-control" id="SpecialInstructions" name="SpecialInstructions"></textarea>
 		</div>
 	</div>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="PrevRelatedDocumentNumber">Previously Related Document Number(s)</label>
+			<textarea class="form-control" id="PrevRelatedDocumentNumber" name="PrevRelatedDocumentNumber"></textarea>
+		</div>
+	</div>
 </div>
+<br />
+<br />
+<legend>
+	City Clerk Use Only
+</legend>
+<!-- • Date Recorded: mm/dd/yyyy
+• Publication Date #1: mm/dd/yyyy
+• Publication Date #2: mm/dd/yyyy
+• Posting Date: mm/dd/yyyy
+• Date Sent to Records: mm/dd/yyyy
+• File #: (free-form text)
+• Request Voided? Y/N
+• Item Tabled? Y/N
+• Future Tabled Date: mm/dd/yyyy -->
 
 <script>
 	var url = window.location.protocol + "//" + window.location.host + "/",
@@ -349,61 +527,97 @@
 		$("#ROW_Presenter").hide();
 		$("#ROW_CEQAVals").hide();
 		$("#ROW_EnvironmentalDetermination").hide();
+		$('.procurement_No').hide();
+		$('.ItemApproveContract_no').hide();
+		$('.TransmittalLetterRequired_no').hide();
+		$('.PublicationRequired').hide();
+
 		$("textarea").attr('rows', '5');
 		$('[data-toggle="tooltip"]').tooltip();
 
 		displayUsersSelect('internalUsers')
+		populateAuthor()
 	})
+	function selectElm(element) {
+		$('#' + element).select();
+	}
+	function addPresenters() {
+		$('#StaffPresenter').html('');
+		$('#dynamicItemDisplay').children('li').each(function (ind, val) {
+			var x = $(val).text();
+			$('#StaffPresenter').append(x + '\n')
+			$(val).addClass('text-success').css("font-weight", "600");
+		})
+		$('#addPresenters').html("Staff Presenter(s) Added")
+	}
 
-	$('#ProjectString').on("keyup", function (event) {
-		var ProjectString = $('#ProjectString').val();
-		var ProjectStringArr = []
-		console.log(ProjectString.length)
-		if (ProjectString.length == 30) {
-			//do we need to add in the hyphen
-			if (ProjectString.charAt(10) == "-" && ProjectString.charAt(20)) {
-				//do nothing they manually added in the hyphen
-				//no further work needed.
-			} else {
-				//add in the hyphen
-				for (var i = 0, charsLength = ProjectString.length; i < charsLength; i += 10) {
-					ProjectStringArr.push(ProjectString.substring(i, i + 10));
-					console.log(ProjectStringArr)
-				}
-				var x = ProjectStringArr[1].length
-				for (var i = 0, charsLength1 = x; i < charsLength1; i += 10) {
-					ProjectStringArr.push(ProjectString.substring(i, i + 10));
-					console.log(ProjectStringArr)
-				}
 
-				$('#ProjectString').val(ProjectStringArr[0] + '-' + ProjectStringArr[1] +'-' + ProjectStringArr[2])
+	function deleteItem(itemId) {
+		$('#' + itemId).remove();
+		addPjctStringCodes()
+		addAccCodes()
+		addPresenters()
+	}
+	/*
+		$('#ProjectString').on("keyup", function (event) {
+			var ProjectString = $('#ProjectString').val();
+			var ProjectStringArr = []
+			console.log(ProjectString.length)
+			if (ProjectString.length == 30) {
+				//do we need to add in the hyphen
+				if (ProjectString.charAt(10) == "-" && ProjectString.charAt(20)) {
+					//do nothing they manually added in the hyphen
+					//no further work needed.
+				} else {
+					//add in the hyphen
+					for (var i = 0, charsLength = ProjectString.length; i < charsLength; i += 10) {
+						ProjectStringArr.push(ProjectString.substring(i, i + 10));
+						console.log(ProjectStringArr)
+					}
+					var x = ProjectStringArr[1].length
+					for (var i = 0, charsLength1 = x; i < charsLength1; i += 10) {
+						ProjectStringArr.push(ProjectString.substring(i, i + 10));
+						console.log(ProjectStringArr)
+					}
+	
+					$('#ProjectString').val(ProjectStringArr[0] + '-' + ProjectStringArr[1] + '-' + ProjectStringArr[2])
+				}
 			}
-		}
-
-	});
-
+	
+		});
+	*/
 	function ProjectString() {
 		var x = $('#ProjectString').val();
 		if (x == '') {
 			alert("Please add in the proper Project String");
 		} else {
-			$('#ProjectStrings').append(x + '\n')
+			$('#ProjectString_dynamicItemDisplay').append("<li id='ac_" + x + "'>" + x + ' <span class="glyphicon glyphicon-trash text-danger" onclick="deleteItem(' + "'ac_" + x + "')" + '"></span></li>')
 			$('#ProjectString').select().focus();
-
+			$('#projectStringsDisplay').removeClass('hidden');
 		}
 	}
+	function addPjctStringCodes() {
+		$('#ProjectStrings').html('');
+		$('#ProjectString_dynamicItemDisplay').children('li').each(function (ind, val) {
+			var x = $(val).text();
+			$('#ProjectStrings').append(x + '\n')
+			$(val).addClass('text-success').css("font-weight", "600");
+		})
+		$('#addPjctStringCodes').html("Project Strings(s) Added")
+	}
+
 	$('#AccountCode').on("keyup", function (event) {
 		var accountCode = $('#AccountCode').val();
 		var accountCodeArr = []
-		if (accountCode.length == 14) {
+		if (accountCode.length == 13) {
 			//do we need to add in the hyphen
-			if (accountCode.charAt(9) == "-") {
+			if (accountCode.charAt(8) == "-") {
 				//do nothing they manually added in the hyphen
 				//no further work needed.
 			} else {
 				//add in the hyphen
-				for (var i = 0, charsLength = accountCode.length; i < charsLength; i += 9) {
-					accountCodeArr.push(accountCode.substring(i, i + 9));
+				for (var i = 0, charsLength = accountCode.length; i < charsLength; i += 8) {
+					accountCodeArr.push(accountCode.substring(i, i + 8));
 				}
 				$('#AccountCode').val(accountCodeArr[0] + '-' + accountCodeArr[1])
 			}
@@ -416,19 +630,29 @@
 		if (x == '') {
 			alert("Please add in the proper Account Code");
 		} else {
-			$('#AccountCodes').append(x + '\n')
+			$('#AccountCode_dynamicItemDisplay').append("<li id='ac_" + x + "'>" + x + ' <span class="glyphicon glyphicon-trash text-danger" onclick="deleteItem(' + "'ac_" + x + "')" + '"></span></li>')
+			$('#AccountCodesDisplay').removeClass('hidden');
 			$('#AccountCode').select().focus();
 
 		}
 	}
+	function addAccCodes() {
+		$('#AccountCodes').html('');
+		$('#AccountCode_dynamicItemDisplay').children('li').each(function (ind, val) {
+			var x = $(val).text();
+			$('#AccountCodes').append(x + '\n')
+			$(val).addClass('text-success').css("font-weight", "600");
+		})
+		$('#addAccCodes').html("Account Codes(s) Added")
+	}
 	var selectedBox = null;
-	$(".LandUse").click(function () {
+	$(".ContractSentSeparately").click(function () {
 		selectedBox = this.id;
-		$(".LandUse").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+		$(".ContractSentSeparately").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
 	});
-	$(".PlanningCommissionRequired").click(function () {
+	$(".OrdinanceRequirePosting").click(function () {
 		selectedBox = this.id;
-		$(".PlanningCommissionRequired").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+		$(".OrdinanceRequirePosting").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
 	});
 	$(".RateFeeChange").click(function () {
 		selectedBox = this.id;
@@ -441,12 +665,64 @@
 	$(".ExhibitRequiresSignature").click(function () {
 		selectedBox = this.id;
 		$(".ExhibitRequiresSignature").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+	});//
+	$(".ItemAmendCityCode").click(function () {
+		selectedBox = this.id;
+		$(".ItemAmendCityCode").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+	});
+	$(".ExhibitsRequireSignature").click(function () {
+		selectedBox = this.id;
+		$(".ExhibitsRequireSignature").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+	});
+	$(".TransmittalLetterRequired").click(function () {
+		selectedBox = this.id;
+		$(".TransmittalLetterRequired").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+
+		console.log(selectedBox)
+
+		if (selectedBox == 'TransmittalLetterRequiredN') {
+			console.log('no')
+			$('.TransmittalLetterRequired_no').hide();
+		} else {
+			console.log('yes')
+
+			$('.TransmittalLetterRequired_no').show();
+
+		}
+	});
+	$(".ItemApproveContract").click(function () {
+		selectedBox = this.id;
+		$(".ItemApproveContract").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+
+		console.log(selectedBox)
+
+		if (selectedBox == 'ItemApproveContractN') {
+			console.log('no')
+			$('.ItemApproveContract_no').hide();
+		} else {
+			console.log('yes')
+
+			$('.ItemApproveContract_no').show();
+
+		}
 	});
 	$(".ProcurementItem").click(function () {
 		selectedBox = this.id;
 		$(".ProcurementItem").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
-	});
 
+		console.log(selectedBox)
+
+		if (selectedBox == 'ProcurementItemN') {
+			console.log('no')
+			$('.procurement_No').hide();
+		} else {
+			console.log('yes')
+
+			$('.procurement_No').show();
+
+		}
+	});
+	var staffPresenter = 1;
 	function clearForm() {
 		$('#StaffPresenter').html('');
 	}
@@ -456,13 +732,22 @@
 			//reject name and alert user
 			alert("Please enter a name and Title");
 		} else {
-			$('#StaffPresenter').append(x + "\n")
+			$('#dynamicItemDisplay').append("<li id='sp_" + staffPresenter + "'>" + x + ' <span class="glyphicon glyphicon-trash text-danger" onclick="deleteItem(' + "'sp_" + staffPresenter + "')" + '"></span></li>')
+			$('#addPresenters').html("Add Staff Presenter(s)")
+			$('#presentersDisplay').removeClass('hidden');
 			var x = $('#CustomName').val("Name - Title");
 		}
+		staffPresenter++
 	}
 	function selectUser(id) {
 		var x = $('#internalUsers').val();
-		$('#StaffPresenter').append(x + "\n")
+		$('#dynamicItemDisplay').append("<li id='sp_" + staffPresenter + "'>" + x + ' <span class="glyphicon glyphicon-trash text-danger" onclick="deleteItem(' + "'sp_" + staffPresenter + "')" + '"></span></li>')
+		$('#addPresenters').html("Add Staff Presenter(s)")
+		$('#presentersDisplay').removeClass('hidden');
+
+		staffPresenter++
+
+		//$('#StaffPresenter').append(x + "\n")
 	}
 
 	/*
@@ -618,7 +903,6 @@
 	}
 	function populateAuthor() {
 		var url = window.location.protocol + "//" + window.location.host + "/";
-
 		$.ajax({
 			type: "Get",
 			url: url + "api/user/list",
@@ -626,7 +910,12 @@
 			success: function (data) {
 				$.each(data, function (index, ele) {
 					if (ele.id == $("#OriginatorId").val()) {
-						$("#Author").val(ele.firstName + " " + ele.lastName + ", " + ele.position);
+						if (ele.position == '') {
+							$("#Author").val(ele.firstName + " " + ele.lastName);
+						} else {
+							$("#Author").val(ele.firstName + " " + ele.lastName + " - " + ele.position);
+
+						}
 					}
 				})
 			},
@@ -648,56 +937,71 @@
 		switch (itemType) {
 			case '19':
 				//Annexation
-				$('#PlanningCommissionRequired ').val("No").change()
-				$('#PublicHearingRequired ').val("0").change()
+				$('#RecordationRequired ').val("Yes").change()
+				$('#PublicationRequired ').val("Yes").change()
 				break;
 			case '20':
 				//Board of Adjustment
-				$('#PlanningCommissionRequired ').val("0").change()
-				$('#PublicHearingRequired ').val("0").change()
+				$('#RecordationRequired ').val("No").change()
+				$('#PublicationRequired ').val("No").change()
 				break;
 			case '21':
 				//Final Plat
-				$('#PlanningCommissionRequired ').val("No").change()
-				$('#PublicHearingRequired ').val("No").change()
+				$('#RecordationRequired ').val("No").change()
+				$('#PublicationRequired ').val("No").change()
 				break;
 			case '22':
 				//Other
-				$('#PlanningCommissionRequired ').val("0").change()
-				$('#PublicHearingRequired ').val("0").change()
+				$('#RecordationRequired ').val("No").change()
+				$('#PublicationRequired ').val("No").change()
 				break;
 			case '23':
 				//Preliminary Plat
-				$('#PlanningCommissionRequired ').val("Yes").change()
-				$('#PublicHearingRequired ').val("No").change()
+				$('#RecordationRequired ').val("Yes").change()
+				$('#PublicationRequired ').val("No").change()
 				break;
 			case '24':
 				//Rezone
-				$('#PlanningCommissionRequired ').val("Yes").change()
-				$('#PublicHearingRequired ').val("Yes").change()
+				$('#RecordationRequired ').val("Yes").change()
+				$('#PublicationRequired ').val("Yes").change()
 				break;
 			case '25':
 				//Special Use Permit
-				$('#PlanningCommissionRequired ').val("Yes").change()
-				$('#PublicHearingRequired ').val("Yes").change()
+				$('#RecordationRequired ').val("No").change()
+				$('#PublicationRequired ').val("Yes").change()
 				break;
 			case '26':
 				//Use Permit
-				$('#PlanningCommissionRequired ').val("No").change()
-				$('#PublicHearingRequired ').val("No").change()
+				$('#RecordationRequired ').val("No").change()
+				$('#PublicationRequired ').val("No").change()
 				break;
 			case '27':
 				//Zoning Ordinance Text Amendment
-				$('#PlanningCommissionRequired ').val("Yes").change()
-				$('#PublicHearingRequired ').val("Yes").change()
+				$('#RecordationRequired ').val("No").change()
+				$('#PublicationRequired ').val("Yes").change()
 				break;
 			default:
-				$('#PlanningCommissionRequired ').val("0").change()
-				$('#PublicHearingRequired ').val("0").change()
-
+				$('#RecordationRequired ').val("0").change()
+				$('#PublicationRequired ').val("0").change()
+		}
+		if ($('#PublicationRequired ').val("Yes")) {
+			PublicationRequired1(true);
 		}
 	}
+	function PublicationRequired1(value) {
+		console.log('hi')
+		if (value) {
+			$('.PublicationRequired').show();
+		} else {
+			$('.PublicationRequired').hide();
+		}
+		if ($('#PublicationRequired').val() == "Yes") {
+			$('.PublicationRequired').show();
+		} else {
+			$('.PublicationRequired').hide();
+		}
 
+	}
 	function ceqaReview() {
 		if ($("#CEQAReview").is(':checked')) {
 			$("#ROW_CEQAVals").show();
