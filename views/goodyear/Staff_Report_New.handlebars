@@ -31,10 +31,12 @@
 <input type="hidden" name="DeptIdHolder" id="DeptIdHolder" />
 <input type="hidden" name="DeptHeadId" id="DeptHeadId" />
 <input type="hidden" name="DivHeadId" id="DivHeadId" />
+<input type="hidden" name="Document1.DocumentType" id="Document1.DocumentType" value="6" />
+<input type="hidden" name="Document1.DocumentName" id="Document1.DocumentName" value="Staff Report_New">
 
 <legend>Meeting Information</legend>
 
-<div class="form-group  dataType" data-type="Meeting Select With Sections">
+<div class=" form-group dataType" data-type="Meeting Select With Sections">
 	<div class="row">
 		<label class="col-md-3 control-label col-centered" for="committeeSelect">Committee:</label>
 	</div>
@@ -75,7 +77,7 @@
 <div class="row">
 	<div class="col-md-6">
 		<select id="meetingDateSelect" name="meetingDateSelect" data-dependent-on="meetingTypeSelect"
-			onChange="setMeetingDate(this);" data-field-hasvalue="false" data-field-values="meetingDates"
+			onchange="setMeetingDate(this);" data-field-hasvalue="false" data-field-values="meetingDates"
 			class="form-control "></select>
 	</div>
 </div>
@@ -158,13 +160,11 @@
 <br />
 <br />
 <legend>Council Action Report</legend>
-<input type="hidden" name="MeetingDate" id="MeetingDate" />
-<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
 <div class='row'>
 	<div class='col-md-12'>
 		<div class='form-group'>
-			<label for="Subject">SUBJECT:</label><span style="color: red;">*</span>
-			<textarea class="form-control" name="Subject" id="Subject" rows="10" cols="160"></textarea>
+			<label for="ItemTitle">SUBJECT:</label><span style="color: red;">*</span>
+			<textarea class="form-control" name="ItemTitle" id="ItemTitle" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -197,8 +197,8 @@
 					<ul id="dynamicItemDisplay">
 					</ul>
 					<span id="addPresenters" class="btn btn-primary" onclick="addPresenters()">Add Presenters</span>
-					<textarea class="form-control hidden" name="StaffPresenter" id="StaffPresenter" rows="10"
-						disabled></textarea>
+					<textarea class="form-control hidden" name="StaffPresenters" id="StaffPresenters"
+						rows="10"></textarea>
 				</div>
 			</div>
 		</div>
@@ -224,8 +224,8 @@
 <div class='row'>
 	<div class='col-sm-12'>
 		<div class='form-group'>
-			<label for="FiscialImpact">FISCAL IMPACT</label><span style="color: red;">*</span>
-			<textarea class="form-control" name="FiscialImpact" id="FiscialImpact" rows="10" cols="160"></textarea>
+			<label for="FiscalImpact">FISCAL IMPACT</label><span style="color: red;">*</span>
+			<textarea class="form-control" name="FiscalImpact" id="FiscalImpact" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -359,8 +359,10 @@
 			<label for="ContractNumber">Who will send Transmittal</label>
 		</div>
 		<div class="col-sm-12">
-			<input id="sendTransmittalDepartment" name="sendTransmittal" type="radio" value="Department"> <label for="sendTransmittalDepartment">Department</label><br>
-			<input id="sendTransmittalCityClerk" name="sendTransmittal" type="radio" value="City Clerk"> <label for="sendTransmittalCityClerk">City Clerk</label>
+			<input id="sendTransmittalDepartment" name="sendTransmittal" type="radio" value="Department"> <label
+				for="sendTransmittalDepartment">Department</label><br>
+			<input id="sendTransmittalCityClerk" name="sendTransmittal" type="radio" value="City Clerk"> <label
+				for="sendTransmittalCityClerk">City Clerk</label>
 		</div>
 	</div>
 	<div class="row TransmittalLetterRequired_no form-group">
@@ -414,7 +416,8 @@
 			<label for="TransmittalDepartmentContact">Department Contact</label>
 		</div>
 		<div class="col-sm-12">
-			<input type="text" id="TransmittalDepartmentContact" name="TransmittalDepartmentContact" class="form-control">
+			<input type="text" id="TransmittalDepartmentContact" name="TransmittalDepartmentContact"
+				class="form-control">
 		</div>
 	</div>
 
@@ -506,20 +509,6 @@
 		</div>
 	</div>
 </div>
-<br />
-<br />
-<legend>
-	City Clerk Use Only
-</legend>
-<!-- • Date Recorded: mm/dd/yyyy
-• Publication Date #1: mm/dd/yyyy
-• Publication Date #2: mm/dd/yyyy
-• Posting Date: mm/dd/yyyy
-• Date Sent to Records: mm/dd/yyyy
-• File #: (free-form text)
-• Request Voided? Y/N
-• Item Tabled? Y/N
-• Future Tabled Date: mm/dd/yyyy -->
 <script>
 	var url = window.location.protocol + "//" + window.location.host + "/",
 		department = [];
@@ -542,10 +531,10 @@
 		$('#' + element).select();
 	}
 	function addPresenters() {
-		$('#StaffPresenter').html('');
+		$('#StaffPresenters').html('');
 		$('#dynamicItemDisplay').children('li').each(function (ind, val) {
 			var x = $(val).text();
-			$('#StaffPresenter').append(x + '\n')
+			$('#StaffPresenters').append(x + '\n')
 			$(val).addClass('text-success').css("font-weight", "600");
 		})
 		$('#addPresenters').html("Staff Presenter(s) Added")
@@ -909,7 +898,6 @@
 			datatype: "json",
 			success: function (data) {
 				$.each(data, function (index, ele) {
-					console.log(ele)
 					if (ele.id == $("#OriginatorId").val()) {
 						if (ele.position == '') {
 							$("#Author").val(ele.firstName + " " + ele.lastName);

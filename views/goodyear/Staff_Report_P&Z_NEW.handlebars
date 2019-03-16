@@ -31,6 +31,9 @@
 <input type="hidden" name="DeptIdHolder" id="DeptIdHolder" />
 <input type="hidden" name="DeptHeadId" id="DeptHeadId" />
 <input type="hidden" name="DivHeadId" id="DivHeadId" />
+<input type="hidden" name="Document1.DocumentType" id="Document1.DocumentType" value="7" />
+<input type="hidden" name="Document1.DocumentName" id="Document1.DocumentName" value="Staff Report P and Z New">
+
 
 <legend>Meeting Information</legend>
 
@@ -71,7 +74,7 @@
 <div class="row">
 	<div class="col-md-6">
 		<select id="meetingDateSelect" name="meetingDateSelect" data-dependent-on="meetingTypeSelect"
-			onChange="setMeetingDate(this);" data-field-hasvalue="false" data-field-values="meetingDates"
+			onchange="setMeetingDate(this)" data-field-hasvalue="false" data-field-values="meetingDates"
 			class="form-control "></select>
 	</div>
 </div>
@@ -149,8 +152,6 @@
 <br />
 <br />
 <legend>Council Action Report</legend>
-<input type="hidden" name="MeetingDate" id="MeetingDate" />
-<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
 <div class='row'>
 	<div class='col-md-12'>
 		<div class='form-group'>
@@ -158,12 +159,19 @@
 			<textarea class="form-control" name="Subject" id="Subject" rows="10" cols="160"></textarea>
 		</div>
 	</div>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="CaseNumber">Case #</label><span style="color: red;">*</span>
+			<input type="text" id="CaseNumber" class="form-control" name="CaseNumber">
+		</div>
+	</div>
+
 </div>
 <div class='row'>
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="Author">Requestor:</label><span style="color: red;">*</span>
-			<input class="form-control" id="Author" name="Author" required="true" type="text" disabled />
+			<input class="form-control" id="Author" name="Author" type="text" disabled />
 		</div>
 	</div>
 </div>
@@ -173,8 +181,7 @@
 			<label for="StaffPresenters">Staff Presenter(s):</label><span style="color: red;">*</span>
 			<div class="row">
 				<div class="col-sm-6">
-					<select class="form-control" id="internalUsers" onchange="selectUser(this.id)">
-					</select>
+					<select class="form-control" id="internalUsers" onchange="selectUser(this.id)"></select>
 					<label for="CustomName">Add Other Presenter(s)</label>
 
 					<div class="input-group">
@@ -185,11 +192,10 @@
 					</div>
 				</div>
 				<div id="presentersDisplay" class="col-sm-6 hidden">
-					<ul id="dynamicItemDisplay">
-					</ul>
+					<ul id="dynamicItemDisplay"></ul>
 					<span id="addPresenters" class="btn btn-primary" onclick="addPresenters()">Add Presenters</span>
-					<textarea class="form-control hidden" name="StaffPresenter" id="StaffPresenter" rows="10"
-						disabled></textarea>
+					<textarea class="form-control hidden" name="StaffPresenter" id="StaffPresenter"
+						rows="10"></textarea>
 				</div>
 			</div>
 		</div>
@@ -215,8 +221,16 @@
 <div class='row'>
 	<div class='col-sm-12'>
 		<div class='form-group'>
-			<label for="FiscialImpact">FISCAL IMPACT</label><span style="color: red;">*</span>
-			<textarea class="form-control" name="FiscialImpact" id="FiscialImpact" rows="10" cols="160"></textarea>
+			<label for="Location">Location</label><span style="color: red;">*</span>
+			<textarea class="form-control" name="Location" id="Location" rows="10" cols="160"></textarea>
+		</div>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-sm-12'>
+		<div class='form-group'>
+			<label for="FiscalImpact">FISCAL IMPACT</label><span style="color: red;">*</span>
+			<textarea class="form-control" name="FiscalImpact" id="FiscalImpact" rows="10" cols="160"></textarea>
 		</div>
 	</div>
 </div>
@@ -255,12 +269,6 @@
 </legend>
 <div class="row">
 	<!--Case #-->
-	<div class='col-sm-12'>
-		<div class='form-group'>
-			<label for="CaseNumber">Case #</label><span style="color: red;">*</span>
-			<input type="text" id="CaseNumber" class="form-control" name="CaseNumber">
-		</div>
-	</div>
 	<!--Planning Commission Meeting Date-->
 	<div class='col-sm-12'>
 		<div class='form-group'>
@@ -300,16 +308,6 @@
 	</div>
 	<div class='col-sm-12'>
 		<div class='form-group'>
-			<label for="ExhibitRequiresSignature">Does exhibit require signature?</label><span
-				style="color: red;">*</span>
-			<input id="ExhibitRequiresSignatureY" type="checkbox" class="ExhibitRequiresSignature"
-				name="ExhibitRequiresSignature" value="Yes"> Yes
-			<input id="ExhibitRequiresSignatureN" type="checkbox" class="ExhibitRequiresSignature"
-				name="ExhibitRequiresSignature" value="No"> No
-		</div>
-	</div>
-	<div class='col-sm-12'>
-		<div class='form-group'>
 			<label for="ItemAmendCityCode">Does Item Amend City Code?</label><span style="color: red;">*</span>
 			<input id="ItemAmendCityCodeY" type="checkbox" class="ItemAmendCityCode" name="ItemAmendCityCode"
 				value="Yes"> Yes
@@ -331,7 +329,7 @@
 		<div class='form-group'>
 			<label for="RequiredSignatures">Required Signatures?</label><span style="color: red;">*</span><br>
 			<input id="RequiredSignaturesMayor" type="checkbox" name="RequiredSignatures" value="Mayor"> <label
-				for="RequiredSignaturesMayor"> Mayor</label><br>
+				for="RequiredSignaturesMayor">Mayor</label><br>
 			<input id="RequiredSignaturesCityAttorney" type="checkbox" name="RequiredSignatures" value="City Attorney">
 			<label for="RequiredSignaturesCityAttorney"> City Attorney</label><br>
 			<input id="RequiredSignaturesCityManager" type="checkbox" name="RequiredSignatures" value="CityManager">
@@ -339,7 +337,7 @@
 			<input id="RequiredSignaturesProcurement" type="checkbox" name="RequiredSignatures" value="Procurement">
 			<label for="RequiredSignaturesProcurement"> Procurement</label><br>
 			<input id="RequiredSignaturesCityClerk" type="checkbox" name="RequiredSignatures" value="City Clerk"> <label
-				for="RequiredSignaturesCityClerk"> City Clerk</label>
+				for="RequiredSignaturesCityClerk">City Clerk</label>
 
 		</div>
 	</div>
@@ -358,8 +356,10 @@
 			<label for="ContractNumber">Who will send Transmittal</label>
 		</div>
 		<div class="col-sm-12">
-			<input id="sendTransmittalDepartment" name="sendTransmittal" type="radio" value="Department"> <label for="sendTransmittalDepartment">Department</label><br>
-			<input id="sendTransmittalCityClerk" name="sendTransmittal" type="radio" value="City Clerk"> <label for="sendTransmittalCityClerk">City Clerk</label>
+			<input id="sendTransmittalDepartment" name="sendTransmittal" type="radio" value="Department"> <label
+				for="sendTransmittalDepartment">Department</label><br>
+			<input id="sendTransmittalCityClerk" name="sendTransmittal" type="radio" value="City Clerk"> <label
+				for="sendTransmittalCityClerk">City Clerk</label>
 		</div>
 	</div>
 	<div class="row TransmittalLetterRequired_no form-group">
@@ -413,7 +413,8 @@
 			<label for="TransmittalDepartmentContact">Department Contact</label>
 		</div>
 		<div class="col-sm-12">
-			<input type="text" id="TransmittalDepartmentContact" name="TransmittalDepartmentContact" class="form-control">
+			<input type="text" id="TransmittalDepartmentContact" name="TransmittalDepartmentContact"
+				class="form-control">
 		</div>
 	</div>
 
@@ -458,7 +459,7 @@
 			<ul id="AccountCode_dynamicItemDisplay"></ul>
 			<span id="addAccCodes" class="btn btn-primary" onclick="addAccCodes()">Add Account Code(s)</span>
 
-			<textarea id="AccountCodes" name="AccountCodes" class="form-control hidden" disabled
+			<textarea id="AccountCodes" name="AccountCodes" class="form-control hidden"
 				placeholder="Added Account Code(s)"></textarea>
 		</div>
 	</div>
@@ -476,10 +477,12 @@
 		</div>
 		<div id="projectStringsDisplay" class="col-sm-6 hidden">
 			<ul id="ProjectString_dynamicItemDisplay"></ul>
-			<span id="addPjctStringCodes" class="btn btn-primary" onclick="addPjctStringCodes()">Add Project
-				String(s)</span>
+			<span id="addPjctStringCodes" class="btn btn-primary" onclick="addPjctStringCodes()">
+				Add Project
+				String(s)
+			</span>
 
-			<textarea id="ProjectStrings" name="ProjectStrings" class="form-control hidden" disabled
+			<textarea id="ProjectStrings" name="ProjectStrings" class="form-control hidden"
 				placeholder="Added Project String Code(s)"></textarea>
 		</div>
 
@@ -505,20 +508,6 @@
 		</div>
 	</div>
 </div>
-<br />
-<br />
-<legend>
-	City Clerk Use Only
-</legend>
-<!-- • Date Recorded: mm/dd/yyyy
-• Publication Date #1: mm/dd/yyyy
-• Publication Date #2: mm/dd/yyyy
-• Posting Date: mm/dd/yyyy
-• Date Sent to Records: mm/dd/yyyy
-• File #: (free-form text)
-• Request Voided? Y/N
-• Item Tabled? Y/N
-• Future Tabled Date: mm/dd/yyyy -->
 
 <script>
 	var url = window.location.protocol + "//" + window.location.host + "/",
@@ -579,11 +568,11 @@
 						ProjectStringArr.push(ProjectString.substring(i, i + 10));
 						console.log(ProjectStringArr)
 					}
-	
+
 					$('#ProjectString').val(ProjectStringArr[0] + '-' + ProjectStringArr[1] + '-' + ProjectStringArr[2])
 				}
 			}
-	
+
 		});
 	*/
 	function ProjectString() {
