@@ -155,14 +155,16 @@
 <div class='row'>
 	<div class='col-md-12'>
 		<div class='form-group'>
-			<label for="Subject">SUBJECT:</label><span style="color: red;">*</span>
-			<textarea class="form-control" name="Subject" id="Subject" rows="10" cols="160"></textarea>
+			<label for="ItemTitle">SUBJECT:</label><span style="color: red;">*</span>
+			<textarea class="form-control" name="ItemTitle" id="ItemTitle" rows="10" cols="160"
+				onchange="addSubject()"></textarea>
+			<input type="hidden" name="Document1.Subject" id="Document1.Subject" class="subject">
 		</div>
 	</div>
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="CaseNumber">Case #</label><span style="color: red;">*</span>
-			<input type="text" id="CaseNumber" class="form-control" name="CaseNumber">
+			<input type="text" id="Document1.CaseNumber" class="form-control" name="Document1.CaseNumber">
 		</div>
 	</div>
 
@@ -172,6 +174,7 @@
 		<div class='form-group'>
 			<label for="Author">Requestor:</label><span style="color: red;">*</span>
 			<input class="form-control" id="Author" name="Author" type="text" disabled />
+			<input class="form-control" id="Applicant" name="Applicant" type="hidden"  />
 		</div>
 	</div>
 </div>
@@ -528,6 +531,16 @@
 		displayUsersSelect('internalUsers')
 		populateAuthor()
 	})
+	$('#ItemTitle').on("change", function(){
+		addSubject()
+	})
+	function addSubject() {
+		var subject = $('#ItemTitle').val();
+		console.log(subject)
+		$('.subject').val(subject)
+		console.log( $('#Document1.subject') )
+	}
+
 	function selectElm(element) {
 		$('#' + element).select();
 	}
@@ -657,20 +670,20 @@
 		$(".ItemAmendCityCode").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
 	});
 	$(".ExhibitsRequireSignature").click(function () {
-        selectedBox = this.id;
-        $(".ExhibitsRequireSignature").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+		selectedBox = this.id;
+		$(".ExhibitsRequireSignature").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
 
-        if (selectedBox == 'ExhibitsRequireSignatureN') {
-            console.log('no')
-            $('.RequiredSignatures_yes').hide();
-        } else {
-            console.log('yes')
+		if (selectedBox == 'ExhibitsRequireSignatureN') {
+			console.log('no')
+			$('.RequiredSignatures_yes').hide();
+		} else {
+			console.log('yes')
 
-            $('.RequiredSignatures_yes').show();
+			$('.RequiredSignatures_yes').show();
 
-        }
+		}
 
-    });//
+	});//
 	$(".TransmittalLetterRequired").click(function () {
 		selectedBox = this.id;
 		$(".TransmittalLetterRequired").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
@@ -908,8 +921,10 @@
 				$.each(data, function (index, ele) {
 					if (ele.id == $("#OriginatorId").val()) {
 						if (ele.position == '') {
+							$("#Applicant").val(ele.firstName + " " + ele.lastName);
 							$("#Author").val(ele.firstName + " " + ele.lastName);
 						} else {
+							$("#Applicant").val(ele.firstName + " " + ele.lastName + " - " + ele.position);
 							$("#Author").val(ele.firstName + " " + ele.lastName + " - " + ele.position);
 
 						}
