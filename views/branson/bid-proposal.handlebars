@@ -10,101 +10,229 @@
 		$("#ROW_EnvironmentalDetermination").hide();
 		$("textarea").attr('rows', '5');
 		$('#ordinanceSection').hide();
-		
+
 		//SET THE FIRST NUMBER IN BACKUPDOCUMENTATION NUMBERED LIST
 		$("#AttachedExhibits").val("1. ");
+		$("#Amounts").val("$");
 
 		$('[data-toggle="tooltip"]').tooltip();
-		
+		requireFields()
 		populateDept();
-		
+
 		//*******************************ADDS KEYDOWN TO AttachedExhibits SO WHEN THE ENTER BUTTON IS PRESSED IT ADDS ANOTHER NUMBER TO THE NUMBERED LIST AUTOMATICALLY****************************************
-		$("#AttachedExhibits").keydown(function(event) {
+		$("#AttachedExhibits").keydown(function (event) {
 			if (event.which == 13) {
 				event.preventDefault();
-				
+
 				var bDoc = $("#AttachedExhibits").val();
 				var lines = bDoc.split(/\r|\r\n|\n/);
 				var count = lines.length
-				count = count + 1;		
-				
-				var press = jQuery.Event("keydown");		
+				count = count + 1;
+
+				var press = jQuery.Event("keydown");
 				press.ctrlKey = true;
 				press.which = 13;
-				
+
 				bDoc = bDoc + String.fromCharCode(press.which) + count + ". ";
-				
+
 				$("#AttachedExhibits").val(bDoc);
 			}
 		})
-		
+
+		$("#Amounts").keydown(function (event) {
+			if (event.which == 13) {
+				event.preventDefault();
+
+				var bDoc = $("#Amounts").val();
+				var lines = bDoc.split(/\r|\r\n|\n/);
+				var count = lines.length
+
+
+				var press = jQuery.Event("keydown");
+				press.ctrlKey = true;
+				press.which = 13;
+
+				bDoc = bDoc + String.fromCharCode(press.which) + "$";
+
+				$("#Amounts").val(bDoc);
+			}
+		})
+
 		firstReadingPicker = $('#FirstReading').pickadate({
 			labelMonthNext: 'Go to the next month',
 			labelMonthPrev: 'Go to the previous month',
 			labelMonthSelect: 'Pick a month from the dropdown',
-			labelYearSelect: 'Pick a year from the dropdown',			
+			labelYearSelect: 'Pick a year from the dropdown',
 			format: 'mm/dd/yyyy',
 			formatSubmit: 'mm/dd/yyyy',
 			selectMonths: true,
 			selectYears: true
 		});
-		
+
 		finalReadingPicker = $('#FinalReading').pickadate({
 			labelMonthNext: 'Go to the next month',
 			labelMonthPrev: 'Go to the previous month',
 			labelMonthSelect: 'Pick a month from the dropdown',
-			labelYearSelect: 'Pick a year from the dropdown',			
+			labelYearSelect: 'Pick a year from the dropdown',
 			format: 'mm/dd/yyyy',
 			formatSubmit: 'mm/dd/yyyy',
 			selectMonths: true,
 			selectYears: true
 		});
-		
+
 		firstReadingPickerClose = firstReadingPicker.pickadate('picker');
 		finalReadingPickerClose = finalReadingPicker.pickadate('picker');
 	})
-	
-	firstReadingPickerClose.on('close', function() {
-		
-	})
-	
-	finalReadingPickerClose.on('close', function() {
-		
+
+	firstReadingPickerClose.on('close', function () {
+
 	})
 
-	function AddOrdinance(){
+	finalReadingPickerClose.on('close', function () {
+
+	})
+
+	function requireFields() {
+		var inputChk = $('input')
+		var textareaChk = $('textarea')
+		$(inputChk).each(function (ind, val) {
+			var input = $(val).attr('required')
+			if (typeof input !== typeof undefined && input !== false) {
+				$(val).after('<span style="color: red;">*</span>')
+			}
+		})
+		$(textareaChk).each(function (ind, val) {
+			var input = $(val).attr('required')
+			if (typeof input !== typeof undefined && input !== false) {
+				$(val).after('<span style="color: red;">*</span>')
+			}
+		})
+	}
+
+	function AddOrdinance() {
 		if ($("#IncludeOrdinance").is(':checked')) {
-			$("#ordinanceSection").find('input').each(function() {
+			$("#ordinanceSection").find('input').each(function () {
 				$(this).prop('required', true);
 			})
-			
-			$("#ordinanceSection").find('textarea').each(function() {
+
+			$("#ordinanceSection").find('textarea').each(function () {
 				$(this).prop('required', true);
 			})
-			
-			$("#ordinanceSection").find('select').each(function() {
+
+			$("#ordinanceSection").find('select').each(function () {
 				$(this).prop('required', true);
 			})
-			
+
 			$('#ordinanceSection').show();
+
+			$("#FormHtml").prepend('<input type="hidden" name="Document2.DocumentType" id="Document2.DocumentType" value="3" />');
+			$("#FormHtml").prepend('<input type="hidden" name="Document2.name" id="Document2.name" value="Bid Proposal - Ordinance" />');
+			$("#FormHtml").prepend('<input type="hidden" data-parent="ProjectVendorName" name="Document2.ProjectVendorName1" id="Document2.ProjectVendorName1" />');
+			$("#FormHtml").prepend('<input type="hidden" data-parent="ProjectVendorName" name="Document2.ProjectVendorName2" id="Document2.ProjectVendorName2" />');
+			$("#FormHtml").prepend('<input type="hidden" data-parent="ProjectVendorName" name="Document2.ProjectVendorName3" id="Document2.ProjectVendorName3" />');
+			$("#FormHtml").prepend('<input type="hidden" data-parent="ProjectName" name="Document2.ProjectName1" id="Document2.ProjectName1" />');
+			$("#FormHtml").prepend('<input type="hidden" data-parent="ProjectName" name="Document2.ProjectName2" id="Document2.ProjectName2" />');
+			$("#FormHtml").prepend('<input type="hidden" data-parent="ProjectName" name="Document2.ProjectName3" id="Document2.ProjectName3" />');
 		}
 		else {
-			$("#ordinanceSection").find('input').each(function() {
+			$("#ordinanceSection").find('input').each(function () {
 				$(this).prop('required', false);
+
+				$(this).val("");
 			})
-			
-			$("#ordinanceSection").find('textarea').each(function() {
+
+			$("#ordinanceSection").find('textarea').each(function () {
 				$(this).prop('required', false);
+
+				$(this).val("");
 			})
-			
-			$("#ordinanceSection").find('select').each(function() {
+
+			$("#ordinanceSection").find('select').each(function () {
 				$(this).prop('required', false);
+
+				$(this).val("");
 			})
-			
+
+			$('[name^="Document"]').remove();
+
 			$('#ordinanceSection').hide();
-		}		
+		}
 	}
-	
+	/**
+	* formatNumber = formats a input field to be a number
+	* params
+	*	value = the input value - REQUIRED
+	*	id = the input id - REQUIRED
+	* calls = commaSeparateNumber(number)
+	* usage onchange="formatNumber(this.value, this.id)"
+	*/
+	function formatNumber(value, id) {
+		var amount = value,
+			newAmount,
+			dollarSign,
+			decimal,
+			isNumber;
+
+		//ensure it's a number
+		numberCheck = /^[0-9,.$]*$/;
+		isNumber = numberCheck.test(amount);
+		if (isNumber) {
+			dollarSign = amount.split("$");
+			// make it a number with the $ dollar sign
+			if (dollarSign.length != 2) {
+				amount = "$" + amount;
+			}
+
+			//		
+			decimal = amount.split(".");
+			//console.log(decimal)
+			//console.log('decimal.length is ' + decimal.length)
+			// make it a number with the $ dollar sign
+			if (decimal.length == 1) {
+				amount = amount + ".00";
+			} else if (decimal[1].length == 1) {
+				amount = amount + '0';
+			} else {
+				amount = amount
+			}
+
+			//add applicable commas
+			newAmount = commaSeparateNumber(amount)
+
+			$('#' + id).val(newAmount)
+
+			//$('#Amount').val(newAmount)
+		} else {
+			alert("Please enter a number")
+		}
+	}
+
+	/**
+	* commaSeparateNumber = formats a number with appropriate commas. 
+		takes decimals into account
+	* params
+	*	val = the number you want to format - REQUIRED
+	*/
+	function commaSeparateNumber(val) {
+		val = val.toString().replace(/,/g, ''); //remove existing commas first
+		var valSplit = val.split('.'); //then separate decimals
+
+		while (/(\d+)(\d{3})/.test(valSplit[0].toString())) {
+			valSplit[0] = valSplit[0].toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+		}
+
+		if (valSplit.length == 2) { //if there were decimals
+			val = valSplit[0] + "." + valSplit[1]; //add decimals back
+		} else {
+			val = valSplit[0];
+		}
+
+		return val;
+	}
+
+
+
+
 	function displayUsersSelect(userElement) {
 		var display;
 		var users = getAllUsers().done(function (data) {
@@ -124,30 +252,11 @@
 			$('#' + userElement).append(display)
 		});
 	}
-	
+
 	function getAllUsers() {
 		var url = window.location.protocol + "//" + window.location.host + "/";
 		return $.getJSON(url + 'api/User/list', function (d) {
 		})
-	}
-
-	function isOther(inputName) {
-		var inputVal = $('#' + inputName).val();
-		if (inputVal == "Other") {
-			//change the name of the select input to inputName_old so as to not risk sending incorrect data
-			$('#' + inputName).attr('name', inputName + "_old")
-
-			//
-			$('#' + inputName).parent().attr('id', inputName + "_parent")
-			$('#' + inputName + '_parent').append("<input type='text' name='" + inputName + "' id='" + inputName + "_other' class='form-control' placeholder='Explain'>")
-
-			//assign focus to new input
-			$('#' + inputName + '_other').focus();
-		} else {
-			$('#' + inputName).attr('name', inputName)
-			$('#' + inputName + '_other').remove();
-			$('#' + inputName).parent().attr('id', " ")
-		}
 	}
 
 	$('[data-toggle="popover"]').each(function () {
@@ -181,7 +290,7 @@
 				})
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
-				alert("Error Occurred getting populateDept: " + errorThrown);
+				//alert("Error Occurred getting populateDept: " + errorThrown);
 			}
 		})
 	}
@@ -197,7 +306,7 @@
 			success: function (data) {
 				$("#InitiatedBy").empty();
 				$("#InitiatedBy").append('<option value=""></option>')
-				
+
 				$.each(data, function (index, element) {
 					if (element.id == id) {
 						$("#InitiatedBy").append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>')
@@ -211,7 +320,7 @@
 				})
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
-				alert("Error Occurred getting System Item Types: " + errorThrown);
+				//alert("Error Occurred getting System Item Types: " + errorThrown);
 			}
 		})
 	}
@@ -219,7 +328,7 @@
 	function populateDeptDivHeads() {
 		$("#DeptNameHolder").val($("#InitiatedBy option:selected").text());
 		$("#DeptIdHolder").val($("#InitiatedBy option:selected").val());
-						
+
 		var url = window.location.protocol + "//" + window.location.host + "/";
 
 		$.ajax({
@@ -239,7 +348,7 @@
 				populateAuthor();
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
-				alert("Error Occurred getting System Item Types: " + errorThrown);
+				//alert("Error Occurred getting System Item Types: " + errorThrown);
 			}
 		})
 	}
@@ -259,7 +368,7 @@
 				})
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
-				alert("Error Occurred getting System Item Types: " + errorThrown);
+				//alert("Error Occurred getting System Item Types: " + errorThrown);
 			}
 		})
 	}
@@ -268,79 +377,57 @@
 		$("#MeetingDate").val(sel.options[sel.selectedIndex].text);
 		$("#MeetingDateDisplay").val(moment($("#MeetingDate").val().format('LL')));
 	}
-	
+
 	function updateFinImpactHtml() {
 		var val = $("#FinancialImpact option:selected").val();
-		var html = "";
-		
-		if (val != "") {
-			$("#FinancialImpact option").each(function() {
-				if (val == $(this).val() && $(this).val() != "") {
-					if (html == "") {
-						html = '<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
-					}
-					else {
-						html = html + '\n<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
-					}
-				}
-				else if ($(this).val() != "") {
-					if (html == "") {
-						html = '<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
-					}
-					else {
-						html = html + '\n<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
-					}
-				}
-			})		
 
-			$("#FinImpact").val(html);
+		if (val == "No impact/Not applicable") {
+			$("#NoImpact").val("X");
+			$("#CurrentYear").val("");
+			$("#Other").val("");
 		}
-		else {
-			$("#FinImpact").val("");
+		else if (val == "Budgeted in the current year's budget") {
+			$("#NoImpact").val("");
+			$("#CurrentYear").val("X");
+			$("#Other").val("");
+		}
+		else if (val == "Other (See additional explanation)") {
+			$("#NoImpact").val("");
+			$("#CurrentYear").val("");
+			$("#Other").val("X");
 		}
 	}
-	
+
 	function updateStaffRecHtml() {
 		var val = $("#StaffRecommendation option:selected").val();
-		var html = "";
-		
-		if (val != "") {
-			$("#StaffRecommendation option").each(function() {
-				if (val == $(this).val() && $(this).val() != "") {
-					if (html == "") {
-						html = '<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
-					}
-					else {
-						html = html + '\n<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
-					}
-				}
-				else if ($(this).val() != "") {
-					if (html == "") {
-						html = '<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
-					}
-					else {
-						html = html + '\n<p><span style="text-decoration: underline; font-size: 16pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' + $(this).text(); + '</p>';
-					}
-				}
-			})		
 
-			$("#StaffRec").val(html);
+		if (val == "Recommended") {
+			$("#Recommended").val("X");
+			$("#NotRecommended").val("");
+			$("#NeutralNone").val("");
 		}
-		else {
-			$("#StaffRec").val("");
+		else if (val == "Not Recommended") {
+			$("#Recommended").val("");
+			$("#NotRecommended").val("X");
+			$("#NeutralNone").val("");
+		}
+		else if (val == "Neutral/None") {
+			$("#Recommended").val("");
+			$("#NotRecommended").val("");
+			$("#NeutralNone").val("X");
 		}
 	}
-	
-	function populateOrdinanceInfo(id) {		
-		if (id != "ProjectAmount" && id != "Amount") {									
-			$("[data-parent=" + id + "]").each(function() {
+
+	function populateOrdinanceInfo(id) {
+		if (id != "ProjectAmount" && id != "Amount") {
+			$("[data-parent=" + id + "]").each(function () {
 				$(this).val($("#" + id).val());
 			})
 		}
 		else {
 			var removeDollarSign = $("#" + id).val();
 			removeDollarSign = removeDollarSign.replace("$", "");
-					
+
 			if (removeDollarSign.toString().indexOf(",") >= 0 && removeDollarSign.toString().indexOf(".") >= 0) {
 				removeDollarSign = removeDollarSign.replace(/[^0-9\.]/g, '');
 			}
@@ -353,43 +440,43 @@
 			}
 			else {
 				removeDollarSign = parseFloat(removeDollarSign, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
-								
+
 				if (removeDollarSign.toString().indexOf(",") >= 0 && removeDollarSign.toString().indexOf(".") >= 0) {
 					removeDollarSign = removeDollarSign.replace(/[^0-9\.]/g, '');
-				}					
+				}
 				if (removeDollarSign.toString().indexOf(".") >= 0 && removeDollarSign.toString().indexOf(",") < 0) {
 					removeDollarSign = +(removeDollarSign * 100);
 				}
 			}
-					
-			if (isNaN(removeDollarSign)) {				
+
+			if (isNaN(removeDollarSign)) {
 				$("#" + id).val("$" + parseFloat(0, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
 			}
 			else {
-				$("#" + id).val("$" + parseFloat($("#" + id).val(), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());		
-			}			
+				$("#" + id).val("$" + parseFloat($("#" + id).val(), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+			}
 		}
 	}
-	
+
 	function SelectAllText(id) {
 		var currency = $("#" + id).val().replace("$", "");
 		var newCurrency = "";
 
 		if (currency.indexOf(",") >= 0 && currency.indexOf(".") >= 0) {
 			newCurrency = (parseInt(currency.replace(/[^0-9\.]/g, '')));
-				
+
 			$("#" + id).val(newCurrency);
 		}
 		if (currency.indexOf(".") >= 0 && currency.indexOf(",") < 0) {
 			newCurrency = +(currency * 100) / 100;
-				
-			$("#" + id).val(newCurrency);			
+
+			$("#" + id).val(newCurrency);
 		}
-			
+
 		if (isNaN(newCurrency) || newCurrency == "") {
 			$("#" + id).val(0);
 		}
-			
+
 		if (document.selection) {
 			var range = document.body.createTextRange();
 			range.moveToElementText(document.getElementById(id));
@@ -399,13 +486,11 @@
 			var range = document.createRange();
 			range.selectNodeContents(document.getElementById(id));
 			window.getSelection().removeAllRanges();
-			window.getSelection().addRange(range);			
+			window.getSelection().addRange(range);
 		}
-		
+
 		$("#" + id).select();
-	}
-	
-	//<div contenteditable="true" id="FinImpact" name="FinImpact" style="width: 500px; height: 150px; border: 1px solid black;"></div>
+	}	
 </script>
 
 <style>
@@ -426,74 +511,95 @@
 	<input type="hidden" name="DeptNameHolder" id="DeptNameHolder" />
 	<input type="hidden" name="DeptIdHolder" id="DeptIdHolder" />
 	<input type="hidden" name="DeptHeadId" id="DeptHeadId" />
-	<input type="hidden" name="DivHeadId" id="DivHeadId" />	
+	<input type="hidden" name="DivHeadId" id="DivHeadId" />
 	<input type="hidden" name="FinImpact" id="FinImpact" />
 	<input type="hidden" name="StaffRec" id="StaffRec" />
-	<input type="hidden" name="Document2.DocumentType" id="Document2.DocumentType" value="3" />
-	<input type="hidden" name="Document2.name" id="Document2.name" value="Bid Proposal - Ordinance" />
-	<input type="hidden" data-parent="ProjectVendorName" name="Document2.ProjectVendorName1" id="Document2.ProjectVendorName1" />
-	<input type="hidden" data-parent="ProjectVendorName" name="Document2.ProjectVendorName2" id="Document2.ProjectVendorName2" />
-	<input type="hidden" data-parent="ProjectVendorName" name="Document2.ProjectVendorName3" id="Document2.ProjectVendorName3" />
-	<input type="hidden" data-parent="ProjectName" name="Document2.ProjectName1" id="Document2.ProjectName1" />
-	<input type="hidden" data-parent="ProjectName" name="Document2.ProjectName2" id="Document2.ProjectName2" />
-	<input type="hidden" data-parent="ProjectName" name="Document2.ProjectName3" id="Document2.ProjectName3" />
-	<input type="hidden" name="NumberOfDocuments" id="NumberOfDocuments" value="2" />	
+	<input type="hidden" name="NumberOfDocuments" id="NumberOfDocuments" value="2" />
+	<input type="hidden" name="NoImpact" id="NoImpact" />
+	<input type="hidden" name="CurrentYear" id="CurrentYear" />
+	<input type="hidden" name="Other" id="Other" />
+	<input type="hidden" name="Recommended" id="Recommended" />
+	<input type="hidden" name="NotRecommended" id="NotRecommended" />
+	<input type="hidden" name="NeutralNone" id="NeutralNone" />
 
 	<legend>Meeting Information</legend>
 
 	<div class="form-group  dataType" data-type="Meeting Select With Sections">
 		<div class="row">
-			<label class="col-md-3 control-label col-centered" for="committeeSelect">Committee:</label>
-		</div>
+			<div class="col-md-12">
+				<div class='form-group'>
+					<label for="committeeSelect">Committee:</label>
 
-		<div class="row">
-			<div class="col-md-6">
-				<select id="committeeSelect" name="committeeSelect" data-for="meetingTypes" data-field-hasvalue="false" data-field-values="committees" class="form-control "></select>
+					<span style="color: red;">*</span>
+
+					<select id="committeeSelect" style="width: 500px;" required="true" name="committeeSelect"
+						data-for="meetingTypes" data-field-hasvalue="false" data-field-values="committees"
+						class="form-control "></select>
+				</div>
 			</div>
 		</div>
-	</div>
-	
-	<br />
 
-	<div class="row">
-		<label class="col-md-3 control-label" for="meetingTypeSelect">Meeting Type:</label>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<select id="meetingTypeSelect" name="meetingTypeSelect" data-dependent-on="committeeSelect" data-field-hasvalue="false" data-field-values="meetingTypes" class="form-control "></select>
+		<br />
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class='form-group'>
+					<label for="meetingTypeSelect">Meeting Type:</label>
+
+					<span style="color: red;">*</span>
+
+					<select id="meetingTypeSelect" style="width: 500px;" required="true" name="meetingTypeSelect"
+						data-dependent-on="committeeSelect" data-field-hasvalue="false" data-field-values="meetingTypes"
+						class="form-control "></select>
+				</div>
+			</div>
 		</div>
-	</div>
 
-	<br />
+		<br />
 
-	<div class="row">
-		<label class="col-md-3 control-label" for="meetingDateSelect">Meeting Date:</label>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<select id="meetingDateSelect" name="meetingDateSelect" data-dependent-on="meetingTypeSelect" onChange="setMeetingDate(this);" data-field-hasvalue="false" data-field-values="meetingDates" class="form-control "></select>
+		<div class="row">
+			<div class="col-md-12">
+				<div class='form-group'>
+					<label for="meetingDateSelect">Meeting Date:</label>
+
+					<span style="color: red;">*</span>
+
+					<select id="meetingDateSelect" style="width: 500px;" required="true" name="meetingDateSelect"
+						data-dependent-on="meetingTypeSelect" onChange="setMeetingDate(this);"
+						data-field-hasvalue="false" data-field-values="meetingDates" class="form-control "></select>
+				</div>
+			</div>
 		</div>
-	</div>
 
-	<br />
+		<br />
 
-	<div class="row">
-		<label class="col-md-3 control-label" for="meetingSectionSelect">Meeting Section:</label>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<select id="meetingSectionSelect" name="meetingSectionSelect" data-dependent-on="meetingDateSelect" data-field-hasvalue="false" data-field-values="meetingSections" class="form-control "></select>
+		<div class="row">
+			<div class="col-md-12">
+				<div class='form-group'>
+					<label for="meetingSectionSelect">Meeting Section:</label>
+
+					<span style="color: red;">*</span>
+
+					<select id="meetingSectionSelect" style="width: 500px;" required="true" name="meetingSectionSelect"
+						data-dependent-on="meetingDateSelect" data-field-hasvalue="false"
+						data-field-values="meetingSections" class="form-control "></select>
+				</div>
+			</div>
 		</div>
-	</div>
 
-	<br />
+		<br />
 
-	<div class="row">
-		<label class="col-md-3 control-label" for="ItemType">Item Type:</label>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<select id="ItemType" name="ItemType" data-name="ItemType" class="form-control "></select>
+		<div class="row">
+			<div class="col-md-12">
+				<div class='form-group'>
+					<label for="ItemType">Item Type:</label>
+
+					<span style="color: red;">*</span>
+
+					<select id="ItemType" required="true" style="width: 500px;" name="ItemType" data-name="ItemType"
+						class="form-control "></select>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -501,38 +607,42 @@
 	<br />
 
 	<legend>Bid Proposal</legend>
-	
+
 	<div class="row">
 		<div class="col-sm-12 form-group">
 			<label for="Subject">Item/Subject:</label>
-			
-			<textarea rows="5" cols="100" class="form-control" name="Subject" id="Subject" placeholder="Item/Subject"></textarea>
+
+			<textarea rows="5" cols="100" class="form-control" name="Subject" id="Subject"
+				placeholder="Item/Subject"></textarea>
 		</div>
 	</div>
-		
+
 	<div class="row">
 		<div class="col-sm-12 form-group">
 			<label for="InitiatedBy">Initiated By:</label>
-			
-			<select id="InitiatedBy" style="width: 450px;" name="InitiatedBy" onchange="populateDeptDivHeads()" class="form-control"></select>
+
+			<select id="InitiatedBy" style="width: 450px;" name="InitiatedBy" onchange="populateDeptDivHeads()"
+				class="form-control"></select>
 		</div>
 	</div>
-	
+
 	<div class="row">
 		<div>
 			<div class="col-sm-12 form-group">
 				<div style="display: inline-block; width: 45%;">
 					<label for="FirstReading">First Reading:</label>
-				
-					<input type="text" style="width: 150px;" class="form-control datepicker" name="FirstReading" id="FirstReading" placeholder="FirstReading" />
-				</div>			
-		
+
+					<input type="text" style="width: 150px;" class="form-control datepicker" name="FirstReading"
+						id="FirstReading" placeholder="FirstReading" />
+				</div>
+
 				<div style="display: inline-block; width: 45%;">
 					<label for="FinalReading">Final Reading:</label>
 
-					<input type="text" style="width: 150px;" class="form-control datepicker" name="FinalReading" id="FinalReading" placeholder="FinalReading" />
+					<input type="text" style="width: 150px;" class="form-control datepicker" name="FinalReading"
+						id="FinalReading" placeholder="FinalReading" />
 				</div>
-			</div>			
+			</div>
 		</div>
 	</div>
 
@@ -540,123 +650,159 @@
 	<br />
 
 	<legend>Executive Summary</legend>
-	
+
 	<div class="row">
-		<div class="col-sm-12 form-group">
-			<label>1.</label> This item from <input style="width: 225px;" type="text" name="VendorName" id="VendorName" placeholder="Vendor Name"> for <input style="width: 225px;" type="text" name="Project" id="Project" placeholder="Project"> in the amount not to exceed <input style="width: 175px;" onblur="populateOrdinanceInfo(this.id)" onfocus="SelectAllText(this.id);" type="text" name="Amount" id="Amount" placeholder="$0.00">.
-				
+		<div class="col-sm-12 form-group ">
+			<label>1.</label> This item from
+			<input style="width: 225px;" type="text" name="VendorName" id="VendorName" placeholder="Vendor Name"
+				Required>
+			for
+			<input style="width: 225px;" type="text" name="Project" id="Project" placeholder="Project" Required>
+			in the amount not to exceed
+			<input style="width: 175px;" type="text" name="Amount" id="Amount"
+				onchange="formatNumber(this.value, this.id)" Required placeholder="$0.00">
+
+
 			<br />
 			<br />
-				
+
 			<span class="form-group" style="margin-left: 3%;">
 				<label for="Reason">Reason For Purchase:</label>
-				
+
 				<br />
 
-				<textarea style="margin-left: 5%;" rows="3" cols="100" name="Reason" id="Reason" placeholder="Description of item. Reason for purchase. If needed."></textarea>
-			</span>			
+				<textarea style="margin-left: 5%;" rows="3" cols="100" name="Reason" id="Reason"
+					placeholder="Description of item. Reason for purchase. If needed."></textarea>
+			</span>
 		</div>
 	</div>
-		
-	<br />	
-	
+
+	<br />
+
 	<div class="row">
 		<div class="col-sm-12 form-group">
 			<label for="BidDetails">2. Bid details:</label>
-			
-			<i data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover" title="Bidder Instructions" data-content="- Number of bids received, list of bidders, amount of each bid who was awarded bid. If non-qualified bids are listed, denote the bid was not qualified and why<br>- If only one bid was received, list how many request for bids were sent out.<br>- Was it a state or cooperative bid etc.<br>- Reason: Example: low bid, if not low bid then include explanation as to why" class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
-			
-			<textarea rows="3" class="form-control" name="BidDetails" id="BidDetails" placeholder="Bid Details."></textarea>
-		</div>		
+
+			<i data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover"
+				title="Bidder Instructions"
+				data-content="- Number of bids received, list of bidders, amount of each bid who was awarded bid. If non-qualified bids are listed, denote the bid was not qualified and why<br>- If only one bid was received, list how many request for bids were sent out.<br>- Was it a state or cooperative bid etc.<br>- Reason: Example: low bid, if not low bid then include explanation as to why"
+				class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
+
+			<textarea rows="3" class="form-control" name="BidDetails" id="BidDetails"
+				placeholder="Bid Details."></textarea>
+		</div>
 	</div>
-	
+
 	<br />
-		
+
 	<div class="row">
-		<table class="form-group" style="width: 100%">
-			<tr>
-				<td style="text-align: center; width: 45%">
-					<label for="Bidders">BIDDER</label>
-				</td>
-				
-				<td></td>
-				
-				<td style="text-align: center; width: 45%">
-					<label for="Amounts">AMOUNT</label>
-				</td>
-			</tr>
-			<tr>
-				<td style="text-align: center; width: 45%">
-					<textarea name="Bidders" id="Bidders" rows="3" cols="50" placeholder="List of Bidders."></textarea>
-				</td>
-				
-				<td></td>
-				
-				<td style="text-align: center; width: 45%">
-					<textarea name="Amounts" id="Amounts" rows="3" cols="50" placeholder="Amounts."></textarea>
-				</td>
-			<tr>
-		</table>
+		<div class="col-sm-1">
+
+		</div>
+		<div class="col-sm-10">
+
+			<table class="form-group " style="width:100%">
+				<tr>
+					<td style="text-align: left; ">
+						<label for="Bidders">BIDDER</label>
+					</td>
+					<td>&emsp;</td>
+
+					<td style="text-align: left; ">
+						<label for="Amounts">AMOUNT</label>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: left; width: 50%">
+						<textarea name="Bidders" id="Bidders" rows="3" class="form-control"
+							placeholder="List of Bidders."></textarea>
+					</td>
+					<td>&emsp;</td>
+
+					<td style="text-align: left; width: 50%">
+						<textarea name="Amounts" id="Amounts" rows="3" class="form-control"
+							placeholder="Amounts."></textarea>
+					</td>
+				<tr>
+			</table>
+		</div>
+
+		<div class="col-sm-1">
+
+		</div>
+
 	</div>
-		
-	<br />	
-	
+
+	<br />
+
 	<div class="row">
 		<div class="col-sm-12 form-group">
 			<label for="AdditionalInformation">3. Additional Information:</label>
-			
-			<textarea class="form-control" name="AdditionalInformation" id="AdditionalInformation" placeholder="Provide any additional information not mentioned previously"></textarea>
-		</div>		
-	</div>
-	
-	<div class="row">
-		<div class="col-sm-12 form-group">			
-			<label>4.</label> Funds for this are budgeted in the <select class="form-control" style="width: 100px; display: inline;" name="BudgetYear" id="BudgetYear"><option value=""></option><option value="current">current</option><option value="next">next</option></select> year's budget.
-		</div>		
+
+			<textarea class="form-control" name="AdditionalInformation" id="AdditionalInformation"
+				placeholder="Provide any additional information not mentioned previously"></textarea>
+		</div>
 	</div>
 
-	<br />	
-	
+	<div class="row">
+		<div class="col-sm-12 form-group">
+			<label>4.</label> Funds for this are budgeted in the <select class="form-control"
+				style="width: 100px; display: inline;" name="BudgetYear" id="BudgetYear">
+				<option value=""></option>
+				<option value="current">current</option>
+				<option value="next">next</option>
+			</select> year's budget.
+		</div>
+	</div>
+
+	<br />
+
 	<br />
 	<br />
-	
+
 	<legend>Additional Information</legend>
-	
+
 	<div class="row">
 		<div class="col-sm-12">
 			<table style="width: 100%;">
 				<tr>
 					<td style="width: 45%;">
 						<div class="form-group">
-							<label style="font-size: 14pt; text-decoration: underline; font-weight: bold;">FINANCIAL IMPACT:</label>
+							<label style="font-size: 14pt; text-decoration: underline; font-weight: bold;">FINANCIAL
+								IMPACT:</label>
 						</div>
 					</td>
-					
+
 					<td style="width: 45%;">
 						<div class="form-group">
-							<label style="font-size: 14pt; text-decoration: underline; font-weight: bold;">STAFF RECOMMENDATION:</label>
+							<label style="font-size: 14pt; text-decoration: underline; font-weight: bold;">STAFF
+								RECOMMENDATION:</label>
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 45%;">			
-						<div class="form-group">
-							<select onchange="updateFinImpactHtml()" class="form-control" style="width: 400px;" name="FinancialImpact" id="FinancialImpact">
-								<option value=""></option>
-								<option value="0">No impact/Not applicable</option>
-								<option value="1">Budgeted in the current year's budget</option>
-								<option value="2">Other (See additional explanation)</option>
-							</select>						
-						</div>
-					</td>
-					
 					<td style="width: 45%;">
 						<div class="form-group">
-							<select onchange="updateStaffRecHtml()" class="form-control" style="width: 400px;" name="StaffRecommendation" id="StaffRecommendation">
+							<select onchange="updateFinImpactHtml()" class="form-control" style="width: 400px;"
+								name="FinancialImpact" id="FinancialImpact">
 								<option value=""></option>
-								<option value="0">Recommended</option>
-								<option value="1">Not Recommended</option>
-								<option value="2">Neutral/None</option>
+								<option value="No impact/Not applicable">No impact/Not applicable</option>
+								<option value="Budgeted in the current year's budget">Budgeted in the current year's
+									budget</option>
+								<option value="Other (See additional explanation)">Other (See additional explanation)
+								</option>
+							</select>
+						</div>
+					</td>
+
+					<td style="width: 45%;">
+						<div class="form-group">
+							<select onchange="updateStaffRecHtml()" class="form-control" style="width: 400px;"
+								name="StaffRecommendation" id="StaffRecommendation">
+								<option value=""></option>
+								<option value="Recommended">Recommended</option>
+								<option value="Not Recommended">Not Recommended</option>
+								<option value="Neutral/None">Neutral/None</option>
 							</select>
 						</div>
 					</td>
@@ -664,9 +810,9 @@
 			</table>
 		</div>
 	</div>
-	
-	<br />	
-	
+
+	<br />
+
 	<div class="row">
 		<div class="col-sm-12 form-group">
 			<label for="CommunityPlan">Community Plan 2030:</label>
@@ -678,53 +824,66 @@
 	</div>
 
 	<br />
-	
+
 	<div class="row">
 		<div class="col-sm-12 form-group">
 			<label for="AttachedExhibits">Attached Exhibits:</label>
 
-			<textarea rows="3" cols="100" class="form-control" name="AttachedExhibits" id="AttachedExhibits" placeholder="Attached Exhibits"></textarea>
-		</div>			
+			<textarea rows="3" cols="100" class="form-control" name="AttachedExhibits" id="AttachedExhibits"
+				placeholder="Attached Exhibits"></textarea>
+		</div>
 	</div>
 
 	<br />
-	
+
 	<div class="row">
 		<div class="col-sm-12 form-group">
 			<label for="DetailedAnalysis">Detailed Analysis:</label>
-		
-			<textarea rows="3" class="form-control" name="DetailedAnalysis" id="DetailedAnalysis" placeholder="Required if 'other' is chosen on Financial Impact"></textarea>
+
+			<textarea rows="3" class="form-control" name="DetailedAnalysis" id="DetailedAnalysis"
+				placeholder="Required if 'other' is chosen on Financial Impact"></textarea>
 		</div>
 	</div>
 
 	<br />
 	<br />
-	
-	<legend>Code Amendment</legend>
-	
-	<div class="row">		
+
+	<legend>bid proposal </legend>
+
+	<div class="row">
 		<div class="col-sm-12 form-group">
-			<input type="checkbox" id="IncludeOrdinance" name="IncludeOrdinance" onchange="AddOrdinance(this.id)"><label style="margin-left: 5px;" for="IncludeOrdinance">Include <i>(or create)</i> an ordinance?</label></input>			
-		</div>		
+			<input type="checkbox" id="IncludeOrdinance" name="IncludeOrdinance" onchange="AddOrdinance(this.id)"><label
+				style="margin-left: 5px;" for="IncludeOrdinance">Include <i>(or create)</i> an
+				ordinance?</label></input>
+		</div>
 	</div>
-	
-	<div class="row" id="ordinanceSection">			
+
+	<div class="row" id="ordinanceSection">
 		<div class="col-sm-12 form-group">
 			<label for="VendorName">Vendor:</label>
-				
-			<input type="text" onblur="populateOrdinanceInfo(this.id)" class="form-control" style="width: 275px;" id="ProjectVendorName" name="ProjectVendorName" placeholder="Vendor"> 
+
+			<span style="color: red;">*</span>
+
+			<input type="text" onblur="populateOrdinanceInfo(this.id)" class="form-control" style="width: 275px;"
+				id="ProjectVendorName" name="ProjectVendorName" placeholder="Vendor">
 		</div>
-			
+
 		<div class="col-sm-12 form-group">
 			<label for="ProjectName">Project:</label>
-				
-			<input type="text" onblur="populateOrdinanceInfo(this.id)" class="form-control" style="width: 275px;" id="ProjectName" name="ProjectName" placeholder="Project"> 
+
+			<span style="color: red;">*</span>
+
+			<input type="text" onblur="populateOrdinanceInfo(this.id)" class="form-control" style="width: 275px;"
+				id="ProjectName" name="ProjectName" placeholder="Project">
 		</div>
-			
+
 		<div class="col-sm-12 form-group">
 			<label for="ProjectAmount">Project Amount:</label>
-				
-			<input type="text" onblur="populateOrdinanceInfo(this.id)" onfocus="SelectAllText(this.id);" class="form-control" style="width: 175px;" id="ProjectAmount" name="ProjectAmount" placeholder="$0.00"> 
-		</div>			
+
+			<span style="color: red;">*</span>
+
+			<input type="text" onblur="populateOrdinanceInfo(this.id)" onfocus="SelectAllText(this.id);"
+				class="form-control" style="width: 175px;" id="ProjectAmount" name="ProjectAmount" placeholder="$0.00">
+		</div>
 	</div>
 </body>

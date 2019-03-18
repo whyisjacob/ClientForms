@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function () {
 	$("textarea").attr('rows', '5');
 
 })
@@ -104,4 +104,103 @@ function getAllUsers() {
 	var url = window.location.protocol + "//" + window.location.host + "/";
 	return $.getJSON(url + 'api/User/list', function (d) {
 	})
-}	
+}
+
+
+
+
+/**
+	* formatNumber = formats a input field to be a number
+	* params
+	*	value = the input value - REQUIRED
+	*	id = the input id - REQUIRED
+	* calls = commaSeparateNumber(number)
+	* usage onchange="formatNumber(this.value, this.id)"
+	*/
+function formatNumber(value, id) {
+	var amount = value,
+		newAmount,
+		dollarSign,
+		decimal,
+		isNumber;
+
+	//ensure it's a number
+	numberCheck = /^[0-9,.$]*$/;
+	isNumber = numberCheck.test(amount);
+	if (isNumber) {
+		dollarSign = amount.split("$");
+		// make it a number with the $ dollar sign
+		if (dollarSign.length != 2) {
+			amount = "$" + amount;
+		}
+
+		//check if number has decimal
+		decimal = amount.split(".");
+		if (decimal.length == 1) {
+			amount = amount + ".00";
+		} else if (decimal[1].length == 1) {
+			amount = amount + '0';
+		} else {
+			amount = amount
+		}
+
+		//add applicable commas
+		newAmount = commaSeparateNumber(amount)
+
+		$('#' + id).val(newAmount)
+
+	} else {
+		alert("Please enter a number")
+	}
+}
+
+/**
+* commaSeparateNumber = formats a number with appropriate commas. 
+	takes decimals into account
+* params
+*	val = the number you want to format - REQUIRED
+*/
+function commaSeparateNumber(val) {
+	val = val.toString().replace(/,/g, ''); //remove existing commas first
+	var valSplit = val.split('.'); //then separate decimals
+
+	while (/(\d+)(\d{3})/.test(valSplit[0].toString())) {
+		valSplit[0] = valSplit[0].toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+	}
+
+	if (valSplit.length == 2) { //if there were decimals
+		val = valSplit[0] + "." + valSplit[1]; //add decimals back
+	} else {
+		val = valSplit[0];
+	}
+
+	return val;
+}
+
+/**
+ * function requireFields()
+ * Adds red required astrist (*) all inputs, textareas, etc with attribute "required" 
+ */
+function requireFields() {
+	let inputChk = $('input'),
+		textareaChk = $('textarea'),
+		selectChk = $('select');
+	$(inputChk).each(function (ind, val) {
+		var input = $(val).attr('required')
+		if (typeof input !== typeof undefined && input !== false) {
+			$(val).after('<span style="color: red;">*</span>')
+		}
+	})
+	$(textareaChk).each(function (ind, val) {
+		var input = $(val).attr('required')
+		if (typeof input !== typeof undefined && input !== false) {
+			$(val).after('<span style="color: red;">*</span>')
+		}
+	})
+	$(selectChk).each(function (ind, val) {
+		var input = $(val).attr('required')
+		if (typeof input !== typeof undefined && input !== false) {
+			$(val).after('<span style="color: red;">*</span>')
+		}
+	})
+}
