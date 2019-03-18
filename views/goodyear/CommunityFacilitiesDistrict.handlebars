@@ -1,0 +1,1038 @@
+<style>
+    .popover-content {
+        width: max-content;
+        max-width: 700px;
+    }
+
+    .popover {
+        width: max-content;
+        max-width: 700px;
+    }
+
+    .1 {
+        counter-reset: item;
+    }
+
+    .2 {
+        counter-increment: item;
+    }
+
+    .3 {
+        counter-increment: item;
+    }
+
+    .nobold {
+        font-weight: 100 !important;
+    }
+</style>
+<input type="hidden" name="MeetingDate" id="MeetingDate" />
+<input type="hidden" name="MeetingDateDisplay" id="MeetingDateDisplay" />
+<input type="hidden" name="DeptNameHolder" id="DeptNameHolder" />
+<input type="hidden" name="DeptIdHolder" id="DeptIdHolder" />
+<input type="hidden" name="DeptHeadId" id="DeptHeadId" />
+<input type="hidden" name="DivHeadId" id="DivHeadId" />
+<input type="hidden" name="Document1.DocumentType" id="Document1.DocumentType" value="8" />
+<input type="hidden" name="Document1.DocumentName" id="Document1.DocumentName" value="Community Facilities District (CFD)">
+
+<legend>Meeting Information</legend>
+
+<div class=" form-group dataType" data-type="Meeting Select With Sections">
+    <div class="row">
+        <label class="col-md-3 control-label col-centered" for="committeeSelect">Committee:</label>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <select id="committeeSelect" name="committeeSelect" class="form-control " disabled>
+                <option value="15">Community Facilities District (CFD)</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <label class="col-md-3 control-label" for="meetingTypeSelect">Meeting Type:</label>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <select id="meetingTypeSelect" name="meetingTypeSelect" class="form-control" data-dependent-on="committeeSelect"
+            data-field-hasvalue="false" data-field-values="meetingTypes" onchange="prepMeeting(this.id)">
+            <option value="0">Select Meeting Type</option>
+            <option value="26">Community Facilities District (CFD)</option>
+        </select>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <label class="col-md-3 control-label" for="meetingDateSelect">Meeting Date:</label>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <select id="meetingDateSelect" name="meetingDateSelect" data-dependent-on="meetingTypeSelect"
+            onchange="setMeetingDate(this);" data-field-hasvalue="false" data-field-values="meetingDates"
+            class="form-control "></select>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <label class="col-md-3 control-label" for="meetingSectionSelect">Meeting Section:</label>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <select id="meetingSectionSelect" name="meetingSectionSelect" data-dependent-on="meetingDateSelect"
+            data-field-hasvalue="false" data-field-values="meetingSections" class="form-control ">
+            <option value="1262">COMMUNICATIONS</option>
+            <option value="1263">CONSENT</option>
+            <option value="1264">BUSINESS</option>
+            <option value="1268">PUBLIC HEARINGS</option>
+        </select>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <label class="col-md-3 control-label" for="ItemType">Item Type:</label>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <select id="ItemType" name="ItemType" data-name="ItemType" onchange="showPresenterField()"
+            class="form-control "></select>
+    </div>
+</div>
+<br />
+
+<div class='row'>
+    <div class='col-sm-6'>
+        <div class='form-group'>
+            <label for="RecordationRequired">Recordation Required</label><span style="color: red;">*</span>
+            <select id="RecordationRequired" name="RecordationRequired" class="form-control">
+                <option value="0">Choose One</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class='col-sm-6'>
+        <div class='form-group'>
+            <label for="PublicationRequired">Publication Required</label><span style="color: red;">*</span>
+            <select id="PublicationRequired" name="PublicationRequired" class="form-control"
+                onclick="PublicationRequired1()">
+                <option value="0">Choose One</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+        </div>
+    </div>
+</div>
+
+<div class="row PublicationRequired">
+    <div class='col-sm-6'>
+        <div class='form-group'>
+            <label for="HowManyTimes">How many times?</label>
+            <input type="number" name="HowManyTimes" id="HowManyTimes" class="form-control">
+        </div>
+    </div>
+    <div class='col-sm-6'>
+        <div class='form-group'>
+            <label for="PubSpecialInstructions">Publication Special Instructions</label>
+            <input type="text" name="PubSpecialInstructions" id="PubSpecialInstructions" class="form-control">
+        </div>
+    </div>
+</div>
+
+
+<br />
+<br />
+<legend>Community Facilities District (CFD) </legend>
+<div class='row'>
+    <div class='col-md-12'>
+        <div class='form-group'>
+            <label for="ItemTitle">SUBJECT:</label><span style="color: red;">*</span>
+            <textarea class="form-control" name="ItemTitle" id="ItemTitle" rows="10" cols="160"></textarea>
+        </div>
+    </div>
+</div>
+<div class='row'>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="Author">Requestor:</label><span style="color: red;">*</span>
+            <input class="form-control" id="Author" name="Author" required="true" type="text" disabled />
+        </div>
+    </div>
+</div>
+<div class='row'>
+    <div class='col-md-12'>
+        <div class='form-group'>
+            <label for="StaffPresenters">Staff Presenter(s):</label><span style="color: red;">*</span>
+            <div class="row">
+                <div class="col-sm-6">
+                    <select class="form-control" id="internalUsers" onchange="selectUser(this.id)">
+                    </select>
+                    <label for="CustomName">Other Presenter(s)</label>
+
+                    <div class="input-group">
+                        <input type="text" id="CustomName" name="CustomName" value="Name - Title" class="form-control"
+                            onclick="selectElm(this.id)">
+                        <div class="input-group-addon"><span onclick="AddCustomUser()">add</span></div>
+
+                    </div>
+                </div>
+                <div id="presentersDisplay" class="col-sm-6 hidden">
+                    <ul id="dynamicItemDisplay">
+                    </ul>
+                    <span id="addPresenters" class="btn btn-primary" onclick="addPresenters()">Add Presenters</span>
+                    <textarea class="form-control hidden" name="StaffPresenters" id="StaffPresenters"
+                        rows="10"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='row'>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="SUMMARY">SUMMARY:</label><span style="color: red;">*</span>
+            <textarea class="form-control" name="Summary" id="Summary" rows="10" cols="160"></textarea>
+        </div>
+    </div>
+</div>
+<div class='row'>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="Recommendation">RECOMMENDATION</label><span style="color: red;">*</span>
+            <textarea class="form-control" name="Recommendation" id="Recommendation" rows="10" cols="160"></textarea>
+        </div>
+    </div>
+</div>
+<div class='row'>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="FiscalImpact">FISCAL IMPACT</label><span style="color: red;">*</span>
+            <textarea class="form-control" name="FiscalImpact" id="FiscalImpact" rows="10" cols="160"></textarea>
+        </div>
+    </div>
+</div>
+<div class='row'>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="Background">BACKGROUND AND PREVIOUS ACTIONS:</label><span style="color: red;">*</span>
+            <textarea class="form-control" name="Background" id="Background" rows="10" cols="160"></textarea>
+        </div>
+    </div>
+</div>
+<div class='row'>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="StaffAnalysis">STAFF ANALYSIS</label><span style="color: red;">*</span>
+            <textarea class="form-control" name="StaffAnalysis" id="StaffAnalysis" rows="10" cols="160"></textarea>
+        </div>
+    </div>
+</div>
+<div class='row'>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="Attachments">ATTACHMENT(S)</label><span style="color: red;">*</span>
+            <textarea class="form-control" name="Attachments" id="Attachments" rows="10" cols="160"></textarea>
+        </div>
+    </div>
+</div>
+
+
+<br />
+<br />
+<legend>
+    Additional Questions
+    <br>
+    <small><small><small>Will not appear on CAR</small></small></small>
+</legend>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label for="SelectCFD">Select CFD</label>
+            <select id="SelectCFD" name="SelectCFD" class="form-control">
+                <option></option>
+                <option value="CENTERRACFD">CENTERRACFD</option>
+                <option value="CFGD#1">CFGD#1</option>
+                <option value="CFUD#1">CFUD#1</option>
+                <option value="CORTINACFD">CORTINACFD</option>
+                <option value="CTTNFLWRCFD">CTTNFLWRCFD</option>
+                <option value="EMRCFD">EMRCFD</option>
+                <option value="KRCFD">KRCFD</option>
+                <option value="PVCFD#3">PVCFD#3</option>
+                <option value="WFRCFD">WFRCFD</option>
+                <option value="WFRCFD#2">WFRCFD#2</option>
+            </select>
+        </div>
+    </div>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="ContractSentSeparately">Will contract be sent separately</label><span
+                style="color: red;">*</span>
+            <input id="ContractSentSeparatelyY" type="checkbox" class="ContractSentSeparately"
+                name="ContractSentSeparately" value="Yes"> Yes
+            <input id="ContractSentSeparatelyN" type="checkbox" class="ContractSentSeparately"
+                name="ContractSentSeparately" value="No"> No
+        </div>
+    </div>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="OrdinanceRequirePosting">Does ordinance require posting (if penal provisions or associated
+                fees/fines)?</label><span style="color: red;">*</span>
+            <input id="OrdinanceRequirePostingY" type="checkbox" class="OrdinanceRequirePosting"
+                name="OrdinanceRequirePosting" value="Yes"> Yes
+            <input id="OrdinanceRequirePostingN" type="checkbox" class="OrdinanceRequirePosting"
+                name="OrdinanceRequirePosting" value="No"> No
+        </div>
+    </div>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="RateFeeChange">Does item affect rate fees?</label><span style="color: red;">*</span>
+            <input id="RateFeeChangeY" type="checkbox" class="RateFeeChange" name="RateFeeChange" value="Yes"> Yes
+            <input id="RateFeeChangeN" type="checkbox" class="RateFeeChange" name="RateFeeChange" value="No"> No
+        </div>
+    </div>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="EmergencyClauseOrdinance">Emergency clause ordinance?</label><span style="color: red;">*</span>
+            <input id="EmergencyClauseOrdinanceY" type="checkbox" class="EmergencyClauseOrdinance"
+                name="EmergencyClauseOrdinance" value="Yes"> Yes
+            <input id="EmergencyClauseOrdinanceN" type="checkbox" class="EmergencyClauseOrdinance"
+                name="EmergencyClauseOrdinance" value="No"> No
+        </div>
+    </div>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="ItemAmendCityCode">Does Item Amend City Code?</label><span style="color: red;">*</span>
+            <input id="ItemAmendCityCodeY" type="checkbox" class="ItemAmendCityCode" name="ItemAmendCityCode"
+                value="Yes"> Yes
+            <input id="ItemAmendCityCodeN" type="checkbox" class="ItemAmendCityCode" name="ItemAmendCityCode"
+                value="No"> No
+        </div>
+    </div>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="ExhibitsRequireSignature">Exhibit(s) Require Signatures?</label><span
+                style="color: red;">*</span>
+            <input id="ExhibitsRequireSignatureY" type="checkbox" class="ExhibitsRequireSignature"
+                name="ExhibitsRequireSignature" value="Yes"> Yes
+            <input id="ExhibitsRequireSignatureN" type="checkbox" class="ExhibitsRequireSignature"
+                name="ExhibitsRequireSignature" value="No"> No
+        </div>
+    </div>
+    <div class='col-sm-12 RequiredSignatures_yes'>
+        <div class='form-group'>
+            <label for="RequiredSignatures">Required Signatures?</label><span style="color: red;">*</span><br>
+            <input id="RequiredSignaturesMayor" type="checkbox" name="RequiredSignatures" value="Mayor"> <label
+                for="RequiredSignaturesMayor"> Mayor</label><br>
+            <input id="RequiredSignaturesCityAttorney" type="checkbox" name="RequiredSignatures" value="City Attorney">
+            <label for="RequiredSignaturesCityAttorney"> City Attorney</label><br>
+            <input id="RequiredSignaturesCityManager" type="checkbox" name="RequiredSignatures" value="CityManager">
+            <label for="RequiredSignaturesCityManager"> City Manager</label><br>
+            <input id="RequiredSignaturesProcurement" type="checkbox" name="RequiredSignatures" value="Procurement">
+            <label for="RequiredSignaturesProcurement"> Procurement</label><br>
+            <input id="RequiredSignaturesCityClerk" type="checkbox" name="RequiredSignatures" value="City Clerk"> <label
+                for="RequiredSignaturesCityClerk"> City Clerk</label>
+
+        </div>
+    </div>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="TransmittalLetterRequired">Transmittal Letter Required?</label><span
+                style="color: red;">*</span>
+            <input id="TransmittalLetterRequiredY" type="checkbox" class="TransmittalLetterRequired"
+                name="ItemApproveContract" value="Yes"> Yes
+            <input id="TransmittalLetterRequiredN" type="checkbox" class="TransmittalLetterRequired"
+                name="ItemApproveContract" value="No"> No
+        </div>
+    </div>
+    <div class="row TransmittalLetterRequired_no form-group">
+        <div class="col-sm-12">
+            <label for="ContractNumber">Who will send Transmittal</label>
+        </div>
+        <div class="col-sm-12">
+            <input id="sendTransmittalDepartment" name="sendTransmittal" type="radio" value="Department"> <label
+                for="sendTransmittalDepartment">Department</label><br>
+            <input id="sendTransmittalCityClerk" name="sendTransmittal" type="radio" value="City Clerk"> <label
+                for="sendTransmittalCityClerk">City Clerk</label>
+        </div>
+    </div>
+    <div class="row TransmittalLetterRequired_no form-group">
+        <div class="col-sm-12">
+            <label for="TransmittalName">Transmittal Name</label>
+        </div>
+        <div class="col-sm-12">
+            <input type="text" id="TransmittalName" name="TransmittalName" class="form-control">
+        </div>
+    </div>
+    <div class="row TransmittalLetterRequired_no form-group">
+        <div class="col-sm-12">
+            <label for="TransmittalAddress">Transmittal Address</label>
+        </div>
+        <div class="col-sm-12">
+            <input type="text" id="TransmittalAddress" name="TransmittalAddress" class="form-control">
+        </div>
+    </div>
+    <div class="row TransmittalLetterRequired_no form-group">
+        <div class="col-sm-12">
+            <label for="">Transmittal City/State/Zip</label>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" id="City" name="City" class="form-control" placeholder="City">
+        </div>
+        <div class="col-sm-4">
+            <input type="text" id="State" name="State" class="form-control" placeholder="State">
+        </div>
+        <div class="col-sm-4">
+            <input type="text" id="Zip" name="Zip" class="form-control" placeholder="Zip">
+        </div>
+    </div>
+    <div class="row TransmittalLetterRequired_no form-group">
+        <div class="col-sm-12">
+            <label for="TransmittalPhone">Transmittal Phone</label>
+        </div>
+        <div class="col-sm-12">
+            <input type="text" id="TransmittalPhone" name="TransmittalPhone" class="form-control">
+        </div>
+    </div>
+    <div class="row TransmittalLetterRequired_no form-group">
+        <div class="col-sm-12">
+            <label for="TransmittalEmail">Transmittal Email</label>
+        </div>
+        <div class="col-sm-12">
+            <input type="email" id="TransmittalEmail" name="TransmittalEmail" class="form-control">
+        </div>
+    </div>
+    <div class="row TransmittalLetterRequired_no form-group">
+        <div class="col-sm-12">
+            <label for="TransmittalDepartmentContact">Department Contact</label>
+        </div>
+        <div class="col-sm-12">
+            <input type="text" id="TransmittalDepartmentContact" name="TransmittalDepartmentContact"
+                class="form-control">
+        </div>
+    </div>
+
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="ItemApproveContract">Does Item Approve a Contract?</label><span style="color: red;">*</span>
+            <input id="ItemApproveContractY" type="checkbox" class="ItemApproveContract" name="ItemApproveContract"
+                value="Yes"> Yes
+            <input id="ItemApproveContractN" type="checkbox" class="ItemApproveContract" name="ItemApproveContract"
+                value="No"> No
+        </div>
+    </div>
+    <div class="row ItemApproveContract_no form-group">
+        <div class="col-sm-12">
+            <label for="ContractNumber">Contract #</label>
+        </div>
+        <div class="col-sm-12">
+            <input type="text" id="ContractNumber" name="ContractNumber" class="form-control">
+        </div>
+    </div>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="ProcurementItem">Procurement Item?</label><span style="color: red;">*</span>
+            <input id="ProcurementItemY" type="checkbox" class="ProcurementItem" name="ProcurementItem" value="Yes"> Yes
+            <input id="ProcurementItemN" type="checkbox" class="ProcurementItem" name="ProcurementItem" value="No"> No
+        </div>
+    </div>
+    <!--Account Code-->
+    <div class="row procurement_No">
+        <div class='col-sm-6 '>
+            <div class='form-group'>
+                <label for="AccountCode">Account Code(s)</label><span style="color: red;">*</span>
+                <div class="input-group ">
+                    <input type="text" class="form-control" name="AccountCode" id="AccountCode" min-length="13"
+                        maxlength="14">
+                    <div class="input-group-addon"><span onclick="AddNewCode()">add</span></div>
+                </div>
+
+            </div>
+        </div>
+        <div id="AccountCodesDisplay" class="col-sm-6 hidden">
+            <ul id="AccountCode_dynamicItemDisplay"></ul>
+            <span id="addAccCodes" class="btn btn-primary" onclick="addAccCodes()">Add Account Code(s)</span>
+
+            <textarea id="AccountCodes" name="AccountCodes" class="form-control hidden" disabled
+                placeholder="Added Account Code(s)"></textarea>
+        </div>
+    </div>
+    <!--Project String-->
+    <div class="row procurement_No">
+        <div class='col-sm-6 '>
+            <div class='form-group'>
+                <label for="ProjectString">Project String(s)</label><span style="color: red;">*</span>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="ProjectString" id="ProjectString" min-length="30"
+                        maxlength="32">
+                    <div class="input-group-addon"><span onclick="ProjectString()">add</span></div>
+                </div>
+            </div>
+        </div>
+        <div id="projectStringsDisplay" class="col-sm-6 hidden">
+            <ul id="ProjectString_dynamicItemDisplay"></ul>
+            <span id="addPjctStringCodes" class="btn btn-primary" onclick="addPjctStringCodes()">Add Project
+                String(s)</span>
+
+            <textarea id="ProjectStrings" name="ProjectStrings" class="form-control hidden" disabled
+                placeholder="Added Project String Code(s)"></textarea>
+        </div>
+
+    </div>
+    <!--Contract #-->
+
+    <div class='col-sm-12 procurement_No'>
+        <div class='form-group'>
+            <label for="ContractNumber">Contract #</label><span style="color: red;">*</span>
+            <input type="text" id="ContractNumber" class="form-control" name="ContractNumber">
+        </div>
+    </div>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="SpecialInstructions">Special Instructions</label>
+            <textarea class="form-control" id="SpecialInstructions" name="SpecialInstructions"></textarea>
+        </div>
+    </div>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="PrevRelatedDocumentNumber">Previously Related Document Number(s)</label>
+            <textarea class="form-control" id="PrevRelatedDocumentNumber" name="PrevRelatedDocumentNumber"></textarea>
+        </div>
+    </div>
+</div>
+<script>
+    var url = window.location.protocol + "//" + window.location.host + "/",
+        department = [];
+    $(document).ready(function () {
+        $("#ROW_Presenter").hide();
+        $("#ROW_CEQAVals").hide();
+        $("#ROW_EnvironmentalDetermination").hide();
+        $('.procurement_No').hide();
+        $('.ItemApproveContract_no').hide();
+        $('.TransmittalLetterRequired_no').hide();
+        $('.RequiredSignatures_yes').hide();
+        $('.PublicationRequired').hide();
+
+        $("textarea").attr('rows', '5');
+        $('[data-toggle="tooltip"]').tooltip();
+
+        displayUsersSelect('internalUsers')
+        populateAuthor()
+    })
+    function selectElm(element) {
+        $('#' + element).select();
+    }
+    function addPresenters() {
+        $('#StaffPresenters').html('');
+        $('#dynamicItemDisplay').children('li').each(function (ind, val) {
+            var x = $(val).text();
+            $('#StaffPresenters').append(x + '\n')
+            $(val).addClass('text-success').css("font-weight", "600");
+        })
+        $('#addPresenters').html("Staff Presenter(s) Added")
+    }
+
+
+    function deleteItem(itemId) {
+        $('#' + itemId).remove();
+        addPjctStringCodes()
+        addAccCodes()
+        addPresenters()
+    }
+	/*
+		$('#ProjectString').on("keyup", function (event) {
+			var ProjectString = $('#ProjectString').val();
+			var ProjectStringArr = []
+			console.log(ProjectString.length)
+			if (ProjectString.length == 30) {
+				//do we need to add in the hyphen
+				if (ProjectString.charAt(10) == "-" && ProjectString.charAt(20)) {
+					//do nothing they manually added in the hyphen
+					//no further work needed.
+				} else {
+					//add in the hyphen
+					for (var i = 0, charsLength = ProjectString.length; i < charsLength; i += 10) {
+						ProjectStringArr.push(ProjectString.substring(i, i + 10));
+						console.log(ProjectStringArr)
+					}
+					var x = ProjectStringArr[1].length
+					for (var i = 0, charsLength1 = x; i < charsLength1; i += 10) {
+						ProjectStringArr.push(ProjectString.substring(i, i + 10));
+						console.log(ProjectStringArr)
+					}
+	
+					$('#ProjectString').val(ProjectStringArr[0] + '-' + ProjectStringArr[1] + '-' + ProjectStringArr[2])
+				}
+			}
+	
+		});
+	*/
+    function ProjectString() {
+        var x = $('#ProjectString').val();
+        if (x == '') {
+            alert("Please add in the proper Project String");
+        } else {
+            $('#ProjectString_dynamicItemDisplay').append("<li id='ac_" + x + "'>" + x + ' <span class="glyphicon glyphicon-trash text-danger" onclick="deleteItem(' + "'ac_" + x + "')" + '"></span></li>')
+            $('#ProjectString').select().focus();
+            $('#projectStringsDisplay').removeClass('hidden');
+        }
+    }
+    function addPjctStringCodes() {
+        $('#ProjectStrings').html('');
+        $('#ProjectString_dynamicItemDisplay').children('li').each(function (ind, val) {
+            var x = $(val).text();
+            $('#ProjectStrings').append(x + '\n')
+            $(val).addClass('text-success').css("font-weight", "600");
+        })
+        $('#addPjctStringCodes').html("Project Strings(s) Added")
+    }
+
+    $('#AccountCode').on("keyup", function (event) {
+        var accountCode = $('#AccountCode').val();
+        var accountCodeArr = []
+        if (accountCode.length == 13) {
+            //do we need to add in the hyphen
+            if (accountCode.charAt(8) == "-") {
+                //do nothing they manually added in the hyphen
+                //no further work needed.
+            } else {
+                //add in the hyphen
+                for (var i = 0, charsLength = accountCode.length; i < charsLength; i += 8) {
+                    accountCodeArr.push(accountCode.substring(i, i + 8));
+                }
+                $('#AccountCode').val(accountCodeArr[0] + '-' + accountCodeArr[1])
+            }
+        }
+
+    });
+
+    function AddNewCode() {
+        var x = $('#AccountCode').val();
+        if (x == '') {
+            alert("Please add in the proper Account Code");
+        } else {
+            $('#AccountCode_dynamicItemDisplay').append("<li id='ac_" + x + "'>" + x + ' <span class="glyphicon glyphicon-trash text-danger" onclick="deleteItem(' + "'ac_" + x + "')" + '"></span></li>')
+            $('#AccountCodesDisplay').removeClass('hidden');
+            $('#AccountCode').select().focus();
+
+        }
+    }
+    function addAccCodes() {
+        $('#AccountCodes').html('');
+        $('#AccountCode_dynamicItemDisplay').children('li').each(function (ind, val) {
+            var x = $(val).text();
+            $('#AccountCodes').append(x + '\n')
+            $(val).addClass('text-success').css("font-weight", "600");
+        })
+        $('#addAccCodes').html("Account Codes(s) Added")
+    }
+    var selectedBox = null;
+    $(".ContractSentSeparately").click(function () {
+        selectedBox = this.id;
+        $(".ContractSentSeparately").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+    });
+    $(".OrdinanceRequirePosting").click(function () {
+        selectedBox = this.id;
+        $(".OrdinanceRequirePosting").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+    });
+    $(".RateFeeChange").click(function () {
+        selectedBox = this.id;
+        $(".RateFeeChange").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+    });
+    $(".EmergencyClauseOrdinance").click(function () {
+        selectedBox = this.id;
+        $(".EmergencyClauseOrdinance").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+    });
+    $(".ExhibitsRequireSignature").click(function () {
+        selectedBox = this.id;
+        $(".ExhibitsRequireSignature").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+
+        if (selectedBox == 'ExhibitsRequireSignatureN') {
+            console.log('no')
+            $('.RequiredSignatures_yes').hide();
+        } else {
+            console.log('yes')
+
+            $('.RequiredSignatures_yes').show();
+
+        }
+
+    });//
+    $(".ItemAmendCityCode").click(function () {
+        selectedBox = this.id;
+        $(".ItemAmendCityCode").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+    });
+    //RequiredSignatures_yes
+    $(".TransmittalLetterRequired").click(function () {
+        selectedBox = this.id;
+        $(".TransmittalLetterRequired").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+
+        console.log(selectedBox)
+
+        if (selectedBox == 'TransmittalLetterRequiredN') {
+            console.log('no')
+            $('.TransmittalLetterRequired_no').hide();
+        } else {
+            console.log('yes')
+
+            $('.TransmittalLetterRequired_no').show();
+
+        }
+    });
+    $(".ItemApproveContract").click(function () {
+        selectedBox = this.id;
+        $(".ItemApproveContract").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+
+        console.log(selectedBox)
+
+        if (selectedBox == 'ItemApproveContractN') {
+            console.log('no')
+            $('.ItemApproveContract_no').hide();
+        } else {
+            console.log('yes')
+
+            $('.ItemApproveContract_no').show();
+
+        }
+    });
+    $(".ProcurementItem").click(function () {
+        selectedBox = this.id;
+        $(".ProcurementItem").each(function () { if (this.id == selectedBox) { this.checked = true; } else { this.checked = false; }; });
+
+        console.log(selectedBox)
+
+        if (selectedBox == 'ProcurementItemN') {
+            console.log('no')
+            $('.procurement_No').hide();
+        } else {
+            console.log('yes')
+
+            $('.procurement_No').show();
+
+        }
+    });
+    var staffPresenter = 1;
+    function clearForm() {
+        $('#StaffPresenter').html('');
+    }
+    function AddCustomUser() {
+        var x = $('#CustomName').val();
+        if (x == "Name - Title") {
+            //reject name and alert user
+            alert("Please enter a name and Title");
+        } else {
+            $('#dynamicItemDisplay').append("<li id='sp_" + staffPresenter + "'>" + x + ' <span class="glyphicon glyphicon-trash text-danger" onclick="deleteItem(' + "'sp_" + staffPresenter + "')" + '"></span></li>')
+            $('#addPresenters').html("Add Staff Presenter(s)")
+            $('#presentersDisplay').removeClass('hidden');
+            var x = $('#CustomName').val("Name - Title");
+        }
+        staffPresenter++
+    }
+    function selectUser(id) {
+        var x = $('#internalUsers').val();
+        $('#dynamicItemDisplay').append("<li id='sp_" + staffPresenter + "'>" + x + ' <span class="glyphicon glyphicon-trash text-danger" onclick="deleteItem(' + "'sp_" + staffPresenter + "')" + '"></span></li>')
+        $('#addPresenters').html("Add Staff Presenter(s)")
+        $('#presentersDisplay').removeClass('hidden');
+
+        staffPresenter++
+
+        //$('#StaffPresenter').append(x + "\n")
+    }
+
+	/*
+	* name: displayUsersSelect(userElement)
+	* description: Display all account users as options in a html select input.
+	* required function getAllUsers();
+	* required userElement
+	* param userElement. the id of the html select input where data will go. ID must be select element else will error
+	*/
+    function displayUsersSelect(userElement) {
+        var display = "<option>Select User</option>";
+        var users = getAllUsers().done(function (data) {
+            var department1 = department[0];
+            var y;
+            $(data).each(function (ind, val) {
+                if (val.position == undefined || val.position == null || val.position == "") {
+                    y = ' '
+                } else {
+                    y = ' - ' + val.position
+                }
+                var fullName = val.firstName + " " + val.lastName;
+                var deptId = val.departmentId
+                var accountName = $('#OriginatorName').val();
+                display += "<option value='" + fullName + y + "'>" + fullName + y + "</option>";
+            })
+            $('#' + userElement).append(display)
+        });
+    }
+
+	/*
+	* name: getAllUsers();
+	* description: simply return a JSON list of all users on the account.
+	*/
+    function getAllUsers() {
+        var url = window.location.protocol + "//" + window.location.host + "/";
+        return $.getJSON(url + 'api/User/list', function (d) {
+        })
+    }
+    function prepMeeting(id) {
+        var meetingTypeId = $('#meetingTypeSelect').val();
+        console.log(meetingTypeId)
+
+        loadMeetingDates(meetingTypeId, 'meetingTypeSelect')
+    }
+
+    function loadMeetingDates(meetingTypeId, meetingTypeSelectId) {
+        if (meetingTypeId === "0") return;
+        $("#meetingDateSelect").html('')
+        $("#meetingDateSelect").append($("<option></option>").val(0).html("Select Meeting Date"));
+
+        $.getJSON(ROOT + "api/meeting/listupcomingbymeetingtype/?meetingTypeId=" + meetingTypeId, null, function (data) {
+            if (data.length > 0) {
+                $.each(data, function (index, meeting) {
+                    var date = new Date(meeting.scheduledEvent.start);
+
+                    $("#meetingDateSelect").append($("<option></option>").val(meeting.id).data("title", meeting.title).html((date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear()));
+                });
+            }
+            else {
+                $("#meetingDateSelect").append($("<option></option>").val("").html("No upcoming meetings"));
+            }
+        })
+    }
+    function loadMeetingSections(meetingId, meetingDataSelectId) {
+        if (meetingId === "0") return;
+
+        $.getJSON(ROOT + "api/meetingsectiontemplate/list/?meetingId=" + meetingId, null, function (data) {
+
+            $("#meetingSectionSelect").find("option").remove();
+            $("#meetingSectionSelect").append($('<option></option>').val(0).html("Select Section"));
+
+            $.each(data, function (index, section) {
+
+                $("#meetingSectionSelect").append($("<option></option>").val(section.meetingSectionId).html(section.name));
+
+            });
+        })
+    }
+    $('[data-toggle="popover"]').each(function () {
+        var $pop = $(this);
+        $pop.popover({
+            html: true,
+            trigger: "hover",
+            title: $pop.attr('data-title'),
+            content: $pop.attr('data.content'),
+            container: $pop,
+            animation: false
+        })
+    })
+    function populateDept() {
+        var url = window.location.protocol + "//" + window.location.host + "/";
+
+        $.ajax({
+            type: "Get",
+            url: url + "api/user/list",
+            datatype: "json",
+            success: function (data) {
+                $.each(data, function (index, element) {
+                    //alert(element.id);
+
+                    if (element.id == $("#OriginatorId").val()) {
+                        getDept(element.departmentId);
+
+                        populateDeptDivHeads();
+                    }
+                })
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Error Occurred getting populateDept: " + errorThrown);
+            }
+        })
+    }
+    function getDept(id) {
+        var deptName;
+        var url = window.location.protocol + "//" + window.location.host + "/";
+
+        $.ajax({
+            type: "Get",
+            url: url + "api/department/list",
+            datatype: "json",
+            success: function (data) {
+                department.push(data)
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Error Occurred getting System Item Types: " + errorThrown);
+            }
+        })
+    }
+
+    function populateDeptDivHeads() {
+        var url = window.location.protocol + "//" + window.location.host + "/";
+
+        $.ajax({
+            type: "Get",
+            url: url + "api/userGroup/list",
+            datatype: "json",
+            success: function (data) {
+                $.each(data, function (index, element) {
+                    if (element.name == $("#Department").val() + "_DH") {
+                        $("#DeptHeadId").val(element.id);
+                    }
+                    else if (element.name == $("#Department").val() + "_DivHead") {
+                        $("#DivHeadId").val(element.id);
+                    }
+                })
+
+                populateAuthor();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Error Occurred getting System Item Types: " + errorThrown);
+            }
+        })
+    }
+    function populateAuthor() {
+        var url = window.location.protocol + "//" + window.location.host + "/";
+        $.ajax({
+            type: "Get",
+            url: url + "api/user/list",
+            datatype: "json",
+            success: function (data) {
+                $.each(data, function (index, ele) {
+                    if (ele.id == $("#OriginatorId").val()) {
+                        if (ele.position == '') {
+                            $("#Author").val(ele.firstName + " " + ele.lastName);
+                        } else {
+                            $("#Author").val(ele.firstName + " " + ele.lastName + " - " + ele.position);
+
+                        }
+                    }
+                })
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Error Occurred getting System Item Types: " + errorThrown);
+            }
+        })
+    }
+
+    function setMeetingDate(sel) {
+        $("#MeetingDate").val(sel.options[sel.selectedIndex].text);
+        $("#MeetingDateDisplay").val(moment($("#MeetingDate").val().format('LL')));
+        var value = $('#meetingDateSelect').val();
+        loadMeetingSections(value, 'meetingDateSelect')
+    }
+
+    function showPresenterField() {
+        var itemType = $('#ItemType').val();
+        switch (itemType) {
+            case '19':
+                //Annexation
+                $('#RecordationRequired ').val("Yes").change()
+                $('#PublicationRequired ').val("Yes").change()
+                break;
+            case '20':
+                //Board of Adjustment
+                $('#RecordationRequired ').val("No").change()
+                $('#PublicationRequired ').val("No").change()
+                break;
+            case '21':
+                //Final Plat
+                $('#RecordationRequired ').val("No").change()
+                $('#PublicationRequired ').val("No").change()
+                break;
+            case '22':
+                //Other
+                $('#RecordationRequired ').val("No").change()
+                $('#PublicationRequired ').val("No").change()
+                break;
+            case '23':
+                //Preliminary Plat
+                $('#RecordationRequired ').val("Yes").change()
+                $('#PublicationRequired ').val("No").change()
+                break;
+            case '24':
+                //Rezone
+                $('#RecordationRequired ').val("Yes").change()
+                $('#PublicationRequired ').val("Yes").change()
+                break;
+            case '25':
+                //Special Use Permit
+                $('#RecordationRequired ').val("No").change()
+                $('#PublicationRequired ').val("Yes").change()
+                break;
+            case '26':
+                //Use Permit
+                $('#RecordationRequired ').val("No").change()
+                $('#PublicationRequired ').val("No").change()
+                break;
+            case '27':
+                //Zoning Ordinance Text Amendment
+                $('#RecordationRequired ').val("No").change()
+                $('#PublicationRequired ').val("Yes").change()
+                break;
+            default:
+                $('#RecordationRequired ').val("0").change()
+                $('#PublicationRequired ').val("0").change()
+        }
+        if ($('#PublicationRequired ').val("Yes")) {
+            PublicationRequired1(true);
+        }
+    }
+    function PublicationRequired1(value) {
+        console.log('hi')
+        if (value) {
+            $('.PublicationRequired').show();
+        } else {
+            $('.PublicationRequired').hide();
+        }
+        if ($('#PublicationRequired').val() == "Yes") {
+            $('.PublicationRequired').show();
+        } else {
+            $('.PublicationRequired').hide();
+        }
+
+    }
+    function ceqaReview() {
+        if ($("#CEQAReview").is(':checked')) {
+            $("#ROW_CEQAVals").show();
+            $("#ROW_EnvironmentalDetermination").show();
+        }
+        else {
+            $("#ROW_CEQAVals").hide();
+            $("#CEQAPublicResource").prop('checked', false);
+            $("#CEQAGuidline15301").prop('checked', false);
+            $("#CEQAGuidline15378B4").prop('checked', false);
+            $("#CEQAGuidline15378B5").prop('checked', false);
+
+            $("#ROW_EnvironmentalDetermination").hide();
+            $("#EnvironmentalDetermination").val("");
+        }
+    }
+
+    function updateEnvironmentalDetermination(id) {
+        if ($("#" + id).is(':checked')) {
+            $('[data-name="ceqavals"]').each(function () {
+                if (this.id !== id) {
+                    $(this).prop('checked', false);
+                }
+            })
+
+            $("#EnvironmentalDetermination").val($('label[for="' + id + '"]').text());
+        }
+        else {
+            $("#EnvironmentalDetermination").val("");
+        }
+    }
+</script>
