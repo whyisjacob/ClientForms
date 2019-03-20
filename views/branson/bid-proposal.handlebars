@@ -9,11 +9,10 @@
 		$("#ROW_CEQAVals").hide();
 		$("#ROW_EnvironmentalDetermination").hide();
 		$("textarea").attr('rows', '5');
-		$('#ordinanceSection').hide();
 
 		//SET THE FIRST NUMBER IN BACKUPDOCUMENTATION NUMBERED LIST
 		$("#AttachedExhibits").val("1. ");
-		$("#Amounts").val("$");
+
 
 		$('[data-toggle="tooltip"]').tooltip();
 		requireFields()
@@ -39,24 +38,6 @@
 			}
 		})
 
-		$("#Amounts").keydown(function (event) {
-			if (event.which == 13) {
-				event.preventDefault();
-
-				var bDoc = $("#Amounts").val();
-				var lines = bDoc.split(/\r|\r\n|\n/);
-				var count = lines.length
-
-
-				var press = jQuery.Event("keydown");
-				press.ctrlKey = true;
-				press.which = 13;
-
-				bDoc = bDoc + String.fromCharCode(press.which) + "$";
-
-				$("#Amounts").val(bDoc);
-			}
-		})
 
 		firstReadingPicker = $('#FirstReading').pickadate({
 			labelMonthNext: 'Go to the next month',
@@ -85,10 +66,15 @@
 	})
 
 	firstReadingPickerClose.on('close', function () {
-
+		var date = $('#FirstReading').val();
+		var newDate = convertMonthDisplay(date)
+		$('#FirstReading').val(newDate);
 	})
 
 	finalReadingPickerClose.on('close', function () {
+		var date = $('#FinalReading').val();
+		var newDate = convertMonthDisplay(date)
+		$('#FinalReading').val(newDate);
 
 	})
 
@@ -109,55 +95,7 @@
 		})
 	}
 
-	function AddOrdinance() {
-		if ($("#IncludeOrdinance").is(':checked')) {
-			$("#ordinanceSection").find('input').each(function () {
-				$(this).prop('required', true);
-			})
 
-			$("#ordinanceSection").find('textarea').each(function () {
-				$(this).prop('required', true);
-			})
-
-			$("#ordinanceSection").find('select').each(function () {
-				$(this).prop('required', true);
-			})
-
-			$('#ordinanceSection').show();
-
-			$("#FormHtml").prepend('<input type="hidden" name="Document2.DocumentType" id="Document2.DocumentType" value="3" />');
-			$("#FormHtml").prepend('<input type="hidden" name="Document2.name" id="Document2.name" value="Bid Proposal - Ordinance" />');
-			$("#FormHtml").prepend('<input type="hidden" data-parent="ProjectVendorName" name="Document2.ProjectVendorName1" id="Document2.ProjectVendorName1" />');
-			$("#FormHtml").prepend('<input type="hidden" data-parent="ProjectVendorName" name="Document2.ProjectVendorName2" id="Document2.ProjectVendorName2" />');
-			$("#FormHtml").prepend('<input type="hidden" data-parent="ProjectVendorName" name="Document2.ProjectVendorName3" id="Document2.ProjectVendorName3" />');
-			$("#FormHtml").prepend('<input type="hidden" data-parent="ProjectName" name="Document2.ProjectName1" id="Document2.ProjectName1" />');
-			$("#FormHtml").prepend('<input type="hidden" data-parent="ProjectName" name="Document2.ProjectName2" id="Document2.ProjectName2" />');
-			$("#FormHtml").prepend('<input type="hidden" data-parent="ProjectName" name="Document2.ProjectName3" id="Document2.ProjectName3" />');
-		}
-		else {
-			$("#ordinanceSection").find('input').each(function () {
-				$(this).prop('required', false);
-
-				$(this).val("");
-			})
-
-			$("#ordinanceSection").find('textarea').each(function () {
-				$(this).prop('required', false);
-
-				$(this).val("");
-			})
-
-			$("#ordinanceSection").find('select').each(function () {
-				$(this).prop('required', false);
-
-				$(this).val("");
-			})
-
-			$('[name^="Document"]').remove();
-
-			$('#ordinanceSection').hide();
-		}
-	}
 	/**
 	* formatNumber = formats a input field to be a number
 	* params
@@ -418,45 +356,6 @@
 		}
 	}
 
-	function populateOrdinanceInfo(id) {
-		if (id != "ProjectAmount" && id != "Amount") {
-			$("[data-parent=" + id + "]").each(function () {
-				$(this).val($("#" + id).val());
-			})
-		}
-		else {
-			var removeDollarSign = $("#" + id).val();
-			removeDollarSign = removeDollarSign.replace("$", "");
-
-			if (removeDollarSign.toString().indexOf(",") >= 0 && removeDollarSign.toString().indexOf(".") >= 0) {
-				removeDollarSign = removeDollarSign.replace(/[^0-9\.]/g, '');
-			}
-			if (removeDollarSign.toString().indexOf(".") >= 0 && removeDollarSign.toString().indexOf(",") < 0) {
-				removeDollarSign = +(removeDollarSign * 100);
-			}
-			else if (isNaN(removeDollarSign) || removeDollarSign == "") {
-				removeDollarSign = parseFloat(0, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
-				removeDollarSign = +(removeDollarSign * 100);
-			}
-			else {
-				removeDollarSign = parseFloat(removeDollarSign, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
-
-				if (removeDollarSign.toString().indexOf(",") >= 0 && removeDollarSign.toString().indexOf(".") >= 0) {
-					removeDollarSign = removeDollarSign.replace(/[^0-9\.]/g, '');
-				}
-				if (removeDollarSign.toString().indexOf(".") >= 0 && removeDollarSign.toString().indexOf(",") < 0) {
-					removeDollarSign = +(removeDollarSign * 100);
-				}
-			}
-
-			if (isNaN(removeDollarSign)) {
-				$("#" + id).val("$" + parseFloat(0, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
-			}
-			else {
-				$("#" + id).val("$" + parseFloat($("#" + id).val(), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
-			}
-		}
-	}
 
 	function SelectAllText(id) {
 		var currency = $("#" + id).val().replace("$", "");
@@ -490,7 +389,93 @@
 		}
 
 		$("#" + id).select();
-	}	
+	}
+	let bidNumber = 1
+
+	function addBidderAmount() {
+		const bidAmount = $('#bidAmount').val();
+		const bidderName = $('#bidderName').val();
+		$('#Bidders').append(bidderName + "\n")
+		$('#Amounts').append(bidAmount + "\n")
+		$('#bidderNameDisplay').append("<li class='bidderNameDisplayList bid_" + bidNumber + "'>" + bidderName + "</li>")
+		$('#bidAmountDisplay').append("<li class='bidAmountDisplayList bid_" + bidNumber + "'>" + bidAmount + "</li>")
+		$('#bidAmountDelete').append("<li class='bid_" + bidNumber + "'> <span class='glyphicon glyphicon-trash text-danger' aria-hidden='true' onclick=deleteBidItem('bid_" + bidNumber + "') title='Remove bid for " + bidderName + "'></span></li>")
+		$('#bidAmount').val('')
+		$('#bidderName').val('')
+		bidNumber++
+	}
+
+	function deleteBidItem(bidNumber) {
+		$('.' + bidNumber).remove();
+		$('#Bidders').html('')
+		$('#Amounts').html('')
+
+		$('.bidderNameDisplayList').each(function (ind, val) {
+			$('#Bidders').append($(val).text() + "\n")
+		})
+		$('.bidAmountDisplayList').each(function (ind, val) {
+			$('#Amounts').append($(val).text() + "\n")
+		})
+	}
+
+	function updateOrdinance(id, val) {
+		console.log(val)
+
+		if (id == "VendorName") {
+			$('.VendorNameSecond').val(val)
+
+		} else if (id == "Project") {
+			$('.ProjectSecond').val(val)
+
+		} else if (id == "Amount") {
+			$('.AmountSecond').val(val)
+
+		} else if (id == "SubjectAllCaps"){
+			$('.SubjectAllCaps1Second').val(val)
+		}
+	}
+	function allCaps(value, id) {
+
+		if (parseInt(value) != value) {
+			value = value.toUpperCase();
+			$('#' + id + "AllCaps").val(value)
+		} else {
+			var newValue = $('#' + id + " option:selected").text()
+			newValue = newValue.toUpperCase();
+			$('#' + id + "AllCaps").val(newValue)
+		}
+	}
+	var months = ["", "JANUARY", 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER']
+	function convertMonthDisplay(date) {
+		date = date.toString()
+		date = date.split("/")
+		let x = date[0];
+		if (x.length > 1) {
+			y = x.split('');
+			if (y[0] == '0') {
+				x = y[1];
+			}
+		}
+		let monthWord = months[x];
+		let newDate = monthWord + ' ' + date[1] + ', ' + date[2];
+		return newDate
+	}
+	function convertDate(id) {
+		var dateData = $('#' + id + " option")
+		$(dateData).each(function (ind, val) {
+			var valueDate = $(val).text();
+
+			var timestamp = Date.parse(valueDate);
+			console.log(timestamp)
+			if (!isNaN(timestamp)) {
+				valueDate = convertMonthDisplay(valueDate)
+				console.log(valueDate)
+				$(val).text(valueDate);
+
+			}
+		})
+	}
+
 </script>
 
 <style>
@@ -550,7 +535,7 @@
 
 					<select id="meetingTypeSelect" style="width: 500px;" required="true" name="meetingTypeSelect"
 						data-dependent-on="committeeSelect" data-field-hasvalue="false" data-field-values="meetingTypes"
-						class="form-control "></select>
+						class="form-control " onblur="convertDate('meetingDateSelect')"></select>
 				</div>
 			</div>
 		</div>
@@ -612,8 +597,10 @@
 		<div class="col-sm-12 form-group">
 			<label for="Subject">Item/Subject:</label>
 
-			<textarea rows="5" cols="100" class="form-control" name="Subject" id="Subject"
-				placeholder="Item/Subject"></textarea>
+			<textarea rows="5" cols="100" class="form-control" name="Subject" id="Subject" placeholder="Item/Subject"
+				onChange="allCaps(this.value, this.id);"></textarea>
+			<input type="text" name="SubjectAllCaps" id="SubjectAllCaps" onchange="updateOrdinance(this.id, this.value)">
+			<input type="text" class="SubjectAllCaps1Second" name="SubjectAllCaps1" id="SubjectAllCaps1">
 		</div>
 	</div>
 
@@ -621,8 +608,10 @@
 		<div class="col-sm-12 form-group">
 			<label for="InitiatedBy">Initiated By:</label>
 
-			<select id="InitiatedBy" style="width: 450px;" name="InitiatedBy" onchange="populateDeptDivHeads()"
-				class="form-control"></select>
+			<select id="InitiatedBy" style="width: 450px;" name="InitiatedBy"
+				onchange="populateDeptDivHeads(); allCaps(this.value, this.id)" class="form-control"></select>
+			<input type="hidden" name="InitiatedByAllCaps" id="InitiatedByAllCaps">
+
 		</div>
 	</div>
 
@@ -653,21 +642,23 @@
 
 	<div class="row">
 		<div class="col-sm-12 form-group ">
-			<label>1.</label> This item from
+			1. This item from
 			<input style="width: 225px;" type="text" name="VendorName" id="VendorName" placeholder="Vendor Name"
-				Required>
+				Required onchange="updateOrdinance(this.id, this.value)">
 			for
-			<input style="width: 225px;" type="text" name="Project" id="Project" placeholder="Project" Required>
+			<input style="width: 225px;" type="text" name="Project" id="Project" placeholder="Project" Required
+				onchange="updateOrdinance(this.id, this.value)">
 			in the amount not to exceed
 			<input style="width: 175px;" type="text" name="Amount" id="Amount"
-				onchange="formatNumber(this.value, this.id)" Required placeholder="$0.00">
+				onchange="formatNumber(this.value, this.id);updateOrdinance(this.id, this.value)" Required
+				placeholder="$0.00">
 
 
 			<br />
 			<br />
 
 			<span class="form-group" style="margin-left: 3%;">
-				<label for="Reason">Reason For Purchase:</label>
+				Reason For Purchase:
 
 				<br />
 
@@ -681,7 +672,7 @@
 
 	<div class="row">
 		<div class="col-sm-12 form-group">
-			<label for="BidDetails">2. Bid details:</label>
+			2. Bid details:
 
 			<i data-toggle="popover" data-animation="true" data-html="true" data-trigger="hover"
 				title="Bidder Instructions"
@@ -704,29 +695,53 @@
 			<table class="form-group " style="width:100%">
 				<tr>
 					<td style="text-align: left; ">
-						<label for="Bidders">BIDDER</label>
+						BIDDER
 					</td>
 					<td>&emsp;</td>
 
 					<td style="text-align: left; ">
-						<label for="Amounts">AMOUNT</label>
+						AMOUNT
 					</td>
+					<td></td>
+					<td></td>
+
 				</tr>
 				<tr>
 					<td style="text-align: left; width: 50%">
-						<textarea name="Bidders" id="Bidders" rows="3" class="form-control"
+						<input type="text" class="form-control" id="bidderName" name="bidderName">
+						<textarea name="Bidders" id="Bidders" rows="3" class="form-control hidden"
 							placeholder="List of Bidders."></textarea>
 					</td>
 					<td>&emsp;</td>
 
 					<td style="text-align: left; width: 50%">
-						<textarea name="Amounts" id="Amounts" rows="3" class="form-control"
-							placeholder="Amounts."></textarea>
+						<input type="text" class="form-control" id="bidAmount" name="bidAmount"
+							onchange="formatNumber(this.value, this.id)">
+
+						<textarea name="Amounts" id="Amounts" rows="3" class="form-control hidden"></textarea>
 					</td>
+					<td>&emsp;</td>
+
+					<td>
+						<span class="btn btn-primary" onclick="addBidderAmount()">Add</span>
+					</td>
+				</tr>
 				<tr>
+					<td>
+						<ul id="bidderNameDisplay"></ul>
+					</td>
+					<td>&emsp;</td>
+
+					<td>
+						<ul id="bidAmountDisplay"></ul>
+					</td>
+					<td>
+						<ul id="bidAmountDelete" style="list-style: none;"></ul>
+					</td>
+					<td></td>
+				</tr>
 			</table>
 		</div>
-
 		<div class="col-sm-1">
 
 		</div>
@@ -737,23 +752,13 @@
 
 	<div class="row">
 		<div class="col-sm-12 form-group">
-			<label for="AdditionalInformation">3. Additional Information:</label>
+			3. Additional Information:
 
-			<textarea class="form-control" name="AdditionalInformation" id="AdditionalInformation"
+			<textarea class="form-control" name="AdditionalDetails" id="AdditionalDetails"
 				placeholder="Provide any additional information not mentioned previously"></textarea>
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="col-sm-12 form-group">
-			<label>4.</label> Funds for this are budgeted in the <select class="form-control"
-				style="width: 100px; display: inline;" name="BudgetYear" id="BudgetYear">
-				<option value=""></option>
-				<option value="current">current</option>
-				<option value="next">next</option>
-			</select> year's budget.
-		</div>
-	</div>
 
 	<br />
 
@@ -764,54 +769,39 @@
 
 	<div class="row">
 		<div class="col-sm-12">
-			<table style="width: 100%;">
-				<tr>
-					<td style="width: 45%;">
-						<div class="form-group">
-							<label style="font-size: 14pt; text-decoration: underline; font-weight: bold;">FINANCIAL
-								IMPACT:</label>
-						</div>
-					</td>
+			<div class="form-group">
+				<label for="FinancialImpact">FINANCIAL
+					IMPACT:</label>
 
-					<td style="width: 45%;">
-						<div class="form-group">
-							<label style="font-size: 14pt; text-decoration: underline; font-weight: bold;">STAFF
-								RECOMMENDATION:</label>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td style="width: 45%;">
-						<div class="form-group">
-							<select onchange="updateFinImpactHtml()" class="form-control" style="width: 400px;"
-								name="FinancialImpact" id="FinancialImpact">
-								<option value=""></option>
-								<option value="No impact/Not applicable">No impact/Not applicable</option>
-								<option value="Budgeted in the current year's budget">Budgeted in the current year's
-									budget</option>
-								<option value="Other (See additional explanation)">Other (See additional explanation)
-								</option>
-							</select>
-						</div>
-					</td>
-
-					<td style="width: 45%;">
-						<div class="form-group">
-							<select onchange="updateStaffRecHtml()" class="form-control" style="width: 400px;"
-								name="StaffRecommendation" id="StaffRecommendation">
-								<option value=""></option>
-								<option value="Recommended">Recommended</option>
-								<option value="Not Recommended">Not Recommended</option>
-								<option value="Neutral/None">Neutral/None</option>
-							</select>
-						</div>
-					</td>
-				</tr>
-			</table>
+				<select  class="form-control" style="width: 400px;"
+					name="FinancialImpact" id="FinancialImpact">
+					<option value=""></option>
+					<option value="No impact/Not applicable">No impact/Not applicable</option>
+					<option value="Budgeted in the current year's budget">Budgeted in the current year's
+						budget</option>
+					<option value="Other (See additional explanation)">Other (See additional explanation)
+					</option>
+				</select>
+			</div>
 		</div>
 	</div>
 
-	<br />
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="form-group">
+				<label for="StaffRecommendation">STAFF
+					RECOMMENDATION:</label>
+
+				<select class="form-control" style="width: 400px;"
+					name="StaffRecommendation" id="StaffRecommendation">
+					<option value=""></option>
+					<option value="Recommended">Recommended</option>
+					<option value="Not Recommended">Not Recommended</option>
+					<option value="Neutral/None">Neutral/None</option>
+				</select>
+			</div>
+		</div>
+	</div>
 
 	<div class="row">
 		<div class="col-sm-12 form-group">
@@ -848,24 +838,31 @@
 	<br />
 	<br />
 
-	<legend>bid proposal </legend>
-
-	<div class="row">
+	<legend class="hidden">Bid Proposal </legend>
+	<input type="hidden" name="Document2.ProjectName3" class="ProjectSecond" id="Document2.ProjectName3">
+	<input type="hidden" name="Document2.ProjectName2" class="ProjectSecond" id="Document2.ProjectName2">
+	<input type="hidden" name="Document2.ProjectName1" class="ProjectSecond" id="Document2.ProjectName1">
+	<input type="hidden" class="VendorNameSecond" name="Document2.ProjectVendorName3" id="Document2.ProjectVendorName3">
+	<input type="hidden" class="VendorNameSecond" name="Document2.ProjectVendorName2" id="Document2.ProjectVendorName2">
+	<input type="hidden" class="VendorNameSecond" name="Document2.ProjectVendorName1" id="Document2.ProjectVendorName1">
+	<input type="hidden" name="Document2.name" id="Document2.name" value="Bid Proposal - Ordinance">
+	<input type="hidden" name="Document2.DocumentType" id="Document2.DocumentType" value="3">
+	<div class="row hidden">
 		<div class="col-sm-12 form-group">
-			<input type="checkbox" id="IncludeOrdinance" name="IncludeOrdinance" onchange="AddOrdinance(this.id)"><label
-				style="margin-left: 5px;" for="IncludeOrdinance">Include <i>(or create)</i> an
+			<input type="checkbox" id="IncludeOrdinance" name="IncludeOrdinance"><label style="margin-left: 5px;"
+				for="IncludeOrdinance">Include <i>(or create)</i> an
 				ordinance?</label></input>
 		</div>
 	</div>
 
-	<div class="row" id="ordinanceSection">
+	<div class="row hidden" id="ordinanceSection">
 		<div class="col-sm-12 form-group">
 			<label for="VendorName">Vendor:</label>
 
 			<span style="color: red;">*</span>
 
-			<input type="text" onblur="populateOrdinanceInfo(this.id)" class="form-control" style="width: 275px;"
-				id="ProjectVendorName" name="ProjectVendorName" placeholder="Vendor">
+			<input type="text" class="form-control VendorNameSecond" style="width: 275px;" id="ProjectVendorName"
+				name="ProjectVendorName" placeholder="Vendor">
 		</div>
 
 		<div class="col-sm-12 form-group">
@@ -873,8 +870,8 @@
 
 			<span style="color: red;">*</span>
 
-			<input type="text" onblur="populateOrdinanceInfo(this.id)" class="form-control" style="width: 275px;"
-				id="ProjectName" name="ProjectName" placeholder="Project">
+			<input type="text" class="form-control ProjectSecond" style="width: 275px;" id="ProjectName"
+				name="ProjectName" placeholder="Project">
 		</div>
 
 		<div class="col-sm-12 form-group">
@@ -882,8 +879,8 @@
 
 			<span style="color: red;">*</span>
 
-			<input type="text" onblur="populateOrdinanceInfo(this.id)" onfocus="SelectAllText(this.id);"
-				class="form-control" style="width: 175px;" id="ProjectAmount" name="ProjectAmount" placeholder="$0.00">
+			<input type="text" class="form-control AmountSecond" style="width: 175px;" id="ProjectAmount"
+				name="ProjectAmount">
 		</div>
 	</div>
 </body>
