@@ -50,19 +50,8 @@
 			selectYears: true
 		});
 
-		finalReadingPicker = $('#FinalReading').pickadate({
-			labelMonthNext: 'Go to the next month',
-			labelMonthPrev: 'Go to the previous month',
-			labelMonthSelect: 'Pick a month from the dropdown',
-			labelYearSelect: 'Pick a year from the dropdown',
-			format: 'mm/dd/yyyy',
-			formatSubmit: 'mm/dd/yyyy',
-			selectMonths: true,
-			selectYears: true
-		});
 
 		firstReadingPickerClose = firstReadingPicker.pickadate('picker');
-		finalReadingPickerClose = finalReadingPicker.pickadate('picker');
 	})
 
 	firstReadingPickerClose.on('close', function () {
@@ -71,12 +60,6 @@
 		$('#FirstReading').val(newDate);
 	})
 
-	finalReadingPickerClose.on('close', function () {
-		var date = $('#FinalReading').val();
-		var newDate = convertMonthDisplay(date)
-		$('#FinalReading').val(newDate);
-
-	})
 
 	function requireFields() {
 		var inputChk = $('input')
@@ -314,6 +297,8 @@
 	function setMeetingDate(sel) {
 		$("#MeetingDate").val(sel.options[sel.selectedIndex].text);
 		$("#MeetingDateDisplay").val(moment($("#MeetingDate").val().format('LL')));
+		console.log(sel.options[sel.selectedIndex].text)
+		$('#FirstReading').val(sel.options[sel.selectedIndex].text )
 	}
 
 	function updateFinImpactHtml() {
@@ -419,7 +404,6 @@
 	}
 
 	function updateOrdinance(id, val) {
-		console.log(val)
 
 		if (id == "VendorName") {
 			$('.VendorNameSecond').val(val)
@@ -466,10 +450,8 @@
 			var valueDate = $(val).text();
 
 			var timestamp = Date.parse(valueDate);
-			console.log(timestamp)
 			if (!isNaN(timestamp)) {
 				valueDate = convertMonthDisplay(valueDate)
-				console.log(valueDate)
 				$(val).text(valueDate);
 
 			}
@@ -477,13 +459,11 @@
 	}
 
 	function getNextDate(val, id) {
-
-		console.log(val)
+		console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 		let allDates = [],
 			meetingDateSelect1 = $('#meetingDateSelect option'),
 			firstReading = val;
 
-		console.log(firstReading)
 		$(meetingDateSelect1).each(function (ind, value) {
 			var valtext = $(value).text()
 			var timestamp = Date.parse(valtext);
@@ -491,13 +471,25 @@
 				allDates.push(valtext);
 
 				//compare the chosen date (firstReading val) against the dates in the array.
-				for (i = 0; i < allDates.length; i++ ) {
+				for (i = 0; i < allDates.length; i++) {
+					console.log('========================')
 					//choose the NEXT meeting date against the firstReading Val
 					var dateCompare = checkMonth(firstReading, allDates[i])
-if(dateCompare){
-	var x = convertMonthDisplay(allDates[i])
-	$('#FinalReading').val(x)
-}
+					console.log(dateCompare)
+					console.log('firstReading = ' + firstReading)
+					console.log('allDates = ' + allDates[i])
+					if (dateCompare) {
+						console.log('Choose NEXT date')
+
+						console.log(allDates[i])
+
+						//var x = convertMonthDisplay(allDates[i])
+						//console.log(x)
+						$('#FinalReading').val(allDates[i])
+						return
+					} else {
+						console.log('chosen date is earlier')
+					}
 					//convert the date format and place it in the finalReading field
 
 				}
@@ -505,19 +497,26 @@ if(dateCompare){
 			}
 		})
 
-		console.log(allDates)
+		//console.log(allDates)
 	}
 
 	function checkMonth(dateString, futureDate) {
 		var enteredMS = new Date(dateString).getTime();
-		console.log(enteredMS)
+		//console.log(enteredMS)
 		var secondEnteredMS = new Date(futureDate).getTime();
-		console.log(secondEnteredMS)
+		//console.log(secondEnteredMS)
 
-		if (enteredMS <= secondEnteredMS) {
+		if (enteredMS < secondEnteredMS) {
 			return true;
+		} else if (enteredMS == secondEnteredMS){
+			return false;
 		}
 		return false;
+	}
+
+	function readingDateDisplay(){
+		$('#FirstReading').removeAttr('readonly');
+		//$('#FinalReading').removeAttr('disabled');
 	}
 
 </script>
@@ -579,7 +578,7 @@ if(dateCompare){
 
 					<select id="meetingTypeSelect" style="width: 500px;" required="true" name="meetingTypeSelect"
 						data-dependent-on="committeeSelect" data-field-hasvalue="false" data-field-values="meetingTypes"
-						class="form-control " onblur="convertDate('meetingDateSelect')"></select>
+						class="form-control " onblur="readingDateDisplay(); convertDate('meetingDateSelect')"></select>
 				</div>
 			</div>
 		</div>
@@ -594,7 +593,7 @@ if(dateCompare){
 					<span style="color: red;">*</span>
 
 					<select id="meetingDateSelect" style="width: 500px;" required="true" name="meetingDateSelect"
-						data-dependent-on="meetingTypeSelect" onChange="setMeetingDate(this);"
+						data-dependent-on="meetingTypeSelect" onChange="setMeetingDate(this);getNextDate(this.value, this.id)"
 						data-field-hasvalue="false" data-field-values="meetingDates" class="form-control "></select>
 				</div>
 			</div>
@@ -667,14 +666,14 @@ if(dateCompare){
 					<label for="FirstReading">First Reading:</label>
 
 					<input type="text" style="width: 150px;" class="form-control datepicker" name="FirstReading"
-						id="FirstReading" placeholder="FirstReading" onchange="getNextDate(this.value, this.id)" />
+						id="FirstReading" readonly placeholder="FirstReading" onchange="getNextDate(this.value, this.id)" />
 				</div>
 
 				<div style="display: inline-block; width: 45%;">
 					<label for="FinalReading">Final Reading:</label>
 
 					<input type="text" style="width: 150px;" class="form-control datepicker" name="FinalReading"
-						id="FinalReading" placeholder="FinalReading" />
+						id="FinalReading" readonly placeholder="FinalReading" />
 				</div>
 			</div>
 		</div>
