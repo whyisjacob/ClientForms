@@ -430,7 +430,7 @@
 		} else if (id == "Amount") {
 			$('.AmountSecond').val(val)
 
-		} else if (id == "SubjectAllCaps"){
+		} else if (id == "SubjectAllCaps") {
 			$('.SubjectAllCaps1Second').val(val)
 		}
 	}
@@ -474,6 +474,50 @@
 
 			}
 		})
+	}
+
+	function getNextDate(val, id) {
+
+		console.log(val)
+		let allDates = [],
+			meetingDateSelect1 = $('#meetingDateSelect option'),
+			firstReading = val;
+
+		console.log(firstReading)
+		$(meetingDateSelect1).each(function (ind, value) {
+			var valtext = $(value).text()
+			var timestamp = Date.parse(valtext);
+			if (!isNaN(timestamp)) {
+				allDates.push(valtext);
+
+				//compare the chosen date (firstReading val) against the dates in the array.
+				for (i = 0; i < allDates.length; i++ ) {
+					//choose the NEXT meeting date against the firstReading Val
+					var dateCompare = checkMonth(firstReading, allDates[i])
+if(dateCompare){
+	var x = convertMonthDisplay(allDates[i])
+	$('#FinalReading').val(x)
+}
+					//convert the date format and place it in the finalReading field
+
+				}
+
+			}
+		})
+
+		console.log(allDates)
+	}
+
+	function checkMonth(dateString, futureDate) {
+		var enteredMS = new Date(dateString).getTime();
+		console.log(enteredMS)
+		var secondEnteredMS = new Date(futureDate).getTime();
+		console.log(secondEnteredMS)
+
+		if (enteredMS <= secondEnteredMS) {
+			return true;
+		}
+		return false;
 	}
 
 </script>
@@ -599,7 +643,8 @@
 
 			<textarea rows="5" cols="100" class="form-control" name="Subject" id="Subject" placeholder="Item/Subject"
 				onChange="allCaps(this.value, this.id);"></textarea>
-			<input type="text" name="SubjectAllCaps" id="SubjectAllCaps" onchange="updateOrdinance(this.id, this.value)">
+			<input type="text" name="SubjectAllCaps" id="SubjectAllCaps"
+				onchange="updateOrdinance(this.id, this.value)">
 			<input type="text" class="SubjectAllCaps1Second" name="SubjectAllCaps1" id="SubjectAllCaps1">
 		</div>
 	</div>
@@ -622,7 +667,7 @@
 					<label for="FirstReading">First Reading:</label>
 
 					<input type="text" style="width: 150px;" class="form-control datepicker" name="FirstReading"
-						id="FirstReading" placeholder="FirstReading" />
+						id="FirstReading" placeholder="FirstReading" onchange="getNextDate(this.value, this.id)" />
 				</div>
 
 				<div style="display: inline-block; width: 45%;">
@@ -773,8 +818,7 @@
 				<label for="FinancialImpact">FINANCIAL
 					IMPACT:</label>
 
-				<select  class="form-control" style="width: 400px;"
-					name="FinancialImpact" id="FinancialImpact">
+				<select class="form-control" style="width: 400px;" name="FinancialImpact" id="FinancialImpact">
 					<option value=""></option>
 					<option value="No impact/Not applicable">No impact/Not applicable</option>
 					<option value="Budgeted in the current year's budget">Budgeted in the current year's
@@ -792,8 +836,7 @@
 				<label for="StaffRecommendation">STAFF
 					RECOMMENDATION:</label>
 
-				<select class="form-control" style="width: 400px;"
-					name="StaffRecommendation" id="StaffRecommendation">
+				<select class="form-control" style="width: 400px;" name="StaffRecommendation" id="StaffRecommendation">
 					<option value=""></option>
 					<option value="Recommended">Recommended</option>
 					<option value="Not Recommended">Not Recommended</option>
