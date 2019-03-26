@@ -2,12 +2,11 @@ $(document).ready(function () {
 	$("textarea").attr('rows', '5');
 
 })
-/*
-*ADDS KEYDOWN TO div 
-*SO WHEN THE ENTER BUTTON IS PRESSED 
-*IT ADDS ANOTHER NUMBER TO THE NUMBERED LIST AUTOMATICALLY
+/**
+ * @function addLineNumber()
+ * @description ADDS KEYDOWN TO div SO WHEN THE ENTER BUTTON IS PRESSED IT ADDS ANOTHER NUMBER TO THE NUMBERED LIST AUTOMATICALLY
 *
-*Required (divId)
+*@param {required} (divId)
 *Use add onKeydown="addLineNumber(this.id)" attribute to text area you want to count
 *
 */
@@ -41,9 +40,9 @@ function addLineNumber(divId, countNum) {
 
 
 /**
- * function isOther = auto adds an input if the text "other" is selected. 
- * Use: You do need to call this function with an 'onChange=isOther(inputName)' on the html element
-* Required: inputName = name of select element that you are editing.
+ * @function isOther = auto adds an input if the text "other" is selected. 
+ * @description: You do need to call this function with an 'onChange=isOther(inputName)' on the html element
+* @param {required} inputName = name of select element that you are editing.
 */
 function isOther(inputName) {
 	var inputVal = $('#' + inputName).val();
@@ -68,12 +67,12 @@ function isOther(inputName) {
 
 
 
-/*
-	* name: displayUsersSelect(userElement)
-	* description: Display all account users as options in a html select input.
-	* required function getAllUsers();
-	* required userElement
-	* param userElement. the id of the html select input where data will go. ID must be select element else will error
+/**
+	* @function displayUsersSelect(userElement)
+	* @description: Display all account users as options in a html select input.
+	* @fires {required} getAllUsers();
+	* @param {required} userElement
+	* @param userElement. the id of the html select input where data will go. ID must be select element else will error
 	*/
 function displayUsersSelect(userElement) {
 	var display;
@@ -96,8 +95,8 @@ function displayUsersSelect(userElement) {
 	});
 }
 
-/*
-* name: getAllUsers();
+/**
+* @function getAllUsers();
 * description: simply return a JSON list of all users on the account.
 */
 function getAllUsers() {
@@ -110,11 +109,10 @@ function getAllUsers() {
 
 
 /**
-	* formatNumber = formats a input field to be a number
-	* params
-	*	value = the input value - REQUIRED
-	*	id = the input id - REQUIRED
-	* calls = commaSeparateNumber(number)
+	* @function formatNumber = formats a input field to be a number
+	*	@param {*}value = the input value - REQUIRED
+	*	@param {*}id = the input id - REQUIRED
+	* @calls = commaSeparateNumber(number)
 	* usage onchange="formatNumber(this.value, this.id)"
 	*/
 function formatNumber(value, id) {
@@ -155,9 +153,9 @@ function formatNumber(value, id) {
 }
 
 /**
-* commaSeparateNumber = formats a number with appropriate commas. 
+* @function commaSeparateNumber = formats a number with appropriate commas. 
 	takes decimals into account
-* params
+* @param {*}params
 *	val = the number you want to format - REQUIRED
 */
 function commaSeparateNumber(val) {
@@ -178,7 +176,7 @@ function commaSeparateNumber(val) {
 }
 
 /**
- * function requireFields()
+ * @function requireFields()
  * Adds red required astrist (*) all inputs, textareas, etc with attribute "required" 
  */
 function requireFields() {
@@ -203,4 +201,74 @@ function requireFields() {
 			$(val).after('<span style="color: red;">*</span>')
 		}
 	})
+}
+
+/**
+ * 
+ * @param {*} id the id of the html select element you want to sort
+ * @param {*} sortNum an optional number which enables you to custom set the sorting level 
+ */
+function sortlist(id, sortNum) {
+	if (sortNum == undefined) {
+		sortNum = 2
+	}
+	console.log(id)
+	var cl = document.getElementById(id);
+	var clTexts = new Array();
+	console.log(sortNum)
+	for (i = sortNum; i < cl.length; i++) {
+		clTexts[i - sortNum] =
+			cl.options[i].text.toUpperCase() + "," +
+			cl.options[i].text + "," +
+			cl.options[i].value;
+	}
+
+	clTexts.sort();
+
+	for (i = sortNum; i < cl.length; i++) {
+		var parts = clTexts[i - sortNum].split(',');
+
+		cl.options[i].text = parts[1];
+		cl.options[i].value = parts[2];
+	}
+}
+
+
+
+/**
+ * @function SetupSelectize
+ * @param {required} id 
+ * @param {optional} create either true, false, or undefined
+ * @fires sortlist()
+ */
+function SetupSelectize(id, create) {
+	sortlist(id, 1)
+
+	if (create == undefined || !create) {
+		$("#" + id).selectize({
+			sortField: {
+				field: 'text',
+				direction: 'asc'
+			},
+			persist: false,
+			hideSelected: true,
+			create: false
+		})
+	} else if (create) {
+		$("#" + id).selectize({
+			sortField: {
+				field: 'text',
+				direction: 'asc'
+			},
+			persist: false,
+			hideSelected: true,
+			create: function (input) {
+				return {
+					value: input,
+					text: input
+				}
+			}
+		})
+	}
+
 }
