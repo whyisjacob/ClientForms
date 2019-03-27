@@ -297,7 +297,8 @@
 	function setMeetingDate(sel) {
 		$("#MeetingDate").val(sel.options[sel.selectedIndex].text);
 		$("#MeetingDateDisplay").val(moment($("#MeetingDate").val().format('LL')));
-		console.log(sel.options[sel.selectedIndex].text)
+		var x= sel.options[sel.selectedIndex].text;
+		getNextDate(x)
 		$('#FirstReading').val(sel.options[sel.selectedIndex].text )
 	}
 
@@ -593,7 +594,7 @@
 					<span style="color: red;">*</span>
 
 					<select id="meetingDateSelect" style="width: 500px;" required="true" name="meetingDateSelect"
-						data-dependent-on="meetingTypeSelect" onChange="setMeetingDate(this);getNextDate(this.value, this.id)"
+						data-dependent-on="meetingTypeSelect" onChange="setMeetingDate(this)"
 						data-field-hasvalue="false" data-field-values="meetingDates" class="form-control "></select>
 				</div>
 			</div>
