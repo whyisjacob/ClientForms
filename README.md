@@ -9,7 +9,7 @@ This repository was created as a testing ground for the client forms needed for 
 Clone this repository down to your machine. <br>
 Make sure **Node.js** is installed <br>
 Run `npm install` to install the packages <br>
-Run `node server.js` and naviage to **localhost:3000*** to see the forms in action
+Run `nodemon server.js` and naviage to **localhost:3000*** to see the forms in action
 
 ### Add New Client
 - Create new routes .js file in `/routes/`. You can copy one of the existing clients routes .js file and change applicable variables to the new client. You can remove all routes except index and the new route for your first client form.
